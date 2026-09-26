@@ -219,10 +219,10 @@
     <value>面捕已激活</value>
   </data>
   <data name="EyeTrackingInactive_Text" xml:space="preserve">
-    <value>Eye Tracking Inactive</value>
+    <value>眼追未激活</value>
   </data>
   <data name="FaceTrackingInactive_Text" xml:space="preserve">
-    <value>Face Tracking Inactive</value>
+    <value>面捕未激活</value>
   </data>
   <data name="BugRequestCard_Header" xml:space="preserve">
     <value>提交BUG或请求新功能</value>
@@ -280,5 +280,194 @@
   </data>
   <data name="You_appear_to_have_no_modules_installed_Text" xml:space="preserve">
     <value>您似乎没有安装任何模块。</value>
+  </data>
+  <data name="LocalTestAvatar_Text" xml:space="preserve">
+    <value>检测到本地测试头像</value>
+  </data>
+  <data name="LocalTestAvatarTooltip_Content" xml:space="preserve">
+    <value>不支持本地测试头像，使用时可能出现问题</value>
+  </data>
+  <data name="Credits_Description" xml:space="preserve">
+    <value>感谢所有参与开发的人 &lt;3</value>
+  </data>
+  <data name="PrivacyPolicyCard_Header" xml:space="preserve">
+    <value>隐私政策</value>
+  </data>
+  <data name="no_modules_installed_warning_Title" xml:space="preserve">
+    <value>尚未安装模块</value>
+  </data>
+  <data name="no_modules_installed_warning_ButtonText" xml:space="preserve">
+    <value>在这里安装模块！</value>
+  </data>
+  <data name="osc_was_disabled_warning_Title" xml:space="preserve">
+    <value>OSC 设置已更改</value>
+  </data>
+  <data name="osc_was_disabled_warning_Description" xml:space="preserve">
+    <value>检测到 VRChat 中的 OSC 已关闭，现已为您开启。如果游戏当时正在运行，可能需要在快捷菜单中手动开启 OSC；否则可以直接使用。</value>
+  </data>
+  <data name="ThemeSettings_Header" xml:space="preserve">
+    <value>应用主题</value>
+  </data>
+  <data name="OpenLocalStorageCard_Header" xml:space="preserve">
+    <value>打开本地存储目录</value>
+  </data>
+  <data name="OscSettings_Header" xml:space="preserve">
+    <value>OSC 地址</value>
+  </data>
+  <data name="no_modules_installed_warning_Description" xml:space="preserve">
+    <value>您似乎尚未安装任何模块。</value>
+  </data>
+  <data name="CalibrationSettings_Header" xml:space="preserve">
+    <value>校准设置</value>
+  </data>
+  <data name="CalibrationSettings_Description" xml:space="preserve">
+    <value>调整追踪数据的校准方式</value>
+  </data>
+  <data name="RiskySettings_Header" xml:space="preserve">
+    <value>高级设置</value>
+  </data>
+  <data name="RiskySettings_Description" xml:space="preserve">
+    <value>这些设置可能影响追踪效果，请谨慎调整。</value>
+  </data>
+  <data name="AutoStartSettings_Header" xml:space="preserve">
+    <value>自动启动</value>
+  </data>
+  <data name="AutoStartSettings_Description" xml:space="preserve">
+    <value>启动 SteamVR 时自动启动</value>
+  </data>
+  <data name="CalibrationEnabledToggle_Header" xml:space="preserve">
+    <value>启用校准</value>
+  </data>
+  <data name="CalibrationEnabledToggle_Description" xml:space="preserve">
+    <value>开启或关闭校准</value>
+  </data>
+  <data name="ContCalibrationToggle_Header" xml:space="preserve">
+    <value>持续校准</value>
+  </data>
+  <data name="ContCalibrationToggle_Description" xml:space="preserve">
+    <value>随着面部表情变化逐步校准</value>
+  </data>
+  <data name="TrackingCalibrateButton_Header" xml:space="preserve">
+    <value>校准</value>
+  </data>
+  <data name="TrackingCalibrateButton_Description" xml:space="preserve">
+    <value>暂时提高面部表情对校准的影响</value>
+  </data>
+  <data name="CalibrationInfluenceSlider_Header" xml:space="preserve">
+    <value>校准影响程度</value>
+  </data>
+  <data name="CalibrationInfluenceSlider_Description" xml:space="preserve">
+    <value>控制面部表情随时间变化对整体校准的影响程度</value>
+  </data>
+  <data name="CalibrateButton_Content" xml:space="preserve">
+    <value>校准</value>
+  </data>
+  <data name="ForceReInitButton_Description" xml:space="preserve">
+    <value>强制卸载并重新初始化所有模块</value>
+  </data>
+  <data name="ForceReInitButton_Header" xml:space="preserve">
+    <value>强制重新初始化</value>
+  </data>
+  <data name="ForceRelevancyToggle_Description" xml:space="preserve">
+    <value>强制每帧发送所有参数</value>
+  </data>
+  <data name="ForceRelevancyToggle_Header" xml:space="preserve">
+    <value>强制发送参数</value>
+  </data>
+  <data name="ReInitButton_Content" xml:space="preserve">
+    <value>重新初始化</value>
+  </data>
+  <data name="ResetAvatarConfButton_Description" xml:space="preserve">
+    <value>重置所有 VRChat OSC 配置数据（重新加载头像时会重新生成）</value>
+  </data>
+  <data name="ResetAvatarConfButton_Header" xml:space="preserve">
+    <value>重置 VRChat 配置</value>
+  </data>
+  <data name="ResetButton_Content" xml:space="preserve">
+    <value>重置</value>
+  </data>
+  <data name="ResetVRCFTButton_Description" xml:space="preserve">
+    <value>重置 VRCFT 在 AppData 文件夹中保存的所有数据</value>
+  </data>
+  <data name="ResetVRCFTButton_Header" xml:space="preserve">
+    <value>重置 VRCFT</value>
+  </data>
+  <data name="HardwareDebug_Header" xml:space="preserve">
+    <value>硬件调试</value>
+  </data>
+  <data name="HardwareDebug_Description" xml:space="preserve">
+    <value>查看硬件追踪数据</value>
+  </data>
+  <data name="Shell_TrackingSettings_Content" xml:space="preserve">
+    <value>追踪设置</value>
+  </data>
+  <data name="Main_Modules_Header" xml:space="preserve">
+    <value>模块</value>
+  </data>
+  <data name="Main_Status_Header" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="Main_TrackingModule_Label" xml:space="preserve">
+    <value>面捕模块</value>
+  </data>
+  <data name="Main_TrackingModule_Tooltip" xml:space="preserve">
+    <value>面捕模块输入</value>
+  </data>
+  <data name="Main_Relay_Tooltip" xml:space="preserve">
+    <value>VRCFaceTracking OSC 数据中转</value>
+  </data>
+  <data name="Main_Receive_Label" xml:space="preserve">
+    <value>回传</value>
+  </data>
+  <data name="Main_Receive_Tooltip" xml:space="preserve">
+    <value>从 VRChat 回传至本机监听端口的 OSC 数据</value>
+  </data>
+  <data name="Main_Receive_Disconnected" xml:space="preserve">
+    <value>未监听</value>
+  </data>
+  <data name="Main_Send_Label" xml:space="preserve">
+    <value>发送</value>
+  </data>
+  <data name="Main_VRChat_Tooltip" xml:space="preserve">
+    <value>VRChat 头像</value>
+  </data>
+  <data name="Registry_Install" xml:space="preserve">
+    <value>安装</value>
+  </data>
+  <data name="Registry_Uninstall" xml:space="preserve">
+    <value>卸载</value>
+  </data>
+  <data name="Registry_Installing" xml:space="preserve">
+    <value>正在安装...</value>
+  </data>
+  <data name="Registry_Preparing" xml:space="preserve">
+    <value>准备下载...</value>
+  </data>
+  <data name="Registry_Downloading" xml:space="preserve">
+    <value>正在下载模块...</value>
+  </data>
+  <data name="Registry_Extracting" xml:space="preserve">
+    <value>正在解压模块...</value>
+  </data>
+  <data name="Registry_Applying" xml:space="preserve">
+    <value>正在安装模块...</value>
+  </data>
+  <data name="Registry_Installed" xml:space="preserve">
+    <value>已安装</value>
+  </data>
+  <data name="Registry_Installed_Success" xml:space="preserve">
+    <value>安装成功。</value>
+  </data>
+  <data name="Registry_Retry" xml:space="preserve">
+    <value>重试安装</value>
+  </data>
+  <data name="Registry_Timeout" xml:space="preserve">
+    <value>下载超时。请检查网络连接后重试。</value>
+  </data>
+  <data name="Registry_Failure" xml:space="preserve">
+    <value>安装失败：{0}</value>
+  </data>
+  <data name="Registry_Package_Invalid" xml:space="preserve">
+    <value>无法安装该模块包。</value>
   </data>
 </root>

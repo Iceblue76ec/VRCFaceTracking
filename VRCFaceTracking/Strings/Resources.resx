@@ -395,4 +395,73 @@
   <data name="Shell_TrackingSettings_Content" xml:space="preserve">
     <value>Tracking Settings</value>
   </data>
+  <data name="Main_Modules_Header" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="Main_Status_Header" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Main_TrackingModule_Label" xml:space="preserve">
+    <value>Tracking module</value>
+  </data>
+  <data name="Main_TrackingModule_Tooltip" xml:space="preserve">
+    <value>Face tracking module input</value>
+  </data>
+  <data name="Main_Relay_Tooltip" xml:space="preserve">
+    <value>VRCFaceTracking OSC relay</value>
+  </data>
+  <data name="Main_Receive_Label" xml:space="preserve">
+    <value>Receive</value>
+  </data>
+  <data name="Main_Receive_Tooltip" xml:space="preserve">
+    <value>OSC received from VRChat on the local listening port</value>
+  </data>
+  <data name="Main_Receive_Disconnected" xml:space="preserve">
+    <value>Not listening</value>
+  </data>
+  <data name="Main_Send_Label" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="Main_VRChat_Tooltip" xml:space="preserve">
+    <value>VRChat avatar</value>
+  </data>
+  <data name="Registry_Install" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="Registry_Uninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="Registry_Installing" xml:space="preserve">
+    <value>Installing...</value>
+  </data>
+  <data name="Registry_Preparing" xml:space="preserve">
+    <value>Preparing download...</value>
+  </data>
+  <data name="Registry_Downloading" xml:space="preserve">
+    <value>Downloading module...</value>
+  </data>
+  <data name="Registry_Extracting" xml:space="preserve">
+    <value>Extracting module...</value>
+  </data>
+  <data name="Registry_Applying" xml:space="preserve">
+    <value>Installing module...</value>
+  </data>
+  <data name="Registry_Installed" xml:space="preserve">
+    <value>Installed</value>
+  </data>
+  <data name="Registry_Installed_Success" xml:space="preserve">
+    <value>Installed successfully.</value>
+  </data>
+  <data name="Registry_Retry" xml:space="preserve">
+    <value>Retry install</value>
+  </data>
+  <data name="Registry_Timeout" xml:space="preserve">
+    <value>Download timed out. Check the network connection and retry.</value>
+  </data>
+  <data name="Registry_Failure" xml:space="preserve">
+    <value>Installation failed: {0}</value>
+  </data>
+  <data name="Registry_Package_Invalid" xml:space="preserve">
+    <value>The module package could not be installed.</value>
+  </data>
 </root>

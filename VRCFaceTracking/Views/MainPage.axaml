@@ -31,7 +31,7 @@
                 </StackPanel>
             </Border>
 
-            <TextBlock FontSize="13" FontWeight="SemiBold" Opacity="0.6" Text="Modules" />
+            <TextBlock FontSize="13" FontWeight="SemiBold" Opacity="0.6" Text="{x:Static s:Resources.Main_Modules_Header}" />
 
             <ItemsControl ItemsSource="{Binding LibManager.LoadedModulesMetadata}">
                 <ItemsControl.ItemTemplate>
@@ -81,42 +81,77 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <TextBlock FontSize="13" FontWeight="SemiBold" Opacity="0.6" Text="Status" Margin="0,8,0,0" />
-            <Border CornerRadius="6" BorderThickness="1" Padding="16,14" Background="{DynamicResource ControlFillColorDefaultBrush}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="14" VerticalAlignment="Center">
-                        <ui:SymbolIcon Symbol="Wifi4" FontSize="24" VerticalAlignment="Center" />
-                        <StackPanel Spacing="3" VerticalAlignment="Center">
-                            <TextBlock FontWeight="SemiBold" FontSize="14" Text="{x:Static s:Resources.OSCStatus_Text}" />
-                            <StackPanel Orientation="Horizontal" Spacing="4"
-                                        IsVisible="{Binding OscTarget.IsConnected}">
-                                <TextBlock FontSize="12" Opacity="0.7" Text="Recv:" />
-                                <TextBlock FontSize="12" Text="{Binding OscTarget.InPort, Mode=OneWay}" />
-                                <TextBlock FontSize="12" Opacity="0.7" Text="  Send:" />
-                                <TextBlock FontSize="12" Text="{Binding OscTarget.OutPort, Mode=OneWay}" />
-                                <TextBlock FontSize="12" Opacity="0.7" Text=" @" />
-                                <TextBlock FontSize="12" Text="{Binding OscTarget.DestinationAddress, Mode=OneWay}" />
-                            </StackPanel>
-                            <TextBlock FontSize="12" Opacity="0.5" Text="Not connected"
-                                       IsVisible="{Binding !OscTarget.IsConnected}" />
-                        </StackPanel>
+            <TextBlock FontSize="13" FontWeight="SemiBold" Opacity="0.6"
+                       Text="{x:Static s:Resources.Main_Status_Header}" Margin="0,8,0,0" />
+            <Border CornerRadius="6" BorderThickness="1" Padding="20,16"
+                    Background="{DynamicResource ControlFillColorDefaultBrush}">
+                <Grid ColumnDefinitions="Auto,*,Auto,2*,Auto" ColumnSpacing="12" VerticalAlignment="Center">
+                    <StackPanel Grid.Column="0" Width="96" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" Spacing="4">
+                        <ui:SymbolIcon Symbol="Camera" FontSize="22" HorizontalAlignment="Center"
+                                       ToolTip.Tip="{x:Static s:Resources.Main_TrackingModule_Tooltip}" />
+                        <TextBlock FontWeight="SemiBold" FontSize="12"
+                                   Text="{x:Static s:Resources.Main_TrackingModule_Label}"
+                                   TextAlignment="Center" TextWrapping="Wrap" />
                     </StackPanel>
 
-                    <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Right" Spacing="4">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="6">
-                            <TextBlock FontSize="12" Text="{Binding MessagesInPerSec, Mode=OneWay}" />
-                            <TextBlock FontSize="12" Opacity="0.6" Text="{x:Static s:Resources.msIncoming_Text}" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="6">
-                            <TextBlock FontSize="12" Text="{Binding MessagesOutPerSec, Mode=OneWay}" />
-                            <TextBlock FontSize="12" Opacity="0.6" Text="{x:Static s:Resources.msOutgoing_Text}" />
-                        </StackPanel>
+                    <Grid Grid.Column="1" ColumnDefinitions="*,Auto" VerticalAlignment="Center" Opacity="0.65">
+                        <Border Grid.Column="0" Height="1" VerticalAlignment="Center"
+                                Background="#808080" />
+                        <TextBlock Grid.Column="1" Text="→" FontSize="18" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <StackPanel Grid.Column="2" Width="140" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" Spacing="4">
+                        <ui:FontIcon Glyph="&#xEC05;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                     FontSize="22" HorizontalAlignment="Center"
+                                     ToolTip.Tip="{x:Static s:Resources.Main_Relay_Tooltip}" />
+                        <TextBlock FontWeight="SemiBold" FontSize="12" Text="VRCFaceTracking"
+                                   TextAlignment="Center" />
+                    </StackPanel>
+
+                    <Border Grid.Column="3" CornerRadius="4" Padding="10,7"
+                            Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                            VerticalAlignment="Center">
+                        <Grid ColumnDefinitions="Auto,Auto,*,Auto" RowDefinitions="Auto,Auto"
+                              ColumnSpacing="6" RowSpacing="6">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="←" FontSize="15"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Grid.Row="0" Grid.Column="1" FontSize="11"
+                                       Text="{x:Static s:Resources.Main_Receive_Label}"
+                                       VerticalAlignment="Center"
+                                       ToolTip.Tip="{x:Static s:Resources.Main_Receive_Tooltip}" />
+                            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" Spacing="3">
+                                <TextBlock Text="{Binding OscTarget.InPort, Mode=OneWay, StringFormat=':{0}'}" FontSize="11" />
+                                <TextBlock Text="{x:Static s:Resources.Main_Receive_Disconnected}" FontSize="11"
+                                           Opacity="0.6" IsVisible="{Binding !OscTarget.IsConnected}" />
+                            </StackPanel>
+                            <TextBlock Grid.Row="0" Grid.Column="3" FontSize="11"
+                                       Text="{Binding MessagesInPerSec, Mode=OneWay, StringFormat='{}{0}/s'}" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="→" FontSize="15"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" FontSize="11"
+                                       Text="{x:Static s:Resources.Main_Send_Label}"
+                                       VerticalAlignment="Center" />
+                            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" Spacing="0"
+                                        ToolTip.Tip="{Binding OscTarget.DestinationAddress, Mode=OneWay}">
+                                <TextBlock Text="{Binding OscTarget.DestinationAddress, Mode=OneWay}"
+                                           FontSize="11" MaxWidth="95" TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding OscTarget.OutPort, Mode=OneWay, StringFormat=':{0}'}"
+                                           FontSize="11" />
+                            </StackPanel>
+                            <TextBlock Grid.Row="1" Grid.Column="3" FontSize="11"
+                                       Text="{Binding MessagesOutPerSec, Mode=OneWay, StringFormat='{}{0}/s'}" />
+                        </Grid>
+                    </Border>
+
+                    <StackPanel Grid.Column="4" Width="70" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" Spacing="4">
+                        <ui:SymbolIcon Symbol="Contact" FontSize="22" HorizontalAlignment="Center"
+                                       ToolTip.Tip="{x:Static s:Resources.Main_VRChat_Tooltip}" />
+                        <TextBlock FontWeight="SemiBold" FontSize="12" Text="VRChat"
+                                   TextAlignment="Center" />
                     </StackPanel>
                 </Grid>
             </Border>

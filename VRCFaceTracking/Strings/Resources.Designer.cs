@@ -447,6 +447,96 @@ namespace VRCFaceTracking.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Modules.
+        /// </summary>
+        public static string Main_Modules_Header {
+            get {
+                return ResourceManager.GetString("Main_Modules_Header", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Not listening.
+        /// </summary>
+        public static string Main_Receive_Disconnected {
+            get {
+                return ResourceManager.GetString("Main_Receive_Disconnected", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Receive.
+        /// </summary>
+        public static string Main_Receive_Label {
+            get {
+                return ResourceManager.GetString("Main_Receive_Label", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to OSC received from VRChat on the local listening port.
+        /// </summary>
+        public static string Main_Receive_Tooltip {
+            get {
+                return ResourceManager.GetString("Main_Receive_Tooltip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to VRCFaceTracking OSC relay.
+        /// </summary>
+        public static string Main_Relay_Tooltip {
+            get {
+                return ResourceManager.GetString("Main_Relay_Tooltip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        public static string Main_Send_Label {
+            get {
+                return ResourceManager.GetString("Main_Send_Label", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string Main_Status_Header {
+            get {
+                return ResourceManager.GetString("Main_Status_Header", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Tracking module.
+        /// </summary>
+        public static string Main_TrackingModule_Label {
+            get {
+                return ResourceManager.GetString("Main_TrackingModule_Label", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Face tracking module input.
+        /// </summary>
+        public static string Main_TrackingModule_Tooltip {
+            get {
+                return ResourceManager.GetString("Main_TrackingModule_Tooltip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to VRChat avatar.
+        /// </summary>
+        public static string Main_VRChat_Tooltip {
+            get {
+                return ResourceManager.GetString("Main_VRChat_Tooltip", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Module Page.
         /// </summary>
         public static string ModulePage_Text {
@@ -590,6 +680,123 @@ namespace VRCFaceTracking.Strings {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Installing module....
+        /// </summary>
+        public static string Registry_Applying {
+            get {
+                return ResourceManager.GetString("Registry_Applying", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading module....
+        /// </summary>
+        public static string Registry_Downloading {
+            get {
+                return ResourceManager.GetString("Registry_Downloading", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Extracting module....
+        /// </summary>
+        public static string Registry_Extracting {
+            get {
+                return ResourceManager.GetString("Registry_Extracting", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Installation failed: {0}.
+        /// </summary>
+        public static string Registry_Failure {
+            get {
+                return ResourceManager.GetString("Registry_Failure", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Install.
+        /// </summary>
+        public static string Registry_Install {
+            get {
+                return ResourceManager.GetString("Registry_Install", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Installed.
+        /// </summary>
+        public static string Registry_Installed {
+            get {
+                return ResourceManager.GetString("Registry_Installed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Installed successfully..
+        /// </summary>
+        public static string Registry_Installed_Success {
+            get {
+                return ResourceManager.GetString("Registry_Installed_Success", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Installing....
+        /// </summary>
+        public static string Registry_Installing {
+            get {
+                return ResourceManager.GetString("Registry_Installing", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The module package could not be installed..
+        /// </summary>
+        public static string Registry_Package_Invalid {
+            get {
+                return ResourceManager.GetString("Registry_Package_Invalid", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Preparing download....
+        /// </summary>
+        public static string Registry_Preparing {
+            get {
+                return ResourceManager.GetString("Registry_Preparing", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Retry install.
+        /// </summary>
+        public static string Registry_Retry {
+            get {
+                return ResourceManager.GetString("Registry_Retry", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Download timed out. Check the network connection and retry..
+        /// </summary>
+        public static string Registry_Timeout {
+            get {
+                return ResourceManager.GetString("Registry_Timeout", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall.
+        /// </summary>
+        public static string Registry_Uninstall {
+            get {
+                return ResourceManager.GetString("Registry_Uninstall", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Re-Initialize.
         /// </summary>
