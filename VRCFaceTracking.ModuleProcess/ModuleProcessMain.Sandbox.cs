@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using System.Collections.Concurrent;
 using VRCFaceTracking.Core.Library;
 using VRCFaceTracking.Core.Sandboxing;
 using VRCFaceTracking.Core.Sandboxing.IPC;
@@ -12,18 +13,14 @@ public partial class ModuleProcessMain
 
     public static VrcftSandboxClient Client;
 
-    private static readonly Queue<IpcPacket> _packetsToSend = new();
+    private static readonly ConcurrentQueue<IpcPacket> _packetsToSend = new();
+    private static readonly AutoResetEvent _outgoingPacketReady = new(false);
     private static Timer? _connectionTimer;
 
-    private static readonly object _callbackLock = new();
-    private static bool _shouldCallReceive = false;
-
-    public static void QueueReceiveEvent()
+    private static void QueuePacket(IpcPacket packet)
     {
-        lock (_callbackLock)
-        {
-            _shouldCallReceive = true;
-        }
+        _packetsToSend.Enqueue(packet);
+        _outgoingPacketReady.Set();
     }
 
     private static void ConnectSandboxClient(int serverPortNumber, string modulePath)
@@ -33,7 +30,6 @@ public partial class ModuleProcessMain
         // Forward log messages from this process back to the VRCFT host.
         ProxyLogger.OnLog += (level, msg) => Client.SendData(new EventLogPacket(level, msg));
 
-        Client.OnReceiveShouldBeQueued += QueueReceiveEvent;
         Client.OnPacketReceivedCallback += OnClientPacketReceived;
 
         Logger.LogInformation("Connecting to Sandbox Server");
@@ -66,7 +62,7 @@ public partial class ModuleProcessMain
                 break;
 
             case IpcPacket.PacketType.EventUpdate:
-                _packetsToSend.Enqueue(new ReplyUpdatePacket());
+                QueuePacket(new ReplyUpdatePacket());
                 break;
 
             case IpcPacket.PacketType.EventUpdateStatus:
@@ -81,7 +77,7 @@ public partial class ModuleProcessMain
     private static void HandleGetSupported()
     {
         var result = DefModuleAssembly.TrackingModule.Supported;
-        _packetsToSend.Enqueue(new ReplySupportedPacket
+        QueuePacket(new ReplySupportedPacket
         {
             eyeAvailable        = result.SupportsEye,
             expressionAvailable = result.SupportsExpression,
@@ -106,21 +102,39 @@ public partial class ModuleProcessMain
             return;
         }
 
-        DefModuleAssembly._updateCts = new CancellationTokenSource();
-        var thread = new Thread(() =>
+        if (eyeSuccess || expressionSuccess)
         {
-            while (!DefModuleAssembly._updateCts.IsCancellationRequested)
+            DefModuleAssembly._updateCts = new CancellationTokenSource();
+            var thread = new Thread(() =>
             {
-                DefModuleAssembly.TrackingModule.Update();
-            }
-        })
-        {
-            // Background so the CLR can terminate even if the module blocks in native code (looking at you, Vive).
-            IsBackground = true,
-        };
-        thread.Start();
+                var nextErrorLog = DateTime.MinValue;
+                while (!DefModuleAssembly._updateCts.IsCancellationRequested)
+                {
+                    try
+                    {
+                        DefModuleAssembly.TrackingModule.Update();
+                        // A module that returns without waiting must not spin at full speed.
+                        Thread.Sleep(1);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (DateTime.UtcNow >= nextErrorLog)
+                        {
+                            Logger.LogError(ex, "Tracking update failed for {module}", DefModuleAssembly.ModulePath);
+                            nextErrorLog = DateTime.UtcNow.AddSeconds(30);
+                        }
+                        Thread.Sleep(1000);
+                    }
+                }
+            })
+            {
+                // Background so the CLR can terminate even if the module blocks in native code.
+                IsBackground = true,
+            };
+            thread.Start();
+        }
 
-        _packetsToSend.Enqueue(new ReplyInitPacket
+        QueuePacket(new ReplyInitPacket
         {
             eyeSuccess            = eyeSuccess,
             expressionSuccess     = expressionSuccess,
@@ -159,16 +173,9 @@ public partial class ModuleProcessMain
         {
             while (_packetsToSend.TryDequeue(out var pkt))
             {
-                if (pkt == null) continue;
                 Client.SendData(pkt);
             }
-
-            if (_shouldCallReceive)
-            {
-                Client.ReceivePackets();
-            }
-
-            Thread.Sleep(1);
+            WaitHandle.WaitAny([_outgoingPacketReady, cts.Token.WaitHandle]);
         }
 
         _connectionTimer?.Dispose();

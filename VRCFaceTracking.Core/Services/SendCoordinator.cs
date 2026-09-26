@@ -67,11 +67,12 @@ public sealed class SendCoordinator(ParameterSenderService sender, ILogger<SendC
 
     private void Emit(object? _ = null)
     {
-        // Dont emit while we're already emitting
-        if (Interlocked.CompareExchange(ref _emitting, 1, 0) != 0) return;
-
         lock (_lock)
         {
+            _timer?.Dispose();
+            _timer = null;
+            if (_fresh.Count == 0 || _emitting != 0) return;
+            _emitting = 1;
             _fresh.Clear();
         }
 
@@ -88,7 +89,13 @@ public sealed class SendCoordinator(ParameterSenderService sender, ILogger<SendC
             }
             finally
             {
-                Volatile.Write(ref _emitting, 0);
+                lock (_lock)
+                {
+                    _emitting = 0;
+                    // Replies received while sending still need a later OSC flush.
+                    if (_fresh.Count > 0 && _timer == null)
+                        _timer = new Timer(Emit, null, CoalesceWindowMs, Timeout.Infinite);
+                }
             }
         });
     }

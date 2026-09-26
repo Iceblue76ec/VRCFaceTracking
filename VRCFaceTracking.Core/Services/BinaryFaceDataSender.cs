@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Hosting;
+using System.ComponentModel;
 using VRCFaceTracking.Core.OSC;
 using VRCFaceTracking.Core.Params;
 using VRCFaceTracking.Core.Params.Data;
@@ -14,21 +15,22 @@ public class BinaryFaceDataSender(OscQueryService oscqService) : IHostedService
     {
         _blobMessage = OscMessage.CreateBlob("/tracking/face/v1", _blobBuffer, _blobBuffer.Length);
         
-        UnifiedTracking.OnUnifiedDataUpdated += OnDataUpdated;
-        oscqService.PropertyChanged += (sender, args) =>
-        {
-            if (args.PropertyName != nameof(OscQueryService.AvatarInfo)) return;
-            
-            var avatarInfo = (sender as OscQueryService)!.AvatarInfo;
-            SubscribeConditional(avatarInfo.FullFaceTracking);
-        };
+        oscqService.PropertyChanged += OnAvatarInfoChanged;
+        SubscribeConditional(oscqService.AvatarInfo.FullFaceTracking);
         return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
         UnifiedTracking.OnUnifiedDataUpdated -= OnDataUpdated;
+        oscqService.PropertyChanged -= OnAvatarInfoChanged;
         return Task.CompletedTask;
+    }
+
+    private void OnAvatarInfoChanged(object? sender, PropertyChangedEventArgs args)
+    {
+        if (args.PropertyName == nameof(OscQueryService.AvatarInfo))
+            SubscribeConditional(oscqService.AvatarInfo.FullFaceTracking);
     }
 
     private void SubscribeConditional(bool shouldBeSubscribed)

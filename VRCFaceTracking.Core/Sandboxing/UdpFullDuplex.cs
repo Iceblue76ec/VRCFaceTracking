@@ -126,11 +126,20 @@ public class UdpFullDuplex : IDisposable
             }
             catch (ObjectDisposedException)
             {
-                // Ignore if disposed. This happens when closing the listener
+                // Closing the socket is terminal; retrying a disposed socket spins.
+                break;
             }
-            catch (SocketException e)
+            catch (SocketException)
             {
-                // This happens when a module terminates / crashes / is shut down
+                if (_cts.IsCancellationRequested) break;
+                try
+                {
+                    await Task.Delay(100, _cts.Token);
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
             }
         }
     }

@@ -8,6 +8,7 @@ public class LogBufferProvider : ILoggerProvider
 {
     private const int MaxLines = 10_000;
     private readonly ConcurrentQueue<string> _lines = new();
+    private int _lineCount;
 
     private readonly ConcurrentDictionary<string, BufferLogger> _loggers =
         new(StringComparer.OrdinalIgnoreCase);
@@ -26,8 +27,10 @@ public class LogBufferProvider : ILoggerProvider
     internal void Append(string line)
     {
         _lines.Enqueue(line);
-        while (_lines.Count > MaxLines && _lines.TryDequeue(out _))
+        Interlocked.Increment(ref _lineCount);
+        while (Volatile.Read(ref _lineCount) > MaxLines && _lines.TryDequeue(out _))
         {
+            Interlocked.Decrement(ref _lineCount);
         }
     }
 

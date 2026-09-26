@@ -103,6 +103,7 @@ public class OscRecvService : BackgroundService
     protected async override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _stoppingToken = stoppingToken;
+        var nextErrorReport = DateTime.MinValue;
 
         _linkedToken = CancellationTokenSource.CreateLinkedTokenSource(_stoppingToken, _cts.Token);
 
@@ -127,16 +128,27 @@ public class OscRecvService : BackgroundService
 
                 OnMessageReceived(newMsg);
             }
+            catch (OperationCanceledException) when (_linkedToken.IsCancellationRequested || _stoppingToken.IsCancellationRequested)
+            {
+                continue;
+            }
             catch (Exception e)
             {
-                // We don't care about operation cancellations as they're intentional and carefully controlled
-                if (e.GetType() == typeof(OperationCanceledException) || e.GetType() == typeof(TaskCanceledException))
+                if (DateTime.UtcNow >= nextErrorReport)
                 {
-                    continue;
+                    _logger.LogError(e, "Error encountered in OSC Receive thread");
+                    SentrySdk.CaptureException(e, scope => scope.SetExtra("recvBuffer", _recvBuffer));
+                    nextErrorReport = DateTime.UtcNow.AddSeconds(30);
                 }
 
-                _logger.LogError("Error encountered in OSC Receive thread: {e}", e);
-                SentrySdk.CaptureException(e, scope => scope.SetExtra("recvBuffer", _recvBuffer));
+                try
+                {
+                    await Task.Delay(250, _stoppingToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
             }
         }
     }
