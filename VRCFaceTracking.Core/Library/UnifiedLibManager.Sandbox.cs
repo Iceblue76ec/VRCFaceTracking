@@ -10,29 +10,38 @@ public partial class UnifiedLibManager
 {
     private void OnSandboxPacketReceived(in IpcPacket packet, in int port)
     {
-        var moduleIndex = FindModuleIndexByPort(port);
-
-        switch (packet.GetPacketType())
+        if (packet.GetPacketType() == IpcPacket.PacketType.EventLog)
         {
-            case IpcPacket.PacketType.Handshake:
-                HandleHandshake((HandshakePacket)packet, port);
-                break;
+            _moduleLogger.Log(((EventLogPacket)packet).LogLevel, ((EventLogPacket)packet).Message);
+            return;
+        }
 
-            case IpcPacket.PacketType.EventLog:
-                _moduleLogger.Log(((EventLogPacket)packet).LogLevel, ((EventLogPacket)packet).Message);
-                break;
+        lock (AvailableSandboxModules)
+        {
+            if (packet.GetPacketType() == IpcPacket.PacketType.Handshake)
+            {
+                if (_acceptingHandshakes)
+                    HandleHandshake((HandshakePacket)packet, port);
+                return;
+            }
 
-            case IpcPacket.PacketType.ReplyGetSupported:
-                HandleReplyGetSupported((ReplySupportedPacket)packet, port, moduleIndex);
-                break;
+            var moduleIndex = FindModuleIndexByPort(port);
+            if (moduleIndex < 0) return; // A late reply from a module being shut down.
 
-            case IpcPacket.PacketType.ReplyInit:
-                HandleReplyInit((ReplyInitPacket)packet, port, moduleIndex);
-                break;
+            switch (packet.GetPacketType())
+            {
+                case IpcPacket.PacketType.ReplyGetSupported:
+                    HandleReplyGetSupported((ReplySupportedPacket)packet, port, moduleIndex);
+                    break;
 
-            case IpcPacket.PacketType.ReplyUpdate:
-                HandleReplyUpdate((ReplyUpdatePacket)packet, moduleIndex);
-                break;
+                case IpcPacket.PacketType.ReplyInit:
+                    HandleReplyInit((ReplyInitPacket)packet, port, moduleIndex);
+                    break;
+
+                case IpcPacket.PacketType.ReplyUpdate:
+                    HandleReplyUpdate((ReplyUpdatePacket)packet, moduleIndex);
+                    break;
+            }
         }
     }
 
@@ -69,13 +78,23 @@ public partial class UnifiedLibManager
                 return;
             }
 
+            Process process;
+            try
+            {
+                process = Process.GetProcessById(pkt.PID);
+            }
+            catch (ArgumentException)
+            {
+                return; // The process exited before its handshake was handled.
+            }
+
             var runtimeInfo = new ModuleRuntimeInfo
             {
                 SandboxProcessPID  = pkt.PID,
                 SandboxProcessPort = port,
                 SandboxModulePath  = pkt.ModulePath,
                 IsActive           = true,
-                Process            = Process.GetProcessById(pkt.PID),
+                Process            = process,
                 ModuleClassName    = Path.GetFileNameWithoutExtension(pkt.ModulePath),
                 ModuleInformation  = new(),
                 EventBus           = new(),
@@ -150,12 +169,15 @@ public partial class UnifiedLibManager
         _sendCoordinator.RegisterModule(port);
         EnsureModuleThreadStartedSandboxed(module);
 
-        _dispatcherService.Run(() => PublishInitializedModuleToUi(moduleIndex));
+        _dispatcherService.Run(() => PublishInitializedModuleToUi(module));
     }
 
-    private void PublishInitializedModuleToUi(int moduleIndex)
+    private void PublishInitializedModuleToUi(ModuleRuntimeInfo module)
     {
-        var module = AvailableSandboxModules[moduleIndex];
+        lock (AvailableSandboxModules)
+        {
+            if (!AvailableSandboxModules.Contains(module)) return;
+        }
 
         var replaced = false;
         for (var i = 0; i < LoadedModulesMetadata.Count; i++)
@@ -258,7 +280,18 @@ public partial class UnifiedLibManager
                 lock (AvailableSandboxModules)
                 {
                     _logger.LogDebug("Started sandbox process with dll {dllPath}", dll);
-                    AvailableSandboxModules.Add(runtimeInfo);
+                    var earlyHandshake = AvailableSandboxModules.FirstOrDefault(existing =>
+                        existing.SandboxProcessPID == sandboxProcess.Id);
+                    if (earlyHandshake == null)
+                    {
+                        AvailableSandboxModules.Add(runtimeInfo);
+                    }
+                    else
+                    {
+                        // The sandbox can handshake before Process.Start returns to this thread.
+                        earlyHandshake.Process?.Dispose();
+                        earlyHandshake.Process = sandboxProcess;
+                    }
                 }
             }
             catch (Exception e)
@@ -319,8 +352,18 @@ public partial class UnifiedLibManager
     {
         _logger.LogInformation("Tearing down {module} ", module.ModuleClassName);
 
-        _sendCoordinator.UnregisterModule(module.SandboxProcessPort);
-        _sandboxServer.SendData(new EventTeardownPacket(), module.SandboxProcessPort);
+        if (module.SandboxProcessPort > 0)
+        {
+            _sendCoordinator.UnregisterModule(module.SandboxProcessPort);
+            try
+            {
+                _sandboxServer.SendData(new EventTeardownPacket(), module.SandboxProcessPort);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug(ex, "Could not send teardown to {Module}; stopping its process", module.ModuleClassName);
+            }
+        }
 
         if (module.UpdateCancellationToken != null)
         {

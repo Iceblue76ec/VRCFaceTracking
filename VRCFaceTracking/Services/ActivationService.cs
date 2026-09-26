@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Avalonia.Threading;
 using Microsoft.Extensions.Logging;
 
 using VRCFaceTracking.Contracts.Services;
@@ -106,7 +105,14 @@ public class ActivationService(
         finally
         {
             logger.LogInformation("Initializing modules...");
-            Dispatcher.UIThread.Post(async () => await libManager.Initialize());
+            try
+            {
+                await libManager.Initialize();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Module initialization failed");
+            }
         }
         
         await Task.CompletedTask;
