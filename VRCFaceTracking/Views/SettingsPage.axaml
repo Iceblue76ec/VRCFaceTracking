@@ -21,7 +21,7 @@
                 </ComboBox>
             </ui:SettingsExpander>
 
-            <TextBlock Text="OSC SETTINGS" FontSize="12" FontWeight="SemiBold" Opacity="0.6" Margin="0,16,0,6" />
+            <TextBlock Text="{x:Static s:Resources.Settings_OscSection}" FontSize="12" FontWeight="SemiBold" Opacity="0.6" Margin="0,16,0,6" />
 
             <ui:SettingsExpander
                 Header="{x:Static s:Resources.OscSettings_Header}"
@@ -29,7 +29,7 @@
                 IsExpanded="True">
                 <StackPanel Orientation="Horizontal" Spacing="12">
                     <StackPanel Spacing="4">
-                        <TextBlock FontSize="12" Opacity="0.7" Text="Receive Port (Legacy)" />
+                        <TextBlock FontSize="12" Opacity="0.7" Text="{x:Static s:Resources.Settings_ReceivePort}" />
                         <NumericUpDown
                             Minimum="1"
                             Maximum="65535"
@@ -39,14 +39,14 @@
                             Value="{Binding OscTarget.InPort, Mode=TwoWay}" />
                     </StackPanel>
                     <StackPanel Spacing="4">
-                        <TextBlock FontSize="12" Opacity="0.7" Text="Destination IP" />
+                        <TextBlock FontSize="12" Opacity="0.7" Text="{x:Static s:Resources.Settings_DestinationIp}" />
                         <TextBox
                             Watermark="127.0.0.1"
                             MinWidth="140"
                             Text="{Binding OscTarget.DestinationAddress, Mode=TwoWay}" />
                     </StackPanel>
                     <StackPanel Spacing="4">
-                        <TextBlock FontSize="12" Opacity="0.7" Text="Send Port" />
+                        <TextBlock FontSize="12" Opacity="0.7" Text="{x:Static s:Resources.Settings_SendPort}" />
                         <NumericUpDown
                             Minimum="1"
                             Maximum="65535"
@@ -80,7 +80,7 @@
                 </Grid>
             </Border>
 
-            <TextBlock Text="ADVANCED" FontSize="12" FontWeight="SemiBold" Opacity="0.6" Margin="0,16,0,6" />
+            <TextBlock Text="{x:Static s:Resources.Settings_AdvancedSection}" FontSize="12" FontWeight="SemiBold" Opacity="0.6" Margin="0,16,0,6" />
 
             <ui:SettingsExpander
                 Header="{x:Static s:Resources.RiskySettings_Header}"
@@ -88,7 +88,7 @@
                 <ToggleSwitch
                     IsChecked="{Binding RiskySettings.Enabled, Mode=TwoWay}"
                     OffContent=""
-                    OnContent="Gremlin Mode" />
+                    OnContent="{x:Static s:Resources.Settings_GremlinMode}" />
 
                 <ui:SettingsExpander.Items>
                     <ui:SettingsExpanderItem
@@ -138,7 +138,7 @@
                 <TextBlock x:Name="VersionText" Opacity="0.6" FontSize="13" />
 
                 <ui:SettingsExpander.Items>
-                    <ui:SettingsExpanderItem Content="Contributors" Description="{x:Static s:Resources.Credits_Description}">
+                    <ui:SettingsExpanderItem Content="{x:Static s:Resources.Settings_Contributors}" Description="{x:Static s:Resources.Credits_Description}">
                         <ui:SettingsExpanderItem.Footer>
                             <ScrollViewer MaxHeight="300" VerticalScrollBarVisibility="Auto">
                                 <ItemsControl ItemsSource="{Binding Contributors}">
@@ -153,11 +153,10 @@
                                                 Click="ContributorButton_Click">
                                                 <StackPanel Orientation="Horizontal" Spacing="10">
                                                     <TextBlock Text="{Binding login}" FontSize="13" />
-                                                    <TextBlock
-                                                        Text="{Binding contributions, StringFormat='{}{0} commits'}"
-                                                        FontSize="12"
-                                                        Opacity="0.55"
-                                                        VerticalAlignment="Center" />
+                                                    <StackPanel Orientation="Horizontal" Spacing="3" VerticalAlignment="Center" Opacity="0.55">
+                                                        <TextBlock Text="{Binding contributions}" FontSize="12" />
+                                                        <TextBlock Text="{x:Static s:Resources.Settings_Commits}" FontSize="12" />
+                                                    </StackPanel>
                                                 </StackPanel>
                                             </Button>
                                         </DataTemplate>

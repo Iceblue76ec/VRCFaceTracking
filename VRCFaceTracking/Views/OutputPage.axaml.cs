@@ -4,6 +4,7 @@ using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using VRCFaceTracking.Services.Logging;
 using VRCFaceTracking.ViewModels;
+using AppStrings = VRCFaceTracking.Strings.Resources;
 
 namespace VRCFaceTracking.Views;
 
@@ -52,7 +53,7 @@ public partial class OutputPage : UserControl
         if (clipboard != null)
         {
             await clipboard.SetTextAsync(text);
-            StatusText.Text = "Copied to clipboard.";
+            StatusText.Text = AppStrings.Output_Copied;
         }
     }
 
@@ -63,9 +64,9 @@ public partial class OutputPage : UserControl
 
         var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
-            Title = "Save Log",
+            Title = AppStrings.Output_SaveLog_Title,
             SuggestedFileName = $"vrcft-log-{DateTime.Now:yyyyMMdd-HHmmss}.txt",
-            FileTypeChoices = [new FilePickerFileType("Text") { Patterns = ["*.txt"] }]
+            FileTypeChoices = [new FilePickerFileType(AppStrings.Output_TextFile_Type) { Patterns = ["*.txt"] }]
         });
 
         if (file != null)
@@ -74,7 +75,7 @@ public partial class OutputPage : UserControl
             await using var writer = new StreamWriter(stream);
             var text = Ioc.Default.GetRequiredService<LogBufferProvider>().Snapshot();
             await writer.WriteAsync(text);
-            StatusText.Text = "Log saved.";
+            StatusText.Text = AppStrings.Output_Saved;
         }
     }
 }

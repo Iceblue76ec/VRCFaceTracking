@@ -445,7 +445,25 @@ namespace VRCFaceTracking.Strings {
                 return ResourceManager.GetString("LocalTestAvatarTooltip_Content", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Initializing modules....
+        /// </summary>
+        public static string Main_InitializingModules {
+            get {
+                return ResourceManager.GetString("Main_InitializingModules", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        public static string Main_Loading {
+            get {
+                return ResourceManager.GetString("Main_Loading", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Modules.
         /// </summary>
@@ -544,7 +562,7 @@ namespace VRCFaceTracking.Strings {
                 return ResourceManager.GetString("ModulePage_Text", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Select an item from the list..
         /// </summary>
@@ -553,7 +571,7 @@ namespace VRCFaceTracking.Strings {
                 return ResourceManager.GetString("ModuleRegistry_NoSelection_Text", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to msgs/sec Incoming.
         /// </summary>
@@ -562,13 +580,517 @@ namespace VRCFaceTracking.Strings {
                 return ResourceManager.GetString("msIncoming_Text", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to msgs/sec Outgoing.
         /// </summary>
         public static string msOutgoing_Text {
             get {
                 return ResourceManager.GetString("msOutgoing_Text", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Adjust VRCFaceTracking Parameters..
+        /// </summary>
+        public static string Mutation_Adjust_VRCFaceTracking_Parameters {
+            get {
+                return ResourceManager.GetString("Mutation_Adjust_VRCFaceTracking_Parameters", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Beta.
+        /// </summary>
+        public static string Mutation_Beta {
+            get {
+                return ResourceManager.GetString("Mutation_Beta", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Calibration.
+        /// </summary>
+        public static string Mutation_Calibration {
+            get {
+                return ResourceManager.GetString("Mutation_Calibration", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Calibration Blend.
+        /// </summary>
+        public static string Mutation_Calibration_Blend {
+            get {
+                return ResourceManager.GetString("Mutation_Calibration_Blend", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Cheek.
+        /// </summary>
+        public static string Mutation_Cheek {
+            get {
+                return ResourceManager.GetString("Mutation_Cheek", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Cheek Squint.
+        /// </summary>
+        public static string Mutation_Cheek_Squint {
+            get {
+                return ResourceManager.GetString("Mutation_Cheek_Squint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Continuous Calibration.
+        /// </summary>
+        public static string Mutation_Continuous_Calibration {
+            get {
+                return ResourceManager.GetString("Mutation_Continuous_Calibration", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Data Filter.
+        /// </summary>
+        public static string Mutation_Data_Filter {
+            get {
+                return ResourceManager.GetString("Mutation_Data_Filter", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to [DEBUG] Calibration Delta.
+        /// </summary>
+        public static string Mutation_DEBUG_Calibration_Delta {
+            get {
+                return ResourceManager.GetString("Mutation_DEBUG_Calibration_Delta", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to [DEBUG] Log Data.
+        /// </summary>
+        public static string Mutation_DEBUG_Log_Data {
+            get {
+                return ResourceManager.GetString("Mutation_DEBUG_Log_Data", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to [DEBUG] Step Delta.
+        /// </summary>
+        public static string Mutation_DEBUG_Step_Delta {
+            get {
+                return ResourceManager.GetString("Mutation_DEBUG_Step_Delta", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to [DEBUG] Window Size.
+        /// </summary>
+        public static string Mutation_DEBUG_Window_Size {
+            get {
+                return ResourceManager.GetString("Mutation_DEBUG_Window_Size", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Default data filtering for VRCFaceTracking expressions..
+        /// </summary>
+        public static string Mutation_Default_data_filtering_for_VRCFaceTracking_expressions {
+            get {
+                return ResourceManager.GetString("Mutation_Default_data_filtering_for_VRCFaceTracking_expressions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Derivative Cutoff.
+        /// </summary>
+        public static string Mutation_Derivative_Cutoff {
+            get {
+                return ResourceManager.GetString("Mutation_Derivative_Cutoff", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Eye Squint.
+        /// </summary>
+        public static string Mutation_Eye_Squint {
+            get {
+                return ResourceManager.GetString("Mutation_Eye_Squint", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Eye Wide.
+        /// </summary>
+        public static string Mutation_Eye_Wide {
+            get {
+                return ResourceManager.GetString("Mutation_Eye_Wide", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Eyebrow Lowerer.
+        /// </summary>
+        public static string Mutation_Eyebrow_Lowerer {
+            get {
+                return ResourceManager.GetString("Mutation_Eyebrow_Lowerer", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Eyebrow Raiser.
+        /// </summary>
+        public static string Mutation_Eyebrow_Raiser {
+            get {
+                return ResourceManager.GetString("Mutation_Eyebrow_Raiser", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to EyeLid Blend.
+        /// </summary>
+        public static string Mutation_EyeLid_Blend {
+            get {
+                return ResourceManager.GetString("Mutation_EyeLid_Blend", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to EyeLook Symmetrize.
+        /// </summary>
+        public static string Mutation_EyeLook_Symmetrize {
+            get {
+                return ResourceManager.GetString("Mutation_EyeLook_Symmetrize", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Head Position (Forward-Back).
+        /// </summary>
+        public static string Mutation_Head_Position_Forward_Back {
+            get {
+                return ResourceManager.GetString("Mutation_Head_Position_Forward_Back", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Head Position (Side-to-Side).
+        /// </summary>
+        public static string Mutation_Head_Position_Side_to_Side {
+            get {
+                return ResourceManager.GetString("Mutation_Head_Position_Side_to_Side", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Head Position (Up-Down).
+        /// </summary>
+        public static string Mutation_Head_Position_Up_Down {
+            get {
+                return ResourceManager.GetString("Mutation_Head_Position_Up_Down", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Head Rotation (Side Tilt).
+        /// </summary>
+        public static string Mutation_Head_Rotation_Side_Tilt {
+            get {
+                return ResourceManager.GetString("Mutation_Head_Rotation_Side_Tilt", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Head Rotation (Side-to-Side).
+        /// </summary>
+        public static string Mutation_Head_Rotation_Side_to_Side {
+            get {
+                return ResourceManager.GetString("Mutation_Head_Rotation_Side_to_Side", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Head Rotation (Up-Down Tilt).
+        /// </summary>
+        public static string Mutation_Head_Rotation_Up_Down_Tilt {
+            get {
+                return ResourceManager.GetString("Mutation_Head_Rotation_Up_Down_Tilt", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Jaw.
+        /// </summary>
+        public static string Mutation_Jaw {
+            get {
+                return ResourceManager.GetString("Mutation_Jaw", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Jaw Forward / Backward.
+        /// </summary>
+        public static string Mutation_Jaw_Forward_Backward {
+            get {
+                return ResourceManager.GetString("Mutation_Jaw_Forward_Backward", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Jaw Sideways.
+        /// </summary>
+        public static string Mutation_Jaw_Sideways {
+            get {
+                return ResourceManager.GetString("Mutation_Jaw_Sideways", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Lip Funnel.
+        /// </summary>
+        public static string Mutation_Lip_Funnel {
+            get {
+                return ResourceManager.GetString("Mutation_Lip_Funnel", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Lip Pucker.
+        /// </summary>
+        public static string Mutation_Lip_Pucker {
+            get {
+                return ResourceManager.GetString("Mutation_Lip_Pucker", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Lip Suck.
+        /// </summary>
+        public static string Mutation_Lip_Suck {
+            get {
+                return ResourceManager.GetString("Mutation_Lip_Suck", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to LipSuck Limiter.
+        /// </summary>
+        public static string Mutation_LipSuck_Limiter {
+            get {
+                return ResourceManager.GetString("Mutation_LipSuck_Limiter", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum Cutoff.
+        /// </summary>
+        public static string Mutation_Minimum_Cutoff {
+            get {
+                return ResourceManager.GetString("Mutation_Minimum_Cutoff", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Mouth Frown.
+        /// </summary>
+        public static string Mutation_Mouth_Frown {
+            get {
+                return ResourceManager.GetString("Mutation_Mouth_Frown", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Mouth Open.
+        /// </summary>
+        public static string Mutation_Mouth_Open {
+            get {
+                return ResourceManager.GetString("Mutation_Mouth_Open", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Mouth Press.
+        /// </summary>
+        public static string Mutation_Mouth_Press {
+            get {
+                return ResourceManager.GetString("Mutation_Mouth_Press", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Mouth Raiser.
+        /// </summary>
+        public static string Mutation_Mouth_Raiser {
+            get {
+                return ResourceManager.GetString("Mutation_Mouth_Raiser", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Mouth Sideways.
+        /// </summary>
+        public static string Mutation_Mouth_Sideways {
+            get {
+                return ResourceManager.GetString("Mutation_Mouth_Sideways", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Mouth Smile.
+        /// </summary>
+        public static string Mutation_Mouth_Smile {
+            get {
+                return ResourceManager.GetString("Mutation_Mouth_Smile", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Mouth Stretch.
+        /// </summary>
+        public static string Mutation_Mouth_Stretch {
+            get {
+                return ResourceManager.GetString("Mutation_Mouth_Stretch", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Mouth Tightener.
+        /// </summary>
+        public static string Mutation_Mouth_Tightener {
+            get {
+                return ResourceManager.GetString("Mutation_Mouth_Tightener", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to MouthClosed.
+        /// </summary>
+        public static string Mutation_MouthClosed {
+            get {
+                return ResourceManager.GetString("Mutation_MouthClosed", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to MouthClosed/JawOpen Clamp.
+        /// </summary>
+        public static string Mutation_MouthClosed_JawOpen_Clamp {
+            get {
+                return ResourceManager.GetString("Mutation_MouthClosed_JawOpen_Clamp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Neck.
+        /// </summary>
+        public static string Mutation_Neck {
+            get {
+                return ResourceManager.GetString("Mutation_Neck", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Normalizes tracking data..
+        /// </summary>
+        public static string Mutation_Normalizes_tracking_data {
+            get {
+                return ResourceManager.GetString("Mutation_Normalizes_tracking_data", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Nose.
+        /// </summary>
+        public static string Mutation_Nose {
+            get {
+                return ResourceManager.GetString("Mutation_Nose", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Nose Sneer.
+        /// </summary>
+        public static string Mutation_Nose_Sneer {
+            get {
+                return ResourceManager.GetString("Mutation_Nose_Sneer", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter Adjustment.
+        /// </summary>
+        public static string Mutation_Parameter_Adjustment {
+            get {
+                return ResourceManager.GetString("Mutation_Parameter_Adjustment", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Processes data to conform to Unified Expressions..
+        /// </summary>
+        public static string Mutation_Processes_data_to_conform_to_Unified_Expressions {
+            get {
+                return ResourceManager.GetString("Mutation_Processes_data_to_conform_to_Unified_Expressions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Calibration.
+        /// </summary>
+        public static string Mutation_Reset_Calibration {
+            get {
+                return ResourceManager.GetString("Mutation_Reset_Calibration", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Values.
+        /// </summary>
+        public static string Mutation_Reset_Values {
+            get {
+                return ResourceManager.GetString("Mutation_Reset_Values", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Tongue Directions.
+        /// </summary>
+        public static string Mutation_Tongue_Directions {
+            get {
+                return ResourceManager.GetString("Mutation_Tongue_Directions", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Tongue Miscellaneous.
+        /// </summary>
+        public static string Mutation_Tongue_Miscellaneous {
+            get {
+                return ResourceManager.GetString("Mutation_Tongue_Miscellaneous", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Tongue Out.
+        /// </summary>
+        public static string Mutation_Tongue_Out {
+            get {
+                return ResourceManager.GetString("Mutation_Tongue_Out", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Unified Correctors.
+        /// </summary>
+        public static string Mutation_Unified_Correctors {
+            get {
+                return ResourceManager.GetString("Mutation_Unified_Correctors", resourceCulture);
             }
         }
         
@@ -652,6 +1174,60 @@ namespace VRCFaceTracking.Strings {
                 return ResourceManager.GetString("OSCStatus_Text", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Copied to clipboard..
+        /// </summary>
+        public static string Output_Copied {
+            get {
+                return ResourceManager.GetString("Output_Copied", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Copy all to clipboard.
+        /// </summary>
+        public static string Output_CopyAll_Tooltip {
+            get {
+                return ResourceManager.GetString("Output_CopyAll_Tooltip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Log saved..
+        /// </summary>
+        public static string Output_Saved {
+            get {
+                return ResourceManager.GetString("Output_Saved", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save Log.
+        /// </summary>
+        public static string Output_SaveLog_Title {
+            get {
+                return ResourceManager.GetString("Output_SaveLog_Title", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Save to file.
+        /// </summary>
+        public static string Output_SaveToFile_Tooltip {
+            get {
+                return ResourceManager.GetString("Output_SaveToFile_Tooltip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Text files.
+        /// </summary>
+        public static string Output_TextFile_Type {
+            get {
+                return ResourceManager.GetString("Output_TextFile_Type", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Parameters.
@@ -686,6 +1262,15 @@ namespace VRCFaceTracking.Strings {
         public static string Registry_Applying {
             get {
                 return ResourceManager.GetString("Registry_Applying", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Restart required.
+        /// </summary>
+        public static string Registry_AwaitingRestart {
+            get {
+                return ResourceManager.GetString("Registry_AwaitingRestart", resourceCulture);
             }
         }
 
@@ -753,6 +1338,33 @@ namespace VRCFaceTracking.Strings {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Install from .zip.
+        /// </summary>
+        public static string Registry_InstallZip_Tooltip {
+            get {
+                return ResourceManager.GetString("Registry_InstallZip_Tooltip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Not installed.
+        /// </summary>
+        public static string Registry_NotInstalled {
+            get {
+                return ResourceManager.GetString("Registry_NotInstalled", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Update available.
+        /// </summary>
+        public static string Registry_Outdated {
+            get {
+                return ResourceManager.GetString("Registry_Outdated", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to The module package could not be installed..
         /// </summary>
         public static string Registry_Package_Invalid {
@@ -780,6 +1392,15 @@ namespace VRCFaceTracking.Strings {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Search modules.
+        /// </summary>
+        public static string Registry_Search_Watermark {
+            get {
+                return ResourceManager.GetString("Registry_Search_Watermark", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Download timed out. Check the network connection and retry..
         /// </summary>
         public static string Registry_Timeout {
@@ -794,6 +1415,15 @@ namespace VRCFaceTracking.Strings {
         public static string Registry_Uninstall {
             get {
                 return ResourceManager.GetString("Registry_Uninstall", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to ZIP files.
+        /// </summary>
+        public static string Registry_ZipFiles_Type {
+            get {
+                return ResourceManager.GetString("Registry_ZipFiles_Type", resourceCulture);
             }
         }
 
@@ -895,6 +1525,60 @@ namespace VRCFaceTracking.Strings {
                 return ResourceManager.GetString("Settings_AboutDescription_Text", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to ADVANCED.
+        /// </summary>
+        public static string Settings_AdvancedSection {
+            get {
+                return ResourceManager.GetString("Settings_AdvancedSection", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to commits.
+        /// </summary>
+        public static string Settings_Commits {
+            get {
+                return ResourceManager.GetString("Settings_Commits", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Contributors.
+        /// </summary>
+        public static string Settings_Contributors {
+            get {
+                return ResourceManager.GetString("Settings_Contributors", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Destination IP.
+        /// </summary>
+        public static string Settings_DestinationIp {
+            get {
+                return ResourceManager.GetString("Settings_DestinationIp", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Gremlin Mode.
+        /// </summary>
+        public static string Settings_GremlinMode {
+            get {
+                return ResourceManager.GetString("Settings_GremlinMode", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to OSC SETTINGS.
+        /// </summary>
+        public static string Settings_OscSection {
+            get {
+                return ResourceManager.GetString("Settings_OscSection", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Personalization.
@@ -902,6 +1586,24 @@ namespace VRCFaceTracking.Strings {
         public static string Settings_Personalization_Text {
             get {
                 return ResourceManager.GetString("Settings_Personalization_Text", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Receive Port (Legacy).
+        /// </summary>
+        public static string Settings_ReceivePort {
+            get {
+                return ResourceManager.GetString("Settings_ReceivePort", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Send Port.
+        /// </summary>
+        public static string Settings_SendPort {
+            get {
+                return ResourceManager.GetString("Settings_SendPort", resourceCulture);
             }
         }
         
@@ -938,6 +1640,24 @@ namespace VRCFaceTracking.Strings {
         public static string Settings_Theme_Text {
             get {
                 return ResourceManager.GetString("Settings_Theme_Text", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        public static string Settings_UnknownVersion {
+            get {
+                return ResourceManager.GetString("Settings_UnknownVersion", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Version {0}.
+        /// </summary>
+        public static string Settings_Version {
+            get {
+                return ResourceManager.GetString("Settings_Version", resourceCulture);
             }
         }
         

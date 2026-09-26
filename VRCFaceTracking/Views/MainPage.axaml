@@ -60,7 +60,7 @@
                                 </ItemsControl>
 
                                 <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" Spacing="4">
-                                    <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding Name, Mode=OneWay}" />
+                                    <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding Name, Mode=OneWay, Converter={StaticResource PlaceholderTextConverter}}" />
                                     <StackPanel Orientation="Horizontal" Spacing="12">
                                         <TextBlock Text="{x:Static s:Resources.EyeTrackingActive_Text}" FontSize="12" Opacity="0.7"
                                                    IsVisible="{Binding UsingEye, Mode=OneWay}" />
@@ -166,8 +166,8 @@
                     <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="14" VerticalAlignment="Center">
                         <ui:SymbolIcon Symbol="Contact" FontSize="24" VerticalAlignment="Center" />
                         <StackPanel Spacing="3" VerticalAlignment="Center">
-                            <TextBlock FontWeight="SemiBold" FontSize="14" Text="{Binding ParameterOutputService.AvatarInfo.Name, Mode=OneWay}" />
-                            <TextBlock FontSize="12" Opacity="0.7" Text="{Binding ParameterOutputService.AvatarInfo.Id, Mode=OneWay}" />
+                            <TextBlock FontWeight="SemiBold" FontSize="14" Text="{Binding ParameterOutputService.AvatarInfo.Name, Mode=OneWay, Converter={StaticResource PlaceholderTextConverter}}" />
+                            <TextBlock FontSize="12" Opacity="0.7" Text="{Binding ParameterOutputService.AvatarInfo.Id, Mode=OneWay, Converter={StaticResource PlaceholderTextConverter}}" />
                             <StackPanel Orientation="Horizontal" Spacing="6"
                                         IsVisible="{Binding ParameterOutputService.AvatarInfo.Id, Mode=OneWay, Converter={StaticResource IsLocalTestAvatarConverter}}">
                                 <Ellipse Width="8" Height="8" Fill="Red" VerticalAlignment="Center" />

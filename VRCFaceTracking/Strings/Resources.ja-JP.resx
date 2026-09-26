@@ -372,4 +372,84 @@
   <data name="Shell_TrackingSettings_Content" xml:space="preserve"><value>トラッキング設定</value></data>
   <data name="TrackingCalibrateButton_Description" xml:space="preserve"><value>キャリブレーションに対する表情の影響を一時的に強めます</value></data>
   <data name="TrackingCalibrateButton_Header" xml:space="preserve"><value>キャリブレーション</value></data>
+  <data name="Output_CopyAll_Tooltip" xml:space="preserve"><value>ログ全体をクリップボードにコピー</value></data>
+  <data name="Output_SaveToFile_Tooltip" xml:space="preserve"><value>ファイルに保存</value></data>
+  <data name="Output_Copied" xml:space="preserve"><value>クリップボードにコピーしました。</value></data>
+  <data name="Output_SaveLog_Title" xml:space="preserve"><value>ログを保存</value></data>
+  <data name="Output_TextFile_Type" xml:space="preserve"><value>テキストファイル</value></data>
+  <data name="Output_Saved" xml:space="preserve"><value>ログを保存しました。</value></data>
+  <data name="Registry_Search_Watermark" xml:space="preserve"><value>モジュールを検索</value></data>
+  <data name="Registry_InstallZip_Tooltip" xml:space="preserve"><value>.zip ファイルからインストール</value></data>
+  <data name="Registry_ZipFiles_Type" xml:space="preserve"><value>ZIP ファイル</value></data>
+  <data name="Registry_NotInstalled" xml:space="preserve"><value>未インストール</value></data>
+  <data name="Registry_Outdated" xml:space="preserve"><value>更新可能</value></data>
+  <data name="Registry_AwaitingRestart" xml:space="preserve"><value>再起動が必要</value></data>
+  <data name="Settings_OscSection" xml:space="preserve"><value>OSC 設定</value></data>
+  <data name="Settings_ReceivePort" xml:space="preserve"><value>受信ポート（従来方式）</value></data>
+  <data name="Settings_DestinationIp" xml:space="preserve"><value>送信先 IP</value></data>
+  <data name="Settings_SendPort" xml:space="preserve"><value>送信ポート</value></data>
+  <data name="Settings_AdvancedSection" xml:space="preserve"><value>詳細設定</value></data>
+  <data name="Settings_GremlinMode" xml:space="preserve"><value>実験モード</value></data>
+  <data name="Settings_Contributors" xml:space="preserve"><value>貢献者</value></data>
+  <data name="Settings_Commits" xml:space="preserve"><value>件のコミット</value></data>
+  <data name="Settings_Version" xml:space="preserve"><value>バージョン {0}</value></data>
+  <data name="Settings_UnknownVersion" xml:space="preserve"><value>不明</value></data>
+  <data name="Mutation_Data_Filter" xml:space="preserve"><value>データフィルター</value></data>
+  <data name="Mutation_Default_data_filtering_for_VRCFaceTracking_expressions" xml:space="preserve"><value>VRCFaceTracking の表情データに標準のフィルターを適用します。</value></data>
+  <data name="Mutation_Calibration" xml:space="preserve"><value>キャリブレーション</value></data>
+  <data name="Mutation_Normalizes_tracking_data" xml:space="preserve"><value>トラッキングデータを正規化します。</value></data>
+  <data name="Mutation_Unified_Correctors" xml:space="preserve"><value>統一表情の補正</value></data>
+  <data name="Mutation_Processes_data_to_conform_to_Unified_Expressions" xml:space="preserve"><value>データを Unified Expressions に合わせて処理します。</value></data>
+  <data name="Mutation_Parameter_Adjustment" xml:space="preserve"><value>パラメーター調整</value></data>
+  <data name="Mutation_Adjust_VRCFaceTracking_Parameters" xml:space="preserve"><value>VRCFaceTracking のパラメーターを調整します。</value></data>
+  <data name="Mutation_DEBUG_Log_Data" xml:space="preserve"><value>[デバッグ] データを記録</value></data>
+  <data name="Mutation_Reset_Calibration" xml:space="preserve"><value>キャリブレーションをリセット</value></data>
+  <data name="Mutation_Reset_Values" xml:space="preserve"><value>値をリセット</value></data>
+  <data name="Mutation_DEBUG_Calibration_Delta" xml:space="preserve"><value>[デバッグ] キャリブレーション変化量</value></data>
+  <data name="Mutation_DEBUG_Step_Delta" xml:space="preserve"><value>[デバッグ] ステップ変化量</value></data>
+  <data name="Mutation_DEBUG_Window_Size" xml:space="preserve"><value>[デバッグ] ウィンドウサイズ</value></data>
+  <data name="Mutation_Calibration_Blend" xml:space="preserve"><value>キャリブレーションの適用度</value></data>
+  <data name="Mutation_Continuous_Calibration" xml:space="preserve"><value>継続的なキャリブレーション</value></data>
+  <data name="Mutation_EyeLid_Blend" xml:space="preserve"><value>まぶたのブレンド</value></data>
+  <data name="Mutation_EyeLook_Symmetrize" xml:space="preserve"><value>視線を対称化</value></data>
+  <data name="Mutation_LipSuck_Limiter" xml:space="preserve"><value>唇の吸い込みを制限</value></data>
+  <data name="Mutation_MouthClosed_JawOpen_Clamp" xml:space="preserve"><value>口閉じと顎開きの制限</value></data>
+  <data name="Mutation_Beta" xml:space="preserve"><value>ベータ</value></data>
+  <data name="Mutation_Derivative_Cutoff" xml:space="preserve"><value>微分カットオフ</value></data>
+  <data name="Mutation_Minimum_Cutoff" xml:space="preserve"><value>最小カットオフ</value></data>
+  <data name="Mutation_Cheek_Squint" xml:space="preserve"><value>頬の引き上げ</value></data>
+  <data name="Mutation_Cheek" xml:space="preserve"><value>頬</value></data>
+  <data name="Mutation_Eye_Squint" xml:space="preserve"><value>目を細める</value></data>
+  <data name="Mutation_Eye_Wide" xml:space="preserve"><value>目を大きく開く</value></data>
+  <data name="Mutation_Eyebrow_Lowerer" xml:space="preserve"><value>眉を下げる</value></data>
+  <data name="Mutation_Eyebrow_Raiser" xml:space="preserve"><value>眉を上げる</value></data>
+  <data name="Mutation_Head_Position_Forward_Back" xml:space="preserve"><value>頭の位置（前後）</value></data>
+  <data name="Mutation_Head_Position_Side_to_Side" xml:space="preserve"><value>頭の位置（左右）</value></data>
+  <data name="Mutation_Head_Position_Up_Down" xml:space="preserve"><value>頭の位置（上下）</value></data>
+  <data name="Mutation_Head_Rotation_Side_Tilt" xml:space="preserve"><value>頭の回転（横への傾き）</value></data>
+  <data name="Mutation_Head_Rotation_Side_to_Side" xml:space="preserve"><value>頭の回転（左右）</value></data>
+  <data name="Mutation_Head_Rotation_Up_Down_Tilt" xml:space="preserve"><value>頭の回転（上下）</value></data>
+  <data name="Mutation_Jaw_Forward_Backward" xml:space="preserve"><value>顎の前後移動</value></data>
+  <data name="Mutation_Jaw_Sideways" xml:space="preserve"><value>顎の左右移動</value></data>
+  <data name="Mutation_Jaw" xml:space="preserve"><value>顎</value></data>
+  <data name="Mutation_Lip_Funnel" xml:space="preserve"><value>唇をすぼめて前に出す</value></data>
+  <data name="Mutation_Lip_Pucker" xml:space="preserve"><value>唇を突き出す</value></data>
+  <data name="Mutation_Lip_Suck" xml:space="preserve"><value>唇を吸い込む</value></data>
+  <data name="Mutation_Mouth_Frown" xml:space="preserve"><value>口角を下げる</value></data>
+  <data name="Mutation_Mouth_Open" xml:space="preserve"><value>口を開く</value></data>
+  <data name="Mutation_Mouth_Press" xml:space="preserve"><value>唇を押し合わせる</value></data>
+  <data name="Mutation_Mouth_Raiser" xml:space="preserve"><value>口元を上げる</value></data>
+  <data name="Mutation_Mouth_Sideways" xml:space="preserve"><value>口の左右移動</value></data>
+  <data name="Mutation_Mouth_Smile" xml:space="preserve"><value>笑顔</value></data>
+  <data name="Mutation_Mouth_Stretch" xml:space="preserve"><value>口を横に伸ばす</value></data>
+  <data name="Mutation_Mouth_Tightener" xml:space="preserve"><value>唇を引き締める</value></data>
+  <data name="Mutation_MouthClosed" xml:space="preserve"><value>口を閉じる</value></data>
+  <data name="Mutation_Neck" xml:space="preserve"><value>首</value></data>
+  <data name="Mutation_Nose_Sneer" xml:space="preserve"><value>鼻をしわめる</value></data>
+  <data name="Mutation_Nose" xml:space="preserve"><value>鼻</value></data>
+  <data name="Mutation_Tongue_Directions" xml:space="preserve"><value>舌の方向</value></data>
+  <data name="Mutation_Tongue_Miscellaneous" xml:space="preserve"><value>その他の舌の動き</value></data>
+  <data name="Mutation_Tongue_Out" xml:space="preserve"><value>舌を出す</value></data>
+  <data name="Main_InitializingModules" xml:space="preserve"><value>モジュールを初期化しています...</value></data>
+  <data name="Main_Loading" xml:space="preserve"><value>読み込み中...</value></data>
 </root>

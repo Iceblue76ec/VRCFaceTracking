@@ -123,10 +123,10 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
 
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title = "Install from .zip",
+            Title = AppStrings.Registry_InstallZip_Tooltip,
             AllowMultiple = false,
             FileTypeFilter = [
-                new FilePickerFileType("Zip Files")
+                new FilePickerFileType(AppStrings.Registry_ZipFiles_Type)
                 {
                     Patterns = (IReadOnlyList<string>)
                     [

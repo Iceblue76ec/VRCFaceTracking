@@ -9,6 +9,9 @@
     <Application.Resources>
         <helpers:LogLevelBrushConverter x:Key="LogLevelBrushConverter" />
         <helpers:LogLevelMatchConverter x:Key="LogLevelMatchConverter" />
+        <helpers:InstallStateTextConverter x:Key="InstallStateTextConverter" />
+        <helpers:MutationTextConverter x:Key="MutationTextConverter" />
+        <helpers:PlaceholderTextConverter x:Key="PlaceholderTextConverter" />
 
         <helpers:MutationTypeCheckboxConverter x:Key="MutationTypeCheckboxConverter" />
         <helpers:MutationTypeSliderConverter   x:Key="MutationTypeSliderConverter" />

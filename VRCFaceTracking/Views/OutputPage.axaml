@@ -5,6 +5,7 @@
     xmlns:vm="using:VRCFaceTracking.ViewModels"
     xmlns:svc="using:VRCFaceTracking.Services"
     xmlns:models="clr-namespace:VRCFaceTracking.Models"
+    xmlns:s="using:VRCFaceTracking.Strings"
     x:DataType="vm:OutputViewModel"
     x:Class="VRCFaceTracking.Views.OutputPage">
 
@@ -33,10 +34,10 @@
 
         <Border Grid.Row="0" CornerRadius="6" BorderThickness="1" Padding="8,6" Margin="0,0,0,10">
             <StackPanel Orientation="Horizontal" Spacing="4">
-                <Button ToolTip.Tip="Copy all to clipboard" Click="CopyToClipboard_Click" Padding="8">
+                <Button ToolTip.Tip="{x:Static s:Resources.Output_CopyAll_Tooltip}" Click="CopyToClipboard_Click" Padding="8">
                     <ui:SymbolIcon Symbol="Copy" FontSize="16" />
                 </Button>
-                <Button ToolTip.Tip="Save to file" Click="SaveToFile_Click" Padding="8">
+                <Button ToolTip.Tip="{x:Static s:Resources.Output_SaveToFile_Tooltip}" Click="SaveToFile_Click" Padding="8">
                     <ui:SymbolIcon Symbol="Save" FontSize="16" />
                 </Button>
                 <Separator />

@@ -6,6 +6,7 @@ using Avalonia.Styling;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using FluentAvalonia.Styling;
 using VRCFaceTracking.ViewModels;
+using AppStrings = VRCFaceTracking.Strings.Resources;
 
 namespace VRCFaceTracking.Views;
 
@@ -20,7 +21,7 @@ public partial class SettingsPage : UserControl
 
         // Show current version
         var version = Assembly.GetExecutingAssembly().GetName().Version;
-        VersionText.Text = $"Version {version?.ToString(3) ?? "Unknown"}";
+        VersionText.Text = string.Format(AppStrings.Settings_Version, version?.ToString(3) ?? AppStrings.Settings_UnknownVersion);
 
         var faTheme = Application.Current?.Styles.OfType<FluentAvaloniaTheme>().FirstOrDefault();
         if (faTheme != null)

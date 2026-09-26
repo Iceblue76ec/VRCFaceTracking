@@ -470,4 +470,84 @@
   <data name="Registry_Package_Invalid" xml:space="preserve">
     <value>无法安装该模块包。</value>
   </data>
+  <data name="Output_CopyAll_Tooltip" xml:space="preserve"><value>复制全部日志到剪贴板</value></data>
+  <data name="Output_SaveToFile_Tooltip" xml:space="preserve"><value>保存到文件</value></data>
+  <data name="Output_Copied" xml:space="preserve"><value>已复制到剪贴板。</value></data>
+  <data name="Output_SaveLog_Title" xml:space="preserve"><value>保存日志</value></data>
+  <data name="Output_TextFile_Type" xml:space="preserve"><value>文本文件</value></data>
+  <data name="Output_Saved" xml:space="preserve"><value>日志已保存。</value></data>
+  <data name="Registry_Search_Watermark" xml:space="preserve"><value>搜索模块</value></data>
+  <data name="Registry_InstallZip_Tooltip" xml:space="preserve"><value>从 .zip 文件安装</value></data>
+  <data name="Registry_ZipFiles_Type" xml:space="preserve"><value>ZIP 文件</value></data>
+  <data name="Registry_NotInstalled" xml:space="preserve"><value>未安装</value></data>
+  <data name="Registry_Outdated" xml:space="preserve"><value>有更新可用</value></data>
+  <data name="Registry_AwaitingRestart" xml:space="preserve"><value>需要重启</value></data>
+  <data name="Settings_OscSection" xml:space="preserve"><value>OSC 设置</value></data>
+  <data name="Settings_ReceivePort" xml:space="preserve"><value>接收端口（旧版）</value></data>
+  <data name="Settings_DestinationIp" xml:space="preserve"><value>目标 IP</value></data>
+  <data name="Settings_SendPort" xml:space="preserve"><value>发送端口</value></data>
+  <data name="Settings_AdvancedSection" xml:space="preserve"><value>高级设置</value></data>
+  <data name="Settings_GremlinMode" xml:space="preserve"><value>实验模式</value></data>
+  <data name="Settings_Contributors" xml:space="preserve"><value>贡献者</value></data>
+  <data name="Settings_Commits" xml:space="preserve"><value>次提交</value></data>
+  <data name="Settings_Version" xml:space="preserve"><value>版本 {0}</value></data>
+  <data name="Settings_UnknownVersion" xml:space="preserve"><value>未知</value></data>
+  <data name="Mutation_Data_Filter" xml:space="preserve"><value>数据滤波</value></data>
+  <data name="Mutation_Default_data_filtering_for_VRCFaceTracking_expressions" xml:space="preserve"><value>对 VRCFaceTracking 表情数据进行默认滤波。</value></data>
+  <data name="Mutation_Calibration" xml:space="preserve"><value>校准</value></data>
+  <data name="Mutation_Normalizes_tracking_data" xml:space="preserve"><value>归一化追踪数据。</value></data>
+  <data name="Mutation_Unified_Correctors" xml:space="preserve"><value>统一表情校正</value></data>
+  <data name="Mutation_Processes_data_to_conform_to_Unified_Expressions" xml:space="preserve"><value>处理数据以符合统一表情参数。</value></data>
+  <data name="Mutation_Parameter_Adjustment" xml:space="preserve"><value>参数调整</value></data>
+  <data name="Mutation_Adjust_VRCFaceTracking_Parameters" xml:space="preserve"><value>调整 VRCFaceTracking 参数。</value></data>
+  <data name="Mutation_DEBUG_Log_Data" xml:space="preserve"><value>[调试] 记录数据</value></data>
+  <data name="Mutation_Reset_Calibration" xml:space="preserve"><value>重置校准</value></data>
+  <data name="Mutation_Reset_Values" xml:space="preserve"><value>重置数值</value></data>
+  <data name="Mutation_DEBUG_Calibration_Delta" xml:space="preserve"><value>[调试] 校准变化量</value></data>
+  <data name="Mutation_DEBUG_Step_Delta" xml:space="preserve"><value>[调试] 步进变化量</value></data>
+  <data name="Mutation_DEBUG_Window_Size" xml:space="preserve"><value>[调试] 窗口大小</value></data>
+  <data name="Mutation_Calibration_Blend" xml:space="preserve"><value>校准混合强度</value></data>
+  <data name="Mutation_Continuous_Calibration" xml:space="preserve"><value>持续校准</value></data>
+  <data name="Mutation_EyeLid_Blend" xml:space="preserve"><value>眼睑混合</value></data>
+  <data name="Mutation_EyeLook_Symmetrize" xml:space="preserve"><value>视线对称化</value></data>
+  <data name="Mutation_LipSuck_Limiter" xml:space="preserve"><value>吸唇限制</value></data>
+  <data name="Mutation_MouthClosed_JawOpen_Clamp" xml:space="preserve"><value>闭嘴与张颚限制</value></data>
+  <data name="Mutation_Beta" xml:space="preserve"><value>Beta</value></data>
+  <data name="Mutation_Derivative_Cutoff" xml:space="preserve"><value>导数截止频率</value></data>
+  <data name="Mutation_Minimum_Cutoff" xml:space="preserve"><value>最小截止频率</value></data>
+  <data name="Mutation_Cheek_Squint" xml:space="preserve"><value>脸颊收紧</value></data>
+  <data name="Mutation_Cheek" xml:space="preserve"><value>脸颊</value></data>
+  <data name="Mutation_Eye_Squint" xml:space="preserve"><value>眯眼</value></data>
+  <data name="Mutation_Eye_Wide" xml:space="preserve"><value>睁大眼睛</value></data>
+  <data name="Mutation_Eyebrow_Lowerer" xml:space="preserve"><value>眉毛下压</value></data>
+  <data name="Mutation_Eyebrow_Raiser" xml:space="preserve"><value>眉毛上抬</value></data>
+  <data name="Mutation_Head_Position_Forward_Back" xml:space="preserve"><value>头部位置（前后）</value></data>
+  <data name="Mutation_Head_Position_Side_to_Side" xml:space="preserve"><value>头部位置（左右）</value></data>
+  <data name="Mutation_Head_Position_Up_Down" xml:space="preserve"><value>头部位置（上下）</value></data>
+  <data name="Mutation_Head_Rotation_Side_Tilt" xml:space="preserve"><value>头部旋转（侧倾）</value></data>
+  <data name="Mutation_Head_Rotation_Side_to_Side" xml:space="preserve"><value>头部旋转（左右）</value></data>
+  <data name="Mutation_Head_Rotation_Up_Down_Tilt" xml:space="preserve"><value>头部旋转（俯仰）</value></data>
+  <data name="Mutation_Jaw_Forward_Backward" xml:space="preserve"><value>下颚前后移动</value></data>
+  <data name="Mutation_Jaw_Sideways" xml:space="preserve"><value>下颚左右移动</value></data>
+  <data name="Mutation_Jaw" xml:space="preserve"><value>下颚</value></data>
+  <data name="Mutation_Lip_Funnel" xml:space="preserve"><value>嘴唇内收</value></data>
+  <data name="Mutation_Lip_Pucker" xml:space="preserve"><value>噘嘴</value></data>
+  <data name="Mutation_Lip_Suck" xml:space="preserve"><value>吸唇</value></data>
+  <data name="Mutation_Mouth_Frown" xml:space="preserve"><value>嘴角下撇</value></data>
+  <data name="Mutation_Mouth_Open" xml:space="preserve"><value>张嘴</value></data>
+  <data name="Mutation_Mouth_Press" xml:space="preserve"><value>抿嘴</value></data>
+  <data name="Mutation_Mouth_Raiser" xml:space="preserve"><value>嘴部上提</value></data>
+  <data name="Mutation_Mouth_Sideways" xml:space="preserve"><value>嘴部左右移动</value></data>
+  <data name="Mutation_Mouth_Smile" xml:space="preserve"><value>微笑</value></data>
+  <data name="Mutation_Mouth_Stretch" xml:space="preserve"><value>嘴部拉伸</value></data>
+  <data name="Mutation_Mouth_Tightener" xml:space="preserve"><value>嘴唇收紧</value></data>
+  <data name="Mutation_MouthClosed" xml:space="preserve"><value>闭嘴</value></data>
+  <data name="Mutation_Neck" xml:space="preserve"><value>颈部</value></data>
+  <data name="Mutation_Nose_Sneer" xml:space="preserve"><value>皱鼻</value></data>
+  <data name="Mutation_Nose" xml:space="preserve"><value>鼻子</value></data>
+  <data name="Mutation_Tongue_Directions" xml:space="preserve"><value>舌头方向</value></data>
+  <data name="Mutation_Tongue_Miscellaneous" xml:space="preserve"><value>其他舌部动作</value></data>
+  <data name="Mutation_Tongue_Out" xml:space="preserve"><value>吐舌</value></data>
+  <data name="Main_InitializingModules" xml:space="preserve"><value>正在初始化模块...</value></data>
+  <data name="Main_Loading" xml:space="preserve"><value>正在加载...</value></data>
 </root>
