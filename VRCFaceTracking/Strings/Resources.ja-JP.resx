@@ -324,8 +324,11 @@
     <value>自動起動</value>
   </data>
   <data name="AutoStartSettings_Description" xml:space="preserve">
-    <value>SteamVRの起動時に自動で起動します</value>
+    <value>SteamVR の起動時に VRCFaceTracking を起動します。設定時に SteamVR が一度起動する場合があります。</value>
   </data>
+  <data name="AutoStartSettings_Saved" xml:space="preserve"><value>SteamVR の自動起動設定を更新しました。次回 SteamVR 起動時から有効になります。</value></data>
+  <data name="AutoStartSettings_Failed" xml:space="preserve"><value>SteamVR が設定を適用できませんでした（{0}）。SteamVR を再起動して再試行してください。</value></data>
+  <data name="AutoStartSettings_SaveFailed" xml:space="preserve"><value>SteamVR の設定は更新されましたが、アプリに設定を保存できませんでした（{0}）。</value></data>
   <data name="CalibrateButton_Content" xml:space="preserve"><value>キャリブレーション</value></data>
   <data name="CalibrationEnabledToggle_Description" xml:space="preserve"><value>キャリブレーションの有効・無効を切り替えます</value></data>
   <data name="CalibrationEnabledToggle_Header" xml:space="preserve"><value>キャリブレーションを有効にする</value></data>

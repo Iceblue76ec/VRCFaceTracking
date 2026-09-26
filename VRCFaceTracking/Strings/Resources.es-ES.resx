@@ -284,7 +284,10 @@
   <data name="Shell_TrackingSettings_Content" xml:space="preserve">
     <value>Configuración de Seguimiento</value>
   </data>
-  <data name="AutoStartSettings_Description" xml:space="preserve"><value>Inicia la aplicación automáticamente al abrir SteamVR</value></data>
+  <data name="AutoStartSettings_Description" xml:space="preserve"><value>Inicia VRCFaceTracking con SteamVR. Es posible que SteamVR se abra una vez para completar la configuración.</value></data>
+  <data name="AutoStartSettings_Saved" xml:space="preserve"><value>Se ha actualizado el inicio automático. Se aplicará la próxima vez que se abra SteamVR.</value></data>
+  <data name="AutoStartSettings_Failed" xml:space="preserve"><value>SteamVR no pudo aplicar este ajuste ({0}). Reinicia SteamVR e inténtalo de nuevo.</value></data>
+  <data name="AutoStartSettings_SaveFailed" xml:space="preserve"><value>Se actualizó SteamVR, pero la aplicación no pudo guardar la preferencia ({0}).</value></data>
   <data name="AutoStartSettings_Header" xml:space="preserve"><value>Inicio automático</value></data>
   <data name="CalibrateButton_Content" xml:space="preserve"><value>Calibrar</value></data>
   <data name="CalibrationEnabledToggle_Description" xml:space="preserve"><value>Activa o desactiva la calibración</value></data>

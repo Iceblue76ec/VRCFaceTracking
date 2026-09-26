@@ -77,7 +77,6 @@ namespace VRCFaceTracking
 
             HandleResetFile();
 
-            Core.Utils.KillAllProcessesOfName("VRCFaceTracking");
             Core.Utils.KillAllProcessesOfName("VRCFaceTracking.ModuleProcess");
 
             _ = Task.Run(() => _host.StartAsync());

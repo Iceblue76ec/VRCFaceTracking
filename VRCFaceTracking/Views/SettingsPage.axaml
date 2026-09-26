@@ -70,6 +70,8 @@
                         <TextBlock FontWeight="SemiBold" Text="{x:Static s:Resources.AutoStartSettings_Header}" />
                         <TextBlock FontSize="12" Opacity="0.6"
                                    Text="{x:Static s:Resources.AutoStartSettings_Description}" />
+                        <TextBlock FontSize="12" TextWrapping="Wrap"
+                                   Text="{Binding AutoStartStatus}" />
                     </StackPanel>
                     <ToggleSwitch
                         Grid.Column="1"

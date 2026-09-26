@@ -325,8 +325,11 @@
     <value>Automatyczne uruchamianie</value>
   </data>
   <data name="AutoStartSettings_Description" xml:space="preserve">
-    <value>Automatycznie uruchamiaj aplikację wraz ze SteamVR</value>
+    <value>Uruchamiaj VRCFaceTracking wraz ze SteamVR. Włączenie tej opcji może uruchomić SteamVR w celu konfiguracji.</value>
   </data>
+  <data name="AutoStartSettings_Saved" xml:space="preserve"><value>Zmieniono ustawienie automatycznego uruchamiania. Zacznie działać przy następnym uruchomieniu SteamVR.</value></data>
+  <data name="AutoStartSettings_Failed" xml:space="preserve"><value>SteamVR nie może zastosować tego ustawienia ({0}). Uruchom SteamVR ponownie i spróbuj jeszcze raz.</value></data>
+  <data name="AutoStartSettings_SaveFailed" xml:space="preserve"><value>Ustawienie SteamVR zostało zmienione, ale aplikacja nie mogła zapisać preferencji ({0}).</value></data>
   <data name="CalibrationEnabledToggle_Header" xml:space="preserve">
     <value>Włącz kalibrację</value>
   </data>

@@ -327,8 +327,11 @@
     <value>Auto Start</value>
   </data>
   <data name="AutoStartSettings_Description" xml:space="preserve">
-    <value>Auto Start when SteamVR is launched</value>
+    <value>Start VRCFaceTracking with SteamVR. Enabling this may start SteamVR once for setup.</value>
   </data>
+  <data name="AutoStartSettings_Saved" xml:space="preserve"><value>SteamVR auto start has been updated. It will take effect on the next SteamVR launch.</value></data>
+  <data name="AutoStartSettings_Failed" xml:space="preserve"><value>SteamVR could not apply this setting ({0}). Restart SteamVR and try again.</value></data>
+  <data name="AutoStartSettings_SaveFailed" xml:space="preserve"><value>SteamVR was updated, but this app could not save the preference ({0}).</value></data>
   <data name="CalibrationEnabledToggle_Header" xml:space="preserve">
     <value>Calibration Enabled</value>
   </data>

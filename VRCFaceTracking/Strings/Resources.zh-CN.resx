@@ -333,8 +333,11 @@
     <value>自动启动</value>
   </data>
   <data name="AutoStartSettings_Description" xml:space="preserve">
-    <value>启动 SteamVR 时自动启动</value>
+    <value>随 SteamVR 启动 VRCFaceTracking。开启时可能需要启动一次 SteamVR 来完成设置。</value>
   </data>
+  <data name="AutoStartSettings_Saved" xml:space="preserve"><value>已更新 SteamVR 自动启动设置，将在下次启动 SteamVR 时生效。</value></data>
+  <data name="AutoStartSettings_Failed" xml:space="preserve"><value>SteamVR 未能应用此设置（{0}）。请重启 SteamVR 后重试。</value></data>
+  <data name="AutoStartSettings_SaveFailed" xml:space="preserve"><value>SteamVR 设置已更新，但本软件未能保存该偏好（{0}）。</value></data>
   <data name="CalibrationEnabledToggle_Header" xml:space="preserve">
     <value>启用校准</value>
   </data>
