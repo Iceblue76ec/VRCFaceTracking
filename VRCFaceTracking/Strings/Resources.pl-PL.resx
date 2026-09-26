@@ -495,4 +495,10 @@
   <data name="Mutation_Tongue_Out" xml:space="preserve"><value>Wysunięcie języka</value></data>
   <data name="Main_InitializingModules" xml:space="preserve"><value>Inicjowanie modułów...</value></data>
   <data name="Main_Loading" xml:space="preserve"><value>Wczytywanie...</value></data>
+  <data name="Registry_Connecting" xml:space="preserve"><value>Łączenie z serwerem pobierania (do 30 sekund)...</value></data>
+  <data name="Registry_DownloadSizeKnown" xml:space="preserve"><value>Pobieranie modułu: {0:0.0} / {1:0.0} MB</value></data>
+  <data name="Registry_DownloadSizeUnknown" xml:space="preserve"><value>Pobieranie modułu: {0:0.0} MB (całkowity rozmiar niedostępny)</value></data>
+  <data name="Registry_HttpError" xml:space="preserve"><value>Serwer pobierania zwrócił HTTP {0}. Sprawdź link do modułu lub spróbuj ponownie później.</value></data>
+  <data name="Registry_SslError" xml:space="preserve"><value>Nie udało się nawiązać bezpiecznego połączenia (SSL/TLS). Sprawdź sieć lub certyfikaty systemowe. Szczegóły: {0}</value></data>
+  <data name="Registry_NetworkError" xml:space="preserve"><value>Nie można połączyć się z serwerem pobierania. Sprawdź sieć i spróbuj ponownie. Szczegóły: {0}</value></data>
 </root>

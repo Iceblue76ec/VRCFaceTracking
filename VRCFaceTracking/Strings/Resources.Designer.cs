@@ -1275,11 +1275,38 @@ namespace VRCFaceTracking.Strings {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Connecting to the download server (up to 30 seconds)...
+        /// </summary>
+        public static string Registry_Connecting {
+            get {
+                return ResourceManager.GetString("Registry_Connecting", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Downloading module....
         /// </summary>
         public static string Registry_Downloading {
             get {
                 return ResourceManager.GetString("Registry_Downloading", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading module: {0:0.0} / {1:0.0} MB.
+        /// </summary>
+        public static string Registry_DownloadSizeKnown {
+            get {
+                return ResourceManager.GetString("Registry_DownloadSizeKnown", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading module: {0:0.0} MB (total size unavailable).
+        /// </summary>
+        public static string Registry_DownloadSizeUnknown {
+            get {
+                return ResourceManager.GetString("Registry_DownloadSizeUnknown", resourceCulture);
             }
         }
 
@@ -1298,6 +1325,15 @@ namespace VRCFaceTracking.Strings {
         public static string Registry_Failure {
             get {
                 return ResourceManager.GetString("Registry_Failure", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Download server returned HTTP {0}.
+        /// </summary>
+        public static string Registry_HttpError {
+            get {
+                return ResourceManager.GetString("Registry_HttpError", resourceCulture);
             }
         }
 
@@ -1343,6 +1379,15 @@ namespace VRCFaceTracking.Strings {
         public static string Registry_InstallZip_Tooltip {
             get {
                 return ResourceManager.GetString("Registry_InstallZip_Tooltip", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Could not connect to the download server.
+        /// </summary>
+        public static string Registry_NetworkError {
+            get {
+                return ResourceManager.GetString("Registry_NetworkError", resourceCulture);
             }
         }
 
@@ -1397,6 +1442,15 @@ namespace VRCFaceTracking.Strings {
         public static string Registry_Search_Watermark {
             get {
                 return ResourceManager.GetString("Registry_Search_Watermark", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Secure connection (SSL/TLS) failed.
+        /// </summary>
+        public static string Registry_SslError {
+            get {
+                return ResourceManager.GetString("Registry_SslError", resourceCulture);
             }
         }
 

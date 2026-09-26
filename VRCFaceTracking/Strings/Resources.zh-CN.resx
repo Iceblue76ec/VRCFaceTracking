@@ -550,4 +550,10 @@
   <data name="Mutation_Tongue_Out" xml:space="preserve"><value>吐舌</value></data>
   <data name="Main_InitializingModules" xml:space="preserve"><value>正在初始化模块...</value></data>
   <data name="Main_Loading" xml:space="preserve"><value>正在加载...</value></data>
+  <data name="Registry_Connecting" xml:space="preserve"><value>正在连接下载服务器（最多等待 30 秒）...</value></data>
+  <data name="Registry_DownloadSizeKnown" xml:space="preserve"><value>正在下载模块：{0:0.0} / {1:0.0} MB</value></data>
+  <data name="Registry_DownloadSizeUnknown" xml:space="preserve"><value>正在下载模块：{0:0.0} MB（服务器未提供总大小）</value></data>
+  <data name="Registry_HttpError" xml:space="preserve"><value>下载服务器返回 HTTP {0}。请检查模块链接或稍后重试。</value></data>
+  <data name="Registry_SslError" xml:space="preserve"><value>安全连接（SSL/TLS）建立失败。请检查网络或系统证书设置。详情：{0}</value></data>
+  <data name="Registry_NetworkError" xml:space="preserve"><value>无法连接下载服务器。请检查网络后重试。详情：{0}</value></data>
 </root>

@@ -452,4 +452,10 @@
   <data name="Mutation_Tongue_Out" xml:space="preserve"><value>舌を出す</value></data>
   <data name="Main_InitializingModules" xml:space="preserve"><value>モジュールを初期化しています...</value></data>
   <data name="Main_Loading" xml:space="preserve"><value>読み込み中...</value></data>
+  <data name="Registry_Connecting" xml:space="preserve"><value>ダウンロードサーバーに接続しています（最大 30 秒）...</value></data>
+  <data name="Registry_DownloadSizeKnown" xml:space="preserve"><value>モジュールをダウンロード中: {0:0.0} / {1:0.0} MB</value></data>
+  <data name="Registry_DownloadSizeUnknown" xml:space="preserve"><value>モジュールをダウンロード中: {0:0.0} MB（合計サイズ不明）</value></data>
+  <data name="Registry_HttpError" xml:space="preserve"><value>ダウンロードサーバーが HTTP {0} を返しました。モジュールのリンクを確認するか、後で再試行してください。</value></data>
+  <data name="Registry_SslError" xml:space="preserve"><value>安全な接続（SSL/TLS）を確立できませんでした。ネットワークまたはシステムの証明書設定を確認してください。詳細: {0}</value></data>
+  <data name="Registry_NetworkError" xml:space="preserve"><value>ダウンロードサーバーに接続できませんでした。ネットワークを確認して再試行してください。詳細: {0}</value></data>
 </root>

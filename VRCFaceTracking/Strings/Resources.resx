@@ -544,4 +544,10 @@
   <data name="Mutation_Tongue_Out" xml:space="preserve"><value>Tongue Out</value></data>
   <data name="Main_InitializingModules" xml:space="preserve"><value>Initializing modules...</value></data>
   <data name="Main_Loading" xml:space="preserve"><value>Loading...</value></data>
+  <data name="Registry_Connecting" xml:space="preserve"><value>Connecting to the download server (up to 30 seconds)...</value></data>
+  <data name="Registry_DownloadSizeKnown" xml:space="preserve"><value>Downloading module: {0:0.0} / {1:0.0} MB</value></data>
+  <data name="Registry_DownloadSizeUnknown" xml:space="preserve"><value>Downloading module: {0:0.0} MB (total size unavailable)</value></data>
+  <data name="Registry_HttpError" xml:space="preserve"><value>Download server returned HTTP {0}. Check the module link or try again later.</value></data>
+  <data name="Registry_SslError" xml:space="preserve"><value>Secure connection (SSL/TLS) failed. Check your network or system certificate settings. Details: {0}</value></data>
+  <data name="Registry_NetworkError" xml:space="preserve"><value>Could not connect to the download server. Check your network and try again. Details: {0}</value></data>
 </root>

@@ -426,4 +426,10 @@
   <data name="Mutation_Tongue_Out" xml:space="preserve"><value>Sacar la lengua</value></data>
   <data name="Main_InitializingModules" xml:space="preserve"><value>Inicializando módulos...</value></data>
   <data name="Main_Loading" xml:space="preserve"><value>Cargando...</value></data>
+  <data name="Registry_Connecting" xml:space="preserve"><value>Conectando con el servidor de descargas (hasta 30 segundos)...</value></data>
+  <data name="Registry_DownloadSizeKnown" xml:space="preserve"><value>Descargando módulo: {0:0.0} / {1:0.0} MB</value></data>
+  <data name="Registry_DownloadSizeUnknown" xml:space="preserve"><value>Descargando módulo: {0:0.0} MB (tamaño total no disponible)</value></data>
+  <data name="Registry_HttpError" xml:space="preserve"><value>El servidor de descargas devolvió HTTP {0}. Comprueba el enlace del módulo o inténtalo más tarde.</value></data>
+  <data name="Registry_SslError" xml:space="preserve"><value>No se pudo establecer la conexión segura (SSL/TLS). Comprueba la red o los certificados del sistema. Detalles: {0}</value></data>
+  <data name="Registry_NetworkError" xml:space="preserve"><value>No se pudo conectar con el servidor de descargas. Comprueba la red e inténtalo de nuevo. Detalles: {0}</value></data>
 </root>

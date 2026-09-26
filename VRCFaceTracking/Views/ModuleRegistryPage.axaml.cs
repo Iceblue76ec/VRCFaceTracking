@@ -1,3 +1,6 @@
+using System.Globalization;
+using System.Net.Http;
+using System.Security.Authentication;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -48,16 +51,25 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
         InstallButton.Content = AppStrings.Registry_Installing;
         InstallProgress.IsVisible = true;
         InstallProgress.IsIndeterminate = true;
+        InstallProgress.Value = 0;
         InstallStatusText.IsVisible = true;
         InstallStatusText.Text = AppStrings.Registry_Preparing;
 
+        var acceptProgress = true;
         try
         {
             var progress = new Progress<ModuleInstallProgress>(update =>
             {
+                if (!acceptProgress) return;
                 InstallStatusText.Text = update.Stage switch
                 {
-                    ModuleInstallStage.Downloading => AppStrings.Registry_Downloading,
+                    ModuleInstallStage.Connecting => AppStrings.Registry_Connecting,
+                    ModuleInstallStage.Downloading when update.TotalBytes is { } total => string.Format(
+                        CultureInfo.CurrentCulture, AppStrings.Registry_DownloadSizeKnown,
+                        update.BytesReceived / 1_000_000.0, total / 1_000_000.0),
+                    ModuleInstallStage.Downloading => string.Format(
+                        CultureInfo.CurrentCulture, AppStrings.Registry_DownloadSizeUnknown,
+                        update.BytesReceived / 1_000_000.0),
                     ModuleInstallStage.Extracting => AppStrings.Registry_Extracting,
                     ModuleInstallStage.Installing => AppStrings.Registry_Applying,
                     ModuleInstallStage.Installed => AppStrings.Registry_Installed,
@@ -74,12 +86,25 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
             InstallButton.Content = AppStrings.Registry_Installed;
             InstallButton.IsVisible = false;
             UninstallButton.IsVisible = true;
+            InstallProgress.IsIndeterminate = false;
+            InstallProgress.Value = 100;
             InstallStatusText.Text = AppStrings.Registry_Installed_Success;
         }
         catch (OperationCanceledException)
         {
             InstallButton.Content = AppStrings.Registry_Retry;
             InstallStatusText.Text = AppStrings.Registry_Timeout;
+            InstallProgress.IsVisible = false;
+        }
+        catch (HttpRequestException ex)
+        {
+            InstallButton.Content = AppStrings.Registry_Retry;
+            var reason = ex.StatusCode is { } statusCode
+                ? string.Format(CultureInfo.CurrentCulture, AppStrings.Registry_HttpError, (int)statusCode)
+                : IsSecureConnectionError(ex)
+                    ? string.Format(AppStrings.Registry_SslError, ex.GetBaseException().Message)
+                    : string.Format(AppStrings.Registry_NetworkError, ex.GetBaseException().Message);
+            InstallStatusText.Text = string.Format(AppStrings.Registry_Failure, reason);
             InstallProgress.IsVisible = false;
         }
         catch (Exception ex)
@@ -90,9 +115,22 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
         }
         finally
         {
+            acceptProgress = false;
             ModuleList.IsEnabled = true;
             InstallButton.IsEnabled = true;
         }
+    }
+
+    private static bool IsSecureConnectionError(Exception error)
+    {
+        if (error is AuthenticationException ||
+            error is HttpRequestException { HttpRequestError: HttpRequestError.SecureConnectionError })
+            return true;
+
+        if (error is AggregateException aggregate && aggregate.InnerExceptions.Any(IsSecureConnectionError))
+            return true;
+
+        return error.InnerException is { } inner && IsSecureConnectionError(inner);
     }
 
     private async void UninstallButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

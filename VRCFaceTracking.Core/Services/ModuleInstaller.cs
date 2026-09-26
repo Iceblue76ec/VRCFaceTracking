@@ -55,26 +55,50 @@ public class ModuleInstaller(ILogger<ModuleInstaller> logger, ILibManager libMan
         IProgress<ModuleInstallProgress>? progress, CancellationToken cancellationToken)
     {
         using var client = HappyEyeballsHttp.CreateHttpClient();
-        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeout.CancelAfter(TimeSpan.FromSeconds(30));
+        using var connectTimeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        connectTimeout.CancelAfter(TimeSpan.FromSeconds(30));
         using var response = await client.GetAsync(moduleMetadata.DownloadUrl,
-            HttpCompletionOption.ResponseHeadersRead, timeout.Token);
+            HttpCompletionOption.ResponseHeadersRead, connectTimeout.Token);
         response.EnsureSuccessStatusCode();
 
-        await using (var source = await response.Content.ReadAsStreamAsync(timeout.Token))
+        await using (var source = await response.Content.ReadAsStreamAsync(cancellationToken))
         await using (var destination = File.Create(filePath))
         {
             var buffer = new byte[81920];
             var total = response.Content.Headers.ContentLength;
             long received = 0;
-            int count;
-            while ((count = await source.ReadAsync(buffer.AsMemory(), timeout.Token)) != 0)
+            progress?.Report(new ModuleInstallProgress(ModuleInstallStage.Downloading, total > 0 ? 0 : null,
+                0, total > 0 ? total : null));
+            var reportInterval = System.Diagnostics.Stopwatch.StartNew();
+            while (true)
             {
-                await destination.WriteAsync(buffer.AsMemory(0, count), timeout.Token);
+                using var readTimeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                readTimeout.CancelAfter(TimeSpan.FromSeconds(30));
+                int count;
+                try
+                {
+                    count = await source.ReadAsync(buffer.AsMemory(), readTimeout.Token);
+                }
+                catch (IOException ex)
+                {
+                    throw new HttpRequestException("The connection was interrupted while downloading the module.", ex);
+                }
+                if (count == 0)
+                    break;
+                await destination.WriteAsync(buffer.AsMemory(0, count), cancellationToken);
                 received += count;
-                progress?.Report(new ModuleInstallProgress(ModuleInstallStage.Downloading,
-                    total > 0 ? received * 100.0 / total.Value : null));
+                if (reportInterval.ElapsedMilliseconds >= 100)
+                {
+                    progress?.Report(new ModuleInstallProgress(ModuleInstallStage.Downloading,
+                        total > 0 ? Math.Min(100, received * 100.0 / total.Value) : null,
+                        received, total > 0 ? total : null));
+                    reportInterval.Restart();
+                }
             }
+            if (total > 0 && received < total)
+                throw new HttpRequestException($"The download ended after {received} of {total} bytes.");
+            progress?.Report(new ModuleInstallProgress(ModuleInstallStage.Downloading,
+                total > 0 ? 100 : null, received, total > 0 ? total : null));
         }
 
         if (!string.IsNullOrEmpty(md5Hash))
@@ -224,7 +248,7 @@ public class ModuleInstaller(ILogger<ModuleInstaller> logger, ILibManager libMan
 
         try
         {
-            progress?.Report(new ModuleInstallProgress(ModuleInstallStage.Downloading));
+            progress?.Report(new ModuleInstallProgress(ModuleInstallStage.Connecting));
             if (!string.Equals(Path.GetExtension(moduleMetadata.DownloadUrl), ".dll", StringComparison.OrdinalIgnoreCase))
             {
                 var archivePath = Path.Combine(tempDirectory, "module.zip");
