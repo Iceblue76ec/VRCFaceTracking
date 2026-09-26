@@ -25,9 +25,10 @@ public class ModuleDataService : IModuleDataService
         _logger = logger;
         _httpClient = HappyEyeballsHttp.CreateHttpClient();
         _httpClient.BaseAddress = new Uri(BaseUrl);
+        _httpClient.Timeout = TimeSpan.FromSeconds(8);
     }
 
-    private async Task<IEnumerable<InstallableTrackingModule>> AllModules()
+    private async Task<IEnumerable<InstallableTrackingModule>?> AllModules()
     {
         try
         {
@@ -35,7 +36,7 @@ public class ModuleDataService : IModuleDataService
             var response = await _httpClient.GetAsync("modules");
             if (!response.IsSuccessStatusCode)
             {
-                return new List<InstallableTrackingModule>();
+                return null;
             }
             
             var content = await response.Content.ReadAsStringAsync();
@@ -44,15 +45,16 @@ public class ModuleDataService : IModuleDataService
         catch (Exception e)
         {
             _logger.LogWarning("Exception trying to get modules from module registry: {e}", e.Message);
-            return new List<InstallableTrackingModule>();
+            return null;
         }
     }
 
     public async Task<IEnumerable<InstallableTrackingModule>> GetRemoteModules()
     {
-        _remoteModules ??= new List<InstallableTrackingModule>(await AllModules());
-        
-        return new List<InstallableTrackingModule>(_remoteModules);
+        if (_remoteModules == null && await AllModules() is { } modules)
+            _remoteModules = new List<InstallableTrackingModule>(modules);
+
+        return new List<InstallableTrackingModule>(_remoteModules ?? []);
     }
 
     public async Task IncrementDownloadsAsync(TrackingModuleMetadata moduleMetadata)

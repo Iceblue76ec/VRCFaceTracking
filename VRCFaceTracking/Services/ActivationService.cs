@@ -62,33 +62,52 @@ public class ActivationService(
 
         logger.LogInformation("Checking for updates for installed modules...");
         var localModules = moduleDataService.GetInstalledModules().Where(m => m.ModuleId != Guid.Empty);
-        var remoteModules = await moduleDataService.GetRemoteModules();
-        var outdatedModules = remoteModules.Where(rm => localModules.Any(lm =>
+        try
         {
-            if (rm.ModuleId != lm.ModuleId || lm.IsLocal) 
-                return false;
-            
-            try
+            var remoteModules = await moduleDataService.GetRemoteModules();
+            var outdatedModules = remoteModules.Where(rm => localModules.Any(lm =>
             {
-                var remoteVersion = new Version(rm.Version);
-                var localVersion = new Version(lm.Version);
+                if (rm.ModuleId != lm.ModuleId || lm.IsLocal)
+                    return false;
 
-                return remoteVersion.CompareTo(localVersion) > 0;
-            }
-            catch
+                try
+                {
+                    return new Version(rm.Version).CompareTo(new Version(lm.Version)) > 0;
+                }
+                catch
+                {
+                    return string.CompareOrdinal(rm.Version, lm.Version) > 0;
+                }
+            }));
+
+            using var updateBudget = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+            foreach (var outdatedModule in outdatedModules)
             {
-                // Fall back to just string matching
-                return string.CompareOrdinal(rm.Version, lm.Version) > 0;
+                try
+                {
+                    logger.LogInformation("Updating {module} to {version}", outdatedModule.ModuleName, outdatedModule.Version);
+                    await moduleInstaller.InstallRemoteModule(outdatedModule, cancellationToken: updateBudget.Token);
+                }
+                catch (OperationCanceledException) when (updateBudget.IsCancellationRequested)
+                {
+                    logger.LogWarning("Module update time budget expired; loading installed modules");
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    logger.LogWarning(ex, "Skipping update for {module}; installed version remains available", outdatedModule.ModuleName);
+                }
             }
-        }));
-        foreach (var outdatedModule in outdatedModules)
-        {
-            logger.LogInformation($"Updating {outdatedModule.ModuleName} from {localModules.First(rm => rm.ModuleId == outdatedModule.ModuleId).Version} to {outdatedModule.Version}");
-            await moduleInstaller.InstallRemoteModule(outdatedModule);
         }
-        
-        logger.LogInformation("Initializing modules...");
-        Dispatcher.UIThread.Post(async () => await libManager.Initialize());
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Module update check failed; loading installed modules");
+        }
+        finally
+        {
+            logger.LogInformation("Initializing modules...");
+            Dispatcher.UIThread.Post(async () => await libManager.Initialize());
+        }
         
         await Task.CompletedTask;
     }
