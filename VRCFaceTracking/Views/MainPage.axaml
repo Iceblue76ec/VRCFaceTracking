@@ -95,11 +95,8 @@
                                    TextAlignment="Center" TextWrapping="Wrap" />
                     </StackPanel>
 
-                    <Grid Grid.Column="1" ColumnDefinitions="*,Auto" VerticalAlignment="Center" Opacity="0.65">
-                        <Border Grid.Column="0" Height="1" VerticalAlignment="Center"
-                                Background="#808080" />
-                        <TextBlock Grid.Column="1" Text="→" FontSize="18" VerticalAlignment="Center" />
-                    </Grid>
+                    <Border Grid.Column="1" Height="1" VerticalAlignment="Center" Opacity="0.65"
+                            Background="#808080" />
 
                     <StackPanel Grid.Column="2" Width="140" HorizontalAlignment="Center"
                                 VerticalAlignment="Center" Spacing="4">
@@ -114,17 +111,21 @@
                             Background="{DynamicResource ControlFillColorSecondaryBrush}"
                             VerticalAlignment="Center">
                         <Grid ColumnDefinitions="Auto,Auto,*,Auto" RowDefinitions="Auto,Auto"
-                              ColumnSpacing="6" RowSpacing="6">
+                              ColumnSpacing="6" RowSpacing="6" VerticalAlignment="Center">
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="←" FontSize="15"
                                        VerticalAlignment="Center" />
                             <TextBlock Grid.Row="0" Grid.Column="1" FontSize="11"
                                        Text="{x:Static s:Resources.Main_Receive_Label}"
                                        VerticalAlignment="Center"
                                        ToolTip.Tip="{x:Static s:Resources.Main_Receive_Tooltip}" />
-                            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" Spacing="3">
-                                <TextBlock Text="{Binding OscTarget.InPort, Mode=OneWay, StringFormat=':{0}'}" FontSize="11" />
+                            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" Spacing="0"
+                                        VerticalAlignment="Center">
+                                <TextBlock Text="127.0.0.1" FontSize="11" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding OscTarget.EffectiveInPort, Mode=OneWay, StringFormat=':{0}'}"
+                                           FontSize="11" VerticalAlignment="Center" />
                                 <TextBlock Text="{x:Static s:Resources.Main_Receive_Disconnected}" FontSize="11"
-                                           Opacity="0.6" IsVisible="{Binding !OscTarget.IsConnected}" />
+                                           VerticalAlignment="Center" Opacity="0.6"
+                                           IsVisible="{Binding !OscTarget.IsReceiving}" />
                             </StackPanel>
                             <TextBlock Grid.Row="0" Grid.Column="3" FontSize="11"
                                        Text="{Binding MessagesInPerSec, Mode=OneWay, StringFormat='{}{0}/s'}" />
@@ -135,11 +136,13 @@
                                        Text="{x:Static s:Resources.Main_Send_Label}"
                                        VerticalAlignment="Center" />
                             <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" Spacing="0"
+                                        VerticalAlignment="Center"
                                         ToolTip.Tip="{Binding OscTarget.DestinationAddress, Mode=OneWay}">
                                 <TextBlock Text="{Binding OscTarget.DestinationAddress, Mode=OneWay}"
-                                           FontSize="11" MaxWidth="95" TextTrimming="CharacterEllipsis" />
+                                           FontSize="11" VerticalAlignment="Center" MaxWidth="95"
+                                           TextTrimming="CharacterEllipsis" />
                                 <TextBlock Text="{Binding OscTarget.OutPort, Mode=OneWay, StringFormat=':{0}'}"
-                                           FontSize="11" />
+                                           FontSize="11" VerticalAlignment="Center" />
                             </StackPanel>
                             <TextBlock Grid.Row="1" Grid.Column="3" FontSize="11"
                                        Text="{Binding MessagesOutPerSec, Mode=OneWay, StringFormat='{}{0}/s'}" />

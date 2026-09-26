@@ -37,7 +37,7 @@ public class OscRecvService : BackgroundService
 
         _oscTarget.PropertyChanged += (_, args) =>
         {
-            if (args.PropertyName == nameof(_oscTarget.IsConnected))
+            if (args.PropertyName is not (nameof(IOscTarget.InPort) or nameof(IOscTarget.DestinationAddress)))
                 return;
             
             var validationResults = new List<ValidationResult>();
@@ -76,14 +76,16 @@ public class OscRecvService : BackgroundService
         _logger.LogInformation($"Updating osc recv target to {endpoint}");
         _cts.Cancel();
         _recvSocket?.Close();
-        _oscTarget.IsConnected = false;
+        _oscTarget.BoundInPort = null;
+        _oscTarget.IsReceiving = false;
 
         _recvSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
         try
         {
             _recvSocket.Bind(endpoint);
-            _oscTarget.IsConnected = true;
+            _oscTarget.BoundInPort = ((IPEndPoint)_recvSocket.LocalEndPoint).Port;
+            _oscTarget.IsReceiving = true;
             _logger.LogInformation($"Successfully connected to remote endpoint at {_recvSocket.LocalEndPoint}");
             return (IPEndPoint)_recvSocket.LocalEndPoint;
         }

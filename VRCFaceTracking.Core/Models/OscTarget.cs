@@ -9,11 +9,19 @@ namespace VRCFaceTracking.Core.Models;
 public partial class OscTarget : ObservableValidator, IOscTarget
 {
     [ObservableProperty] private bool _isConnected;
+    [ObservableProperty] private bool _isReceiving;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(EffectiveInPort))]
     [Range(1, 25535)]
     [property: SavedSetting("OSCInPort", 9001)]
     private int _inPort;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(EffectiveInPort))]
+    private int? _boundInPort;
+
+    public int EffectiveInPort => BoundInPort ?? InPort;
 
     [ObservableProperty]
     [Range(1, 25535)]

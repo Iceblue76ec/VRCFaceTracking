@@ -15,6 +15,18 @@ public interface IOscTarget : INotifyPropertyChanged
         get;
         set;
     }
+
+    public int? BoundInPort
+    {
+        get;
+        set;
+    }
+
+    public bool IsReceiving
+    {
+        get;
+        set;
+    }
     
     public int OutPort
     {
