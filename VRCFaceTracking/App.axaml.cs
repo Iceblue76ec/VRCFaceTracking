@@ -18,6 +18,8 @@ namespace VRCFaceTracking
 
         public static MainWindow? MainWindow { get; private set; }
         private IHost? _host;
+        private bool _shutdownStarted;
+        private bool _shutdownComplete;
 
         public override void Initialize()
         {
@@ -59,13 +61,17 @@ namespace VRCFaceTracking
             {
                 MainWindow = new MainWindow();
                 desktop.MainWindow = MainWindow;
-                desktop.Exit += (_, _) =>
+                desktop.ShutdownRequested += (_, args) =>
                 {
-                    Task.Run(async () =>
-                    {
-                        await Ioc.Default.GetRequiredService<IMainService>().Teardown();
-                        await _host.StopAsync();
-                    }).GetAwaiter().GetResult();
+                    if (_shutdownComplete) return;
+                    args.Cancel = true;
+                    _ = ShutdownAsync(desktop);
+                };
+                MainWindow.Closing += (_, args) =>
+                {
+                    if (_shutdownComplete) return;
+                    args.Cancel = true;
+                    _ = ShutdownAsync(desktop);
                 };
             }
 
@@ -78,6 +84,38 @@ namespace VRCFaceTracking
             Ioc.Default.GetRequiredService<IActivationService>().ActivateAsync(null);
 
             base.OnFrameworkInitializationCompleted();
+        }
+
+        private async Task ShutdownAsync(IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            if (_shutdownStarted) return;
+            _shutdownStarted = true;
+            MainWindow?.Hide();
+
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    try
+                    {
+                        await Ioc.Default.GetRequiredService<IMainService>().Teardown();
+                    }
+                    finally
+                    {
+                        if (_host != null)
+                            await _host.StopAsync();
+                    }
+                }).WaitAsync(TimeSpan.FromSeconds(15));
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogWarning(ex, "Shutdown cleanup did not finish within 15 seconds");
+            }
+            finally
+            {
+                _shutdownComplete = true;
+                desktop.Shutdown();
+            }
         }
 
         private void HandleResetFile()
