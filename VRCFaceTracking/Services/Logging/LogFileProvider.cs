@@ -19,8 +19,7 @@ public class LogFileProvider : ILoggerProvider
 
             var logPath = Path.Combine(Core.Utils.UserAccessibleDataDirectory, "latest.log");
 
-            var file = new FileStream(logPath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite, 4096,
-                FileOptions.WriteThrough);
+            var file = new FileStream(logPath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite, 4096);
             _writer = new StreamWriter(file);
         }
         catch

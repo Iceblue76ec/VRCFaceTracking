@@ -7,6 +7,7 @@ public class LogFileLogger : ILogger
     private readonly string _categoryName;
     private readonly StreamWriter _file;
     private static readonly Mutex Mutex = new ();
+    private const long MaxLogFileSize = 10 * 1024 * 1024;
 
     public LogFileLogger(string categoryName, StreamWriter file)
     {
@@ -38,6 +39,14 @@ public class LogFileLogger : ILogger
                 _file.Write($"[{_categoryName}] {logLevel}: {formatter(state, exception)}\n");
             }
             _file.Flush();
+
+            // Keep latest.log bounded so a long-running session cannot leave
+            // an ever-growing file for the next startup to truncate.
+            if (_file.BaseStream.Length > MaxLogFileSize)
+            {
+                _file.BaseStream.SetLength(0);
+                _file.BaseStream.Position = 0;
+            }
         }
         catch
         {
