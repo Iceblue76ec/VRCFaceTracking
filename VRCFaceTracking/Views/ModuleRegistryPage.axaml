@@ -47,6 +47,7 @@
 
             <Border Grid.Row="1" CornerRadius="6" BorderThickness="1" Background="{DynamicResource ControlFillColorDefaultBrush}">
                 <ListBox
+                    x:Name="ModuleList"
                     ItemsSource="{Binding FilteredModuleInfos, Mode=OneWay}"
                     SelectedItem="{Binding Selected}"
                     SelectionChanged="ModuleSelection_Click"
@@ -112,6 +113,10 @@
                                 Click="UninstallButton_Click"
                                 Content="Uninstall" />
                         </StackPanel>
+
+                        <ProgressBar x:Name="InstallProgress" Minimum="0" Maximum="100"
+                                     IsVisible="False" IsIndeterminate="True" />
+                        <TextBlock x:Name="InstallStatusText" IsVisible="False" TextWrapping="Wrap" />
 
                         <Separator />
 

@@ -43,16 +43,47 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
     {
         if (ViewModel.Selected is not InstallTrackedTrackingModule module) return;
         InstallButton.IsEnabled = false;
+        ModuleList.IsEnabled = false;
         InstallButton.Content = "Installing...";
+        InstallProgress.IsVisible = true;
+        InstallProgress.IsIndeterminate = true;
+        InstallStatusText.IsVisible = true;
+        InstallStatusText.Text = "Preparing download...";
 
         try
         {
-            await _moduleInstaller.InstallRemoteModule(module.TrackingModuleMetadata);
+            var progress = new Progress<ModuleInstallProgress>(update =>
+            {
+                InstallStatusText.Text = update.Status;
+                InstallProgress.IsIndeterminate = update.Percent is null;
+                if (update.Percent is { } percent)
+                    InstallProgress.Value = percent;
+            });
+            var installedPath = await _moduleInstaller.InstallRemoteModule(module.TrackingModuleMetadata, progress);
+            if (installedPath == null)
+                throw new InvalidDataException("The module package could not be installed.");
             module.InstallationState = InstallState.Installed;
+            InstallButton.Content = "Installed.";
+            InstallButton.IsVisible = false;
+            UninstallButton.IsVisible = true;
+            InstallStatusText.Text = "Installed successfully.";
+        }
+        catch (OperationCanceledException)
+        {
+            InstallButton.Content = "Retry install";
+            InstallStatusText.Text = "Download timed out. Check the network connection and retry.";
+            InstallProgress.IsVisible = false;
+        }
+        catch (Exception ex)
+        {
+            InstallButton.Content = "Retry install";
+            InstallStatusText.Text = $"Installation failed: {ex.Message}";
+            InstallProgress.IsVisible = false;
         }
         finally
         {
-            InstallButton.Content = "Installed.";
+            ModuleList.IsEnabled = true;
+            InstallButton.IsEnabled = true;
         }
     }
 
