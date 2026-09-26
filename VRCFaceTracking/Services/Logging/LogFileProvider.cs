@@ -8,7 +8,7 @@ namespace VRCFaceTracking.Services.Logging;
 [ProviderAlias("Debug")]
 public class LogFileProvider : ILoggerProvider
 {
-    private readonly StreamWriter? _writer;
+    private readonly LogFileWriter? _writer;
     
     public LogFileProvider()
     {
@@ -20,7 +20,7 @@ public class LogFileProvider : ILoggerProvider
             var logPath = Path.Combine(Core.Utils.UserAccessibleDataDirectory, "latest.log");
 
             var file = new FileStream(logPath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite, 4096);
-            _writer = new StreamWriter(file);
+            _writer = new LogFileWriter(new StreamWriter(file));
         }
         catch
         {
@@ -41,5 +41,9 @@ public class LogFileProvider : ILoggerProvider
         return NullLogger.Instance;
     }
 
-    public void Dispose() => _loggers.Clear();
+    public void Dispose()
+    {
+        _writer?.Dispose();
+        _loggers.Clear();
+    }
 }
