@@ -228,10 +228,10 @@
     <value>Śledzenie twarzy aktywne</value>
   </data>
   <data name="EyeTrackingInactive_Text" xml:space="preserve">
-    <value>Eye Tracking Inactive</value>
+    <value>Śledzenie oczu nieaktywne</value>
   </data>
   <data name="FaceTrackingInactive_Text" xml:space="preserve">
-    <value>Face Tracking Inactive</value>
+    <value>Śledzenie twarzy nieaktywne</value>
   </data>
   <data name="BugRequestCard_Header" xml:space="preserve">
     <value>Zgłoś błąd</value>
@@ -390,4 +390,29 @@
   <data name="HardwareDebug_Description" xml:space="preserve">
     <value>Po prostu pooglądaj sobie swój język</value>
   </data>
+  <data name="Main_Modules_Header" xml:space="preserve"><value>Moduły</value></data>
+  <data name="Main_Receive_Disconnected" xml:space="preserve"><value>Brak nasłuchiwania</value></data>
+  <data name="Main_Receive_Label" xml:space="preserve"><value>Odbieranie</value></data>
+  <data name="Main_Receive_Tooltip" xml:space="preserve"><value>OSC odbierane z VRChat na lokalnym porcie nasłuchiwania</value></data>
+  <data name="Main_Relay_Tooltip" xml:space="preserve"><value>Przekazywanie OSC przez VRCFaceTracking</value></data>
+  <data name="Main_Send_Label" xml:space="preserve"><value>Wysyłanie</value></data>
+  <data name="Main_Status_Header" xml:space="preserve"><value>Stan</value></data>
+  <data name="Main_TrackingModule_Label" xml:space="preserve"><value>Moduł śledzenia</value></data>
+  <data name="Main_TrackingModule_Tooltip" xml:space="preserve"><value>Dane wejściowe z modułu śledzenia twarzy</value></data>
+  <data name="Main_VRChat_Tooltip" xml:space="preserve"><value>Awatar w VRChat</value></data>
+  <data name="PrivacyPolicyCard_Header" xml:space="preserve"><value>Polityka prywatności</value></data>
+  <data name="Registry_Applying" xml:space="preserve"><value>Instalowanie modułu...</value></data>
+  <data name="Registry_Downloading" xml:space="preserve"><value>Pobieranie modułu...</value></data>
+  <data name="Registry_Extracting" xml:space="preserve"><value>Rozpakowywanie modułu...</value></data>
+  <data name="Registry_Failure" xml:space="preserve"><value>Instalacja nie powiodła się: {0}</value></data>
+  <data name="Registry_Install" xml:space="preserve"><value>Zainstaluj</value></data>
+  <data name="Registry_Installed" xml:space="preserve"><value>Zainstalowano</value></data>
+  <data name="Registry_Installed_Success" xml:space="preserve"><value>Zainstalowano pomyślnie.</value></data>
+  <data name="Registry_Installing" xml:space="preserve"><value>Instalowanie...</value></data>
+  <data name="Registry_Package_Invalid" xml:space="preserve"><value>Nie można zainstalować pakietu modułu.</value></data>
+  <data name="Registry_Preparing" xml:space="preserve"><value>Przygotowywanie pobierania...</value></data>
+  <data name="Registry_Retry" xml:space="preserve"><value>Ponów instalację</value></data>
+  <data name="Registry_Timeout" xml:space="preserve"><value>Przekroczono czas pobierania. Sprawdź połączenie z siecią i spróbuj ponownie.</value></data>
+  <data name="Registry_Uninstall" xml:space="preserve"><value>Odinstaluj</value></data>
+  <data name="Shell_TrackingSettings_Content" xml:space="preserve"><value>Ustawienia śledzenia</value></data>
 </root>

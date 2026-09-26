@@ -219,10 +219,10 @@
     <value>Seguimiento facial activo</value>
   </data>
   <data name="EyeTrackingInactive_Text" xml:space="preserve">
-    <value>Eye Tracking Inactive</value>
+    <value>Seguimiento ocular inactivo</value>
   </data>
   <data name="FaceTrackingInactive_Text" xml:space="preserve">
-    <value>Face Tracking Inactive</value>
+    <value>Seguimiento facial inactivo</value>
   </data>
   <data name="BugRequestCard_Header" xml:space="preserve">
     <value>Registrar un error o solicitar una nueva muestra</value>
@@ -284,4 +284,66 @@
   <data name="Shell_TrackingSettings_Content" xml:space="preserve">
     <value>Configuración de Seguimiento</value>
   </data>
+  <data name="AutoStartSettings_Description" xml:space="preserve"><value>Inicia la aplicación automáticamente al abrir SteamVR</value></data>
+  <data name="AutoStartSettings_Header" xml:space="preserve"><value>Inicio automático</value></data>
+  <data name="CalibrateButton_Content" xml:space="preserve"><value>Calibrar</value></data>
+  <data name="CalibrationEnabledToggle_Description" xml:space="preserve"><value>Activa o desactiva la calibración</value></data>
+  <data name="CalibrationEnabledToggle_Header" xml:space="preserve"><value>Calibración activada</value></data>
+  <data name="CalibrationInfluenceSlider_Description" xml:space="preserve"><value>Controla cuánto influyen tus expresiones faciales en la calibración con el tiempo</value></data>
+  <data name="CalibrationInfluenceSlider_Header" xml:space="preserve"><value>Influencia en la calibración</value></data>
+  <data name="CalibrationSettings_Description" xml:space="preserve"><value>Ajusta los datos de seguimiento a tu gusto</value></data>
+  <data name="CalibrationSettings_Header" xml:space="preserve"><value>Configuración de calibración</value></data>
+  <data name="ContCalibrationToggle_Description" xml:space="preserve"><value>Calibra gradualmente según tus expresiones faciales</value></data>
+  <data name="ContCalibrationToggle_Header" xml:space="preserve"><value>Calibración continua</value></data>
+  <data name="Credits_Description" xml:space="preserve"><value>Las personas que hicieron posible todo esto &lt;3</value></data>
+  <data name="ForceReInitButton_Description" xml:space="preserve"><value>Fuerza a VRCFT a descargar y reinicializar todos los módulos</value></data>
+  <data name="ForceReInitButton_Header" xml:space="preserve"><value>Forzar reinicialización</value></data>
+  <data name="ForceRelevancyToggle_Description" xml:space="preserve"><value>Fuerza el envío de todos los parámetros en cada fotograma</value></data>
+  <data name="ForceRelevancyToggle_Header" xml:space="preserve"><value>Forzar envío de parámetros</value></data>
+  <data name="HardwareDebug_Description" xml:space="preserve"><value>Comprueba el movimiento de la lengua</value></data>
+  <data name="HardwareDebug_Header" xml:space="preserve"><value>Depuración de hardware</value></data>
+  <data name="LocalTestAvatar_Text" xml:space="preserve"><value>Se detectó un avatar de prueba local</value></data>
+  <data name="LocalTestAvatarTooltip_Content" xml:space="preserve"><value>Los avatares de prueba locales no son compatibles y pueden causar problemas</value></data>
+  <data name="Main_Modules_Header" xml:space="preserve"><value>Módulos</value></data>
+  <data name="Main_Receive_Disconnected" xml:space="preserve"><value>Sin escuchar</value></data>
+  <data name="Main_Receive_Label" xml:space="preserve"><value>Recibir</value></data>
+  <data name="Main_Receive_Tooltip" xml:space="preserve"><value>OSC recibido de VRChat en el puerto local de escucha</value></data>
+  <data name="Main_Relay_Tooltip" xml:space="preserve"><value>Retransmisión OSC de VRCFaceTracking</value></data>
+  <data name="Main_Send_Label" xml:space="preserve"><value>Enviar</value></data>
+  <data name="Main_Status_Header" xml:space="preserve"><value>Estado</value></data>
+  <data name="Main_TrackingModule_Label" xml:space="preserve"><value>Módulo de seguimiento</value></data>
+  <data name="Main_TrackingModule_Tooltip" xml:space="preserve"><value>Entrada del módulo de seguimiento facial</value></data>
+  <data name="Main_VRChat_Tooltip" xml:space="preserve"><value>Avatar de VRChat</value></data>
+  <data name="no_modules_installed_warning_ButtonText" xml:space="preserve"><value>¡Instala módulos aquí!</value></data>
+  <data name="no_modules_installed_warning_Description" xml:space="preserve"><value>Parece que no tienes ningún módulo instalado.</value></data>
+  <data name="no_modules_installed_warning_Title" xml:space="preserve"><value>No hay módulos instalados</value></data>
+  <data name="OpenLocalStorageCard_Header" xml:space="preserve"><value>Abrir almacenamiento local</value></data>
+  <data name="osc_was_disabled_warning_Description" xml:space="preserve"><value>OSC estaba desactivado en VRChat y lo hemos activado. Si el juego estaba abierto, es posible que debas activarlo manualmente desde el menú radial.</value></data>
+  <data name="osc_was_disabled_warning_Title" xml:space="preserve"><value>Se modificó la configuración de OSC</value></data>
+  <data name="OscSettings_Header" xml:space="preserve"><value>Dirección OSC</value></data>
+  <data name="PrivacyPolicyCard_Header" xml:space="preserve"><value>Política de privacidad</value></data>
+  <data name="Registry_Applying" xml:space="preserve"><value>Instalando el módulo...</value></data>
+  <data name="Registry_Downloading" xml:space="preserve"><value>Descargando el módulo...</value></data>
+  <data name="Registry_Extracting" xml:space="preserve"><value>Extrayendo el módulo...</value></data>
+  <data name="Registry_Failure" xml:space="preserve"><value>Error de instalación: {0}</value></data>
+  <data name="Registry_Install" xml:space="preserve"><value>Instalar</value></data>
+  <data name="Registry_Installed" xml:space="preserve"><value>Instalado</value></data>
+  <data name="Registry_Installed_Success" xml:space="preserve"><value>Instalación completada.</value></data>
+  <data name="Registry_Installing" xml:space="preserve"><value>Instalando...</value></data>
+  <data name="Registry_Package_Invalid" xml:space="preserve"><value>No se pudo instalar el paquete del módulo.</value></data>
+  <data name="Registry_Preparing" xml:space="preserve"><value>Preparando la descarga...</value></data>
+  <data name="Registry_Retry" xml:space="preserve"><value>Reintentar la instalación</value></data>
+  <data name="Registry_Timeout" xml:space="preserve"><value>Se agotó el tiempo de descarga. Comprueba la conexión de red y vuelve a intentarlo.</value></data>
+  <data name="Registry_Uninstall" xml:space="preserve"><value>Desinstalar</value></data>
+  <data name="ReInitButton_Content" xml:space="preserve"><value>Reinicializar</value></data>
+  <data name="ResetAvatarConfButton_Description" xml:space="preserve"><value>Restablece todos los datos de configuración OSC de VRChat (se regenerarán al volver a cargar el avatar)</value></data>
+  <data name="ResetAvatarConfButton_Header" xml:space="preserve"><value>Restablecer configuración de VRChat</value></data>
+  <data name="ResetButton_Content" xml:space="preserve"><value>Restablecer</value></data>
+  <data name="ResetVRCFTButton_Description" xml:space="preserve"><value>Restablece todos los datos que VRCFT guarda en la carpeta AppData</value></data>
+  <data name="ResetVRCFTButton_Header" xml:space="preserve"><value>Restablecer VRCFT</value></data>
+  <data name="RiskySettings_Description" xml:space="preserve"><value>Estos ajustes pueden afectar al funcionamiento de la aplicación</value></data>
+  <data name="RiskySettings_Header" xml:space="preserve"><value>Ajustes avanzados</value></data>
+  <data name="ThemeSettings_Header" xml:space="preserve"><value>Tema de la aplicación</value></data>
+  <data name="TrackingCalibrateButton_Description" xml:space="preserve"><value>Aumenta temporalmente la influencia de tus expresiones en la calibración</value></data>
+  <data name="TrackingCalibrateButton_Header" xml:space="preserve"><value>Calibrar</value></data>
 </root>

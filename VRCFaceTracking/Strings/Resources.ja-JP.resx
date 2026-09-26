@@ -186,7 +186,7 @@
     <value>モジュール管理</value>
   </data>
   <data name="About_Text" xml:space="preserve">
-    <value>About</value>
+    <value>このアプリについて</value>
   </data>
   <data name="Appearance_Text" xml:space="preserve">
     <value>アプリケーションライセンス</value>
@@ -198,13 +198,13 @@
     <value>アバターステータス</value>
   </data>
   <data name="LocalTestAvatar_Text" xml:space="preserve">
-    <value>Local Test Avatar Detected</value>
+    <value>ローカルのテスト用アバターを検出しました</value>
   </data>
   <data name="LocalTestAvatarTooltip_Content" xml:space="preserve">
-    <value>Local Test Avatars are not supported and will cause issues</value>
+    <value>ローカルのテスト用アバターはサポートされておらず、問題が発生する可能性があります</value>
   </data>
   <data name="Copyright_Description" xml:space="preserve">
-    <value>© 2023 VRCFaceTracking. All rights reserved.</value>
+    <value>© 2023 VRCFaceTracking. 無断転載を禁じます。</value>
   </data>
   <data name="Credits_Description" xml:space="preserve">
     <value>ソフトウエアに貢献してくれた方々</value>
@@ -216,7 +216,7 @@
     <value>概要</value>
   </data>
   <data name="Disclaimer_Header" xml:space="preserve">
-    <value>THIS CODE AND INFORMATION IS PROVIDED ‘AS IS’ WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.</value>
+    <value>このコードおよび情報は「現状のまま」提供され、商品性および特定目的への適合性に関する黙示の保証を含め、明示または黙示を問わず、いかなる保証もありません。</value>
   </data>
   <data name="Downloads_Text" xml:space="preserve">
     <value>ダウンロード数</value>
@@ -228,10 +228,10 @@
     <value>フェイストラッキング　アクティブ</value>
   </data>
   <data name="EyeTrackingInactive_Text" xml:space="preserve">
-    <value>Eye Tracking Inactive</value>
+    <value>アイトラッキングは無効です</value>
   </data>
   <data name="FaceTrackingInactive_Text" xml:space="preserve">
-    <value>Face Tracking Inactive</value>
+    <value>フェイストラッキングは無効です</value>
   </data>
   <data name="BugRequestCard_Header" xml:space="preserve">
     <value>バグレポートを提出する</value>
@@ -240,7 +240,7 @@
     <value>最終更新</value>
   </data>
   <data name="LegacyParameters_Text" xml:space="preserve">
-    <value>Legacy Parameters</value>
+    <value>従来のパラメーター</value>
   </data>
   <data name="Listening_on_Port_Text" xml:space="preserve">
     <value>受信ポート:</value>
@@ -326,4 +326,50 @@
   <data name="AutoStartSettings_Description" xml:space="preserve">
     <value>SteamVRの起動時に自動で起動します</value>
   </data>
+  <data name="CalibrateButton_Content" xml:space="preserve"><value>キャリブレーション</value></data>
+  <data name="CalibrationEnabledToggle_Description" xml:space="preserve"><value>キャリブレーションの有効・無効を切り替えます</value></data>
+  <data name="CalibrationEnabledToggle_Header" xml:space="preserve"><value>キャリブレーションを有効にする</value></data>
+  <data name="CalibrationInfluenceSlider_Description" xml:space="preserve"><value>表情が時間経過に伴うキャリブレーションに与える影響を調整します</value></data>
+  <data name="CalibrationInfluenceSlider_Header" xml:space="preserve"><value>キャリブレーションへの影響度</value></data>
+  <data name="ContCalibrationToggle_Description" xml:space="preserve"><value>表情に合わせて時間をかけてキャリブレーションします</value></data>
+  <data name="ContCalibrationToggle_Header" xml:space="preserve"><value>継続的なキャリブレーション</value></data>
+  <data name="ForceReInitButton_Description" xml:space="preserve"><value>すべてのモジュールをアンロードして再初期化します</value></data>
+  <data name="ForceReInitButton_Header" xml:space="preserve"><value>再初期化を強制</value></data>
+  <data name="ForceRelevancyToggle_Description" xml:space="preserve"><value>すべてのパラメーターを毎フレーム送信するようにします</value></data>
+  <data name="ForceRelevancyToggle_Header" xml:space="preserve"><value>すべてのパラメーターを送信</value></data>
+  <data name="HardwareDebug_Description" xml:space="preserve"><value>舌の動きを確認できます</value></data>
+  <data name="HardwareDebug_Header" xml:space="preserve"><value>ハードウェアのデバッグ</value></data>
+  <data name="Main_Modules_Header" xml:space="preserve"><value>モジュール</value></data>
+  <data name="Main_Receive_Disconnected" xml:space="preserve"><value>受信していません</value></data>
+  <data name="Main_Receive_Label" xml:space="preserve"><value>受信</value></data>
+  <data name="Main_Receive_Tooltip" xml:space="preserve"><value>ローカルの待受ポートで VRChat から受信した OSC</value></data>
+  <data name="Main_Relay_Tooltip" xml:space="preserve"><value>VRCFaceTracking の OSC 中継</value></data>
+  <data name="Main_Send_Label" xml:space="preserve"><value>送信</value></data>
+  <data name="Main_Status_Header" xml:space="preserve"><value>状態</value></data>
+  <data name="Main_TrackingModule_Label" xml:space="preserve"><value>トラッキングモジュール</value></data>
+  <data name="Main_TrackingModule_Tooltip" xml:space="preserve"><value>フェイストラッキングモジュールからの入力</value></data>
+  <data name="Main_VRChat_Tooltip" xml:space="preserve"><value>VRChat のアバター</value></data>
+  <data name="PrivacyPolicyCard_Header" xml:space="preserve"><value>プライバシーポリシー</value></data>
+  <data name="Registry_Applying" xml:space="preserve"><value>モジュールをインストールしています...</value></data>
+  <data name="Registry_Downloading" xml:space="preserve"><value>モジュールをダウンロードしています...</value></data>
+  <data name="Registry_Extracting" xml:space="preserve"><value>モジュールを展開しています...</value></data>
+  <data name="Registry_Failure" xml:space="preserve"><value>インストールに失敗しました: {0}</value></data>
+  <data name="Registry_Install" xml:space="preserve"><value>インストール</value></data>
+  <data name="Registry_Installed" xml:space="preserve"><value>インストール済み</value></data>
+  <data name="Registry_Installed_Success" xml:space="preserve"><value>インストールが完了しました。</value></data>
+  <data name="Registry_Installing" xml:space="preserve"><value>インストール中...</value></data>
+  <data name="Registry_Package_Invalid" xml:space="preserve"><value>モジュールのパッケージをインストールできませんでした。</value></data>
+  <data name="Registry_Preparing" xml:space="preserve"><value>ダウンロードを準備しています...</value></data>
+  <data name="Registry_Retry" xml:space="preserve"><value>インストールを再試行</value></data>
+  <data name="Registry_Timeout" xml:space="preserve"><value>ダウンロードがタイムアウトしました。ネットワーク接続を確認して再試行してください。</value></data>
+  <data name="Registry_Uninstall" xml:space="preserve"><value>アンインストール</value></data>
+  <data name="ReInitButton_Content" xml:space="preserve"><value>再初期化</value></data>
+  <data name="ResetAvatarConfButton_Description" xml:space="preserve"><value>VRChat の OSC 設定をすべてリセットします（アバターの再読み込み時に再生成されます）</value></data>
+  <data name="ResetAvatarConfButton_Header" xml:space="preserve"><value>VRChat の設定をリセット</value></data>
+  <data name="ResetButton_Content" xml:space="preserve"><value>リセット</value></data>
+  <data name="ResetVRCFTButton_Description" xml:space="preserve"><value>AppData フォルダーに保存された VRCFT のデータをすべてリセットします</value></data>
+  <data name="ResetVRCFTButton_Header" xml:space="preserve"><value>VRCFT をリセット</value></data>
+  <data name="Shell_TrackingSettings_Content" xml:space="preserve"><value>トラッキング設定</value></data>
+  <data name="TrackingCalibrateButton_Description" xml:space="preserve"><value>キャリブレーションに対する表情の影響を一時的に強めます</value></data>
+  <data name="TrackingCalibrateButton_Header" xml:space="preserve"><value>キャリブレーション</value></data>
 </root>
