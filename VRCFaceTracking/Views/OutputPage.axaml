@@ -8,6 +8,27 @@
     x:DataType="vm:OutputViewModel"
     x:Class="VRCFaceTracking.Views.OutputPage">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="LogBackgroundBrush" Color="#FFF7F8FA" />
+                    <SolidColorBrush x:Key="LogWarningBrush" Color="#805000" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="LogBackgroundBrush" Color="#FF202124" />
+                    <SolidColorBrush x:Key="LogWarningBrush" Color="#FFD66B" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="TextBlock.warning">
+            <Setter Property="Foreground" Value="{DynamicResource LogWarningBrush}" />
+        </Style>
+    </UserControl.Styles>
+
     <Grid RowDefinitions="Auto,*">
 
         <Border Grid.Row="0" CornerRadius="6" BorderThickness="1" Padding="8,6" Margin="0,0,0,10">
@@ -24,7 +45,7 @@
         </Border>
 
         <Border Grid.Row="1" CornerRadius="6" BorderThickness="1" Padding="4"
-                Background="{DynamicResource ControlFillColorDefaultBrush}">
+                Background="{DynamicResource LogBackgroundBrush}">
             <ListBox x:Name="LogItems"
                      ItemsSource="{Binding Logs}"
                      Background="Transparent"
@@ -49,13 +70,14 @@
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType="models:LogLine">
-                        <TextBlock
+                        <SelectableTextBlock
                             x:Name="LogText"
                             Text="{Binding Message}"
                             FontFamily="Cascadia Mono, Consolas, Courier New, monospace"
                             FontSize="12"
                             Padding="6,1"
                             TextWrapping="NoWrap"
+                            Classes.warning="{Binding Level, Converter={StaticResource LogLevelMatchConverter}, ConverterParameter=Warning}"
                             Foreground="{Binding Level, Converter={StaticResource LogLevelBrushConverter}}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
