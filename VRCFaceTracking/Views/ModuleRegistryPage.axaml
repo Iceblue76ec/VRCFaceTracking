@@ -107,11 +107,11 @@
                                 x:Name="InstallButton"
                                 Classes="accent"
                                 Click="InstallButton_Click"
-                                Content="Install" />
+                                Content="{x:Static s:Resources.Registry_Install}" />
                             <Button
                                 x:Name="UninstallButton"
                                 Click="UninstallButton_Click"
-                                Content="Uninstall" />
+                                Content="{x:Static s:Resources.Registry_Uninstall}" />
                         </StackPanel>
 
                         <ProgressBar x:Name="InstallProgress" Minimum="0" Maximum="100"

@@ -72,7 +72,7 @@ public class ModuleInstaller(ILogger<ModuleInstaller> logger, ILibManager libMan
             {
                 await destination.WriteAsync(buffer.AsMemory(0, count), timeout.Token);
                 received += count;
-                progress?.Report(new ModuleInstallProgress("Downloading module...",
+                progress?.Report(new ModuleInstallProgress(ModuleInstallStage.Downloading,
                     total > 0 ? received * 100.0 / total.Value : null));
             }
         }
@@ -224,12 +224,12 @@ public class ModuleInstaller(ILogger<ModuleInstaller> logger, ILibManager libMan
 
         try
         {
-            progress?.Report(new ModuleInstallProgress("Downloading module..."));
+            progress?.Report(new ModuleInstallProgress(ModuleInstallStage.Downloading));
             if (!string.Equals(Path.GetExtension(moduleMetadata.DownloadUrl), ".dll", StringComparison.OrdinalIgnoreCase))
             {
                 var archivePath = Path.Combine(tempDirectory, "module.zip");
                 await DownloadModuleToFile(moduleMetadata, archivePath, moduleMetadata.FileHash, progress, cancellationToken);
-                progress?.Report(new ModuleInstallProgress("Extracting module..."));
+                progress?.Report(new ModuleInstallProgress(ModuleInstallStage.Extracting));
                 await ZipFile.ExtractToDirectoryAsync(archivePath, stagedDirectory, cancellationToken);
                 moduleMetadata.DllFileName ??= TryFindModuleDll(stagedDirectory, moduleMetadata);
             }
@@ -260,12 +260,12 @@ public class ModuleInstaller(ILogger<ModuleInstaller> logger, ILibManager libMan
                     RemoveZoneIdentifier(dll);
             }
 
-            progress?.Report(new ModuleInstallProgress("Installing module..."));
+            progress?.Report(new ModuleInstallProgress(ModuleInstallStage.Installing));
             cancellationToken.ThrowIfCancellationRequested();
-            await libManager.TeardownAllModules();
             var oldVersionMoved = false;
             try
             {
+                await libManager.TeardownAllModules();
                 if (Directory.Exists(moduleDirectory))
                 {
                     Directory.Move(moduleDirectory, backupDirectory);
@@ -279,13 +279,26 @@ public class ModuleInstaller(ILogger<ModuleInstaller> logger, ILibManager libMan
             {
                 try { await libManager.TeardownAllModules(); }
                 catch (Exception ex) { logger.LogWarning(ex, "Cleanup failed while restoring module {module}", moduleMetadata.ModuleId); }
-                if (Directory.Exists(moduleDirectory))
-                    Directory.Delete(moduleDirectory, true);
-                if (oldVersionMoved)
-                    Directory.Move(backupDirectory, moduleDirectory);
+                try
+                {
+                    if (Directory.Exists(moduleDirectory))
+                        Directory.Delete(moduleDirectory, true);
+                    if (oldVersionMoved)
+                        Directory.Move(backupDirectory, moduleDirectory);
+                }
+                catch (Exception restoreError)
+                {
+                    throw new IOException(
+                        $"Could not install {moduleMetadata.ModuleName} or restore its previous version. Backup: {backupDirectory}",
+                        new AggregateException(installError, restoreError));
+                }
                 try { await libManager.Initialize(); }
                 catch (Exception ex) { logger.LogWarning(ex, "Could not restart modules after restoring {module}", moduleMetadata.ModuleId); }
-                throw new IOException($"Could not install {moduleMetadata.ModuleName}; the previous version was restored.", installError);
+                throw new IOException(
+                    oldVersionMoved
+                        ? $"Could not install {moduleMetadata.ModuleName}; the previous version was restored."
+                        : $"Could not install {moduleMetadata.ModuleName}.",
+                    installError);
             }
 
             if (oldVersionMoved)
@@ -295,7 +308,7 @@ public class ModuleInstaller(ILogger<ModuleInstaller> logger, ILibManager libMan
             }
 
             logger.LogInformation("Installed module {module} to {moduleDirectory}", moduleMetadata.ModuleId, moduleDirectory);
-            progress?.Report(new ModuleInstallProgress("Installed.", 100));
+            progress?.Report(new ModuleInstallProgress(ModuleInstallStage.Installed, 100));
             return Path.Combine(moduleDirectory, moduleMetadata.DllFileName);
         }
         finally

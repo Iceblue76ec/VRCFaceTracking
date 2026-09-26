@@ -6,6 +6,7 @@ using VRCFaceTracking.Contracts;
 using VRCFaceTracking.Core.Contracts.Services;
 using VRCFaceTracking.Core.Models;
 using VRCFaceTracking.Core.Services;
+using AppStrings = VRCFaceTracking.Strings.Resources;
 using VRCFaceTracking.ViewModels;
 
 namespace VRCFaceTracking.Views;
@@ -31,12 +32,12 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
         if (ViewModel.Selected is not InstallTrackedTrackingModule module) return;
         InstallButton.IsVisible = module.InstallationState != InstallState.Installed;
         UninstallButton.IsVisible = module.InstallationState == InstallState.Installed;
-        InstallButton.Content = "Install";
+        InstallButton.Content = AppStrings.Registry_Install;
         InstallButton.IsEnabled = true;
         if (module.InstallationState != InstallState.AwaitingRestart)
         {
             UninstallButton.IsEnabled = true;
-            UninstallButton.Content =  "Uninstall";
+            UninstallButton.Content = AppStrings.Registry_Uninstall;
         }
     }
     private async void InstallButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -44,40 +45,47 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
         if (ViewModel.Selected is not InstallTrackedTrackingModule module) return;
         InstallButton.IsEnabled = false;
         ModuleList.IsEnabled = false;
-        InstallButton.Content = "Installing...";
+        InstallButton.Content = AppStrings.Registry_Installing;
         InstallProgress.IsVisible = true;
         InstallProgress.IsIndeterminate = true;
         InstallStatusText.IsVisible = true;
-        InstallStatusText.Text = "Preparing download...";
+        InstallStatusText.Text = AppStrings.Registry_Preparing;
 
         try
         {
             var progress = new Progress<ModuleInstallProgress>(update =>
             {
-                InstallStatusText.Text = update.Status;
+                InstallStatusText.Text = update.Stage switch
+                {
+                    ModuleInstallStage.Downloading => AppStrings.Registry_Downloading,
+                    ModuleInstallStage.Extracting => AppStrings.Registry_Extracting,
+                    ModuleInstallStage.Installing => AppStrings.Registry_Applying,
+                    ModuleInstallStage.Installed => AppStrings.Registry_Installed,
+                    _ => AppStrings.Registry_Installing
+                };
                 InstallProgress.IsIndeterminate = update.Percent is null;
                 if (update.Percent is { } percent)
                     InstallProgress.Value = percent;
             });
             var installedPath = await _moduleInstaller.InstallRemoteModule(module.TrackingModuleMetadata, progress);
             if (installedPath == null)
-                throw new InvalidDataException("The module package could not be installed.");
+                throw new InvalidDataException(AppStrings.Registry_Package_Invalid);
             module.InstallationState = InstallState.Installed;
-            InstallButton.Content = "Installed.";
+            InstallButton.Content = AppStrings.Registry_Installed;
             InstallButton.IsVisible = false;
             UninstallButton.IsVisible = true;
-            InstallStatusText.Text = "Installed successfully.";
+            InstallStatusText.Text = AppStrings.Registry_Installed_Success;
         }
         catch (OperationCanceledException)
         {
-            InstallButton.Content = "Retry install";
-            InstallStatusText.Text = "Download timed out. Check the network connection and retry.";
+            InstallButton.Content = AppStrings.Registry_Retry;
+            InstallStatusText.Text = AppStrings.Registry_Timeout;
             InstallProgress.IsVisible = false;
         }
         catch (Exception ex)
         {
-            InstallButton.Content = "Retry install";
-            InstallStatusText.Text = $"Installation failed: {ex.Message}";
+            InstallButton.Content = AppStrings.Registry_Retry;
+            InstallStatusText.Text = string.Format(AppStrings.Registry_Failure, ex.Message);
             InstallProgress.IsVisible = false;
         }
         finally
