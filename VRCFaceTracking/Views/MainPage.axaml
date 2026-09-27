@@ -33,6 +33,25 @@
         <Style Selector=":is(UserControl).spacious TextBlock.home-avatar-name"><Setter Property="FontSize" Value="20" /></Style>
         <Style Selector="TextBlock.home-avatar-detail"><Setter Property="FontSize" Value="12" /></Style>
         <Style Selector=":is(UserControl).spacious TextBlock.home-avatar-detail"><Setter Property="FontSize" Value="14" /></Style>
+        <Style Selector="ToggleButton.home-tracking-button">
+            <Setter Property="MinWidth" Value="150" />
+            <Setter Property="Height" Value="54" />
+            <Setter Property="Padding" Value="14,8" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+        </Style>
+        <Style Selector=":is(UserControl).spacious ToggleButton.home-tracking-button">
+            <Setter Property="MinWidth" Value="210" />
+            <Setter Property="Height" Value="76" />
+        </Style>
+        <Style Selector="ToggleButton.home-tracking-button:checked">
+            <Setter Property="Background" Value="#0067B9" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#0067B9" />
+        </Style>
+        <Style Selector="ToggleButton.home-tracking-button:checked:pointerover">
+            <Setter Property="Background" Value="#005A9E" />
+        </Style>
     </UserControl.Styles>
 
     <ScrollViewer>
@@ -101,13 +120,22 @@
                                     </StackPanel>
                                 </StackPanel>
 
-                                <ToggleSwitch
+                                <ToggleButton
+                                    Classes="home-tracking-button"
                                     Grid.Column="2"
                                     IsChecked="{Binding Active, Mode=TwoWay}"
-                                    OffContent="{x:Static s:MainPageStrings.TrackingPaused}"
-                                    OnContent="{x:Static s:MainPageStrings.TrackingOn}"
                                     ToolTip.Tip="{x:Static s:Resources.ToggleTracking_Content}"
-                                    VerticalAlignment="Center" />
+                                    VerticalAlignment="Center" Margin="20,0,12,0">
+                                    <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Text="✓" FontSize="22" VerticalAlignment="Center" IsVisible="{Binding Active}" />
+                                        <TextBlock Text="Ⅱ" FontSize="22" VerticalAlignment="Center" IsVisible="{Binding !Active}" />
+                                        <StackPanel Spacing="2" VerticalAlignment="Center">
+                                            <TextBlock Text="{x:Static s:Resources.ToggleTracking_Content}" FontWeight="SemiBold" FontSize="16" />
+                                            <TextBlock Text="{x:Static s:MainPageStrings.TrackingOn}" FontSize="12" IsVisible="{Binding Active}" />
+                                            <TextBlock Text="{x:Static s:MainPageStrings.TrackingPaused}" FontSize="12" IsVisible="{Binding !Active}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </ToggleButton>
                             </Grid>
                         </Border>
                     </DataTemplate>
@@ -191,6 +219,8 @@
                     </StackPanel>
                 </Grid>
             </Border>
+            <TextBlock Classes="home-section-header" FontWeight="SemiBold" Opacity="0.6"
+                       Text="{x:Static s:Resources.AvatarStatus_Text}" Margin="0,8,0,0" />
             <Border Classes="home-avatar-card" CornerRadius="6" BorderThickness="1" Padding="16,14" Background="{DynamicResource ControlFillColorDefaultBrush}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -202,7 +232,6 @@
                     <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="14" VerticalAlignment="Center">
                         <ui:SymbolIcon Symbol="Contact" FontSize="24" VerticalAlignment="Center" />
                         <StackPanel Spacing="3" VerticalAlignment="Center">
-                            <TextBlock Classes="home-avatar-detail" FontWeight="SemiBold" Text="{x:Static s:Resources.AvatarStatus_Text}" />
                             <TextBlock Classes="home-avatar-name" FontWeight="SemiBold" Text="{Binding ParameterOutputService.DisplayAvatarInfo.Name, Mode=OneWay, Converter={StaticResource PlaceholderTextConverter}}" />
                             <TextBlock Classes="home-avatar-detail" Opacity="0.7" Text="{Binding ParameterOutputService.DisplayAvatarInfo.Id, Mode=OneWay}" />
                             <TextBlock Classes="home-avatar-detail" Opacity="0.7" IsVisible="{Binding ParameterOutputService.IsAvatarPreview}"
