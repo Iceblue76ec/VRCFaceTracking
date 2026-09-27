@@ -558,4 +558,8 @@
   <data name="Main_AvatarFaceTrackingHint" xml:space="preserve"><value>Current avatar may not support face tracking</value></data>
   <data name="Main_Tracking_On" xml:space="preserve"><value>Tracking on</value></data>
   <data name="Main_Tracking_Paused" xml:space="preserve"><value>Tracking paused</value></data>
+  <data name="Settings_Language_Header" xml:space="preserve"><value>Language</value></data>
+  <data name="Settings_Language_Description" xml:space="preserve"><value>Choose the app language. Changes take effect immediately.</value></data>
+  <data name="Settings_Language_System" xml:space="preserve"><value>Use system language (English fallback)</value></data>
+  <data name="Settings_Language_SaveFailed" xml:space="preserve"><value>Could not save the language preference. Please try again.</value></data>
 </root>

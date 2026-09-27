@@ -509,4 +509,8 @@
   <data name="Main_AvatarFaceTrackingHint" xml:space="preserve"><value>Bieżący awatar może nie obsługiwać śledzenia twarzy</value></data>
   <data name="Main_Tracking_On" xml:space="preserve"><value>Śledzenie włączone</value></data>
   <data name="Main_Tracking_Paused" xml:space="preserve"><value>Śledzenie wstrzymane</value></data>
+  <data name="Settings_Language_Header" xml:space="preserve"><value>Język</value></data>
+  <data name="Settings_Language_Description" xml:space="preserve"><value>Wybierz język aplikacji. Zmiany zaczną obowiązywać od razu.</value></data>
+  <data name="Settings_Language_System" xml:space="preserve"><value>Użyj języka systemu (angielski, jeśli niedostępny)</value></data>
+  <data name="Settings_Language_SaveFailed" xml:space="preserve"><value>Nie udało się zapisać ustawienia języka. Spróbuj ponownie.</value></data>
 </root>

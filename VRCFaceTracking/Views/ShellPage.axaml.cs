@@ -14,7 +14,9 @@ public partial class ShellPage : UserControl
 
     private Control? _currentPage;
 
-    public ShellPage()
+    public ShellPage() : this(false) { }
+
+    public ShellPage(bool openSettings)
     {
         InitializeComponent();
 
@@ -28,8 +30,8 @@ public partial class ShellPage : UserControl
             child.IsVisible = false;
 
         // Select the first nav item and show the main page
-        NavView.SelectedItem = NavView.MenuItems[0];
-        ShowPage(_mainPage);
+        NavView.SelectedItem = openSettings ? NavView.SettingsItem : NavView.MenuItems[0];
+        ShowPage(openSettings ? _settingsPage : _mainPage);
     }
 
     private void ShowPage(Control page)

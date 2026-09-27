@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using VRCFaceTracking.Contracts.Services;
 using VRCFaceTracking.Core.Contracts.Services;
 using VRCFaceTracking.Views;
+using VRCFaceTracking.Services;
 
 namespace VRCFaceTracking
 {
@@ -57,6 +58,11 @@ namespace VRCFaceTracking
                 .Build();
             Ioc.Default.ConfigureServices(_host.Services);
 
+            HandleResetFile();
+            var languageService = Ioc.Default.GetRequiredService<LanguageService>();
+            var savedLanguage = Task.Run(languageService.ReadPreferenceAsync).GetAwaiter().GetResult();
+            languageService.Apply(savedLanguage);
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 MainWindow = new MainWindow();
@@ -74,8 +80,6 @@ namespace VRCFaceTracking
                     _ = ShutdownAsync(desktop);
                 };
             }
-
-            HandleResetFile();
 
             Core.Utils.KillAllProcessesOfName("VRCFaceTracking.ModuleProcess");
 

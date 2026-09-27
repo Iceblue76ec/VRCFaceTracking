@@ -21,6 +21,21 @@
                 </ComboBox>
             </ui:SettingsExpander>
 
+            <ui:SettingsExpander Header="{x:Static s:LanguageStrings.Header}"
+                                 Description="{x:Static s:LanguageStrings.Description}" IsExpanded="True">
+                <StackPanel Spacing="4">
+                    <ComboBox x:Name="LanguageCombo" SelectionChanged="LanguageCombo_SelectionChanged" MinWidth="210">
+                        <ComboBoxItem Content="{x:Static s:LanguageStrings.System}" Tag="System" />
+                        <ComboBoxItem Content="English" Tag="en" />
+                        <ComboBoxItem Content="简体中文" Tag="zh-CN" />
+                        <ComboBoxItem Content="Español" Tag="es-ES" />
+                        <ComboBoxItem Content="日本語" Tag="ja-JP" />
+                        <ComboBoxItem Content="Polski" Tag="pl-PL" />
+                    </ComboBox>
+                    <TextBlock x:Name="LanguageStatus" FontSize="12" TextWrapping="Wrap" />
+                </StackPanel>
+            </ui:SettingsExpander>
+
             <TextBlock Text="{x:Static s:Resources.Settings_OscSection}" FontSize="12" FontWeight="SemiBold" Opacity="0.6" Margin="0,16,0,6" />
 
             <ui:SettingsExpander

@@ -440,4 +440,8 @@
   <data name="Main_AvatarFaceTrackingHint" xml:space="preserve"><value>Es posible que el avatar actual no admita el seguimiento facial</value></data>
   <data name="Main_Tracking_On" xml:space="preserve"><value>Seguimiento activado</value></data>
   <data name="Main_Tracking_Paused" xml:space="preserve"><value>Seguimiento en pausa</value></data>
+  <data name="Settings_Language_Header" xml:space="preserve"><value>Idioma</value></data>
+  <data name="Settings_Language_Description" xml:space="preserve"><value>Elige el idioma de la aplicación. Los cambios se aplican al instante.</value></data>
+  <data name="Settings_Language_System" xml:space="preserve"><value>Usar idioma del sistema (inglés si no está disponible)</value></data>
+  <data name="Settings_Language_SaveFailed" xml:space="preserve"><value>No se pudo guardar el idioma. Inténtalo de nuevo.</value></data>
 </root>

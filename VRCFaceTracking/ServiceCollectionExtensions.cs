@@ -34,6 +34,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<GithubService>();
         services.AddTransient<IFileService, FileService>();
         services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
+        services.AddSingleton<LanguageService>();
         services.AddSingleton<IDispatcherService, DispatcherService>();
         services.AddTransient<IIdentityService, IdentityService>();
         

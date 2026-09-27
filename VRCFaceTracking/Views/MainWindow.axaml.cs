@@ -21,4 +21,6 @@ public partial class MainWindow : Window
         }
         catch { }
     }
+
+    public void RefreshLanguage() => Content = new ShellPage(openSettings: true);
 }
