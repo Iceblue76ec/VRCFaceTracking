@@ -73,6 +73,26 @@ public class OpenVRService(ILogger<OpenVRService> logger)
 
     public bool IsInitialized { get; private set; }
 
+    public void Disconnect()
+    {
+        lock (_sync)
+        {
+            if (!IsInitialized) return;
+            try
+            {
+                OpenVR.Shutdown();
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Failed to disconnect from OpenVR");
+            }
+            finally
+            {
+                IsInitialized = false;
+            }
+        }
+    }
+
     public bool AutoStart
     {
         get
@@ -116,6 +136,10 @@ public class OpenVRService(ILogger<OpenVRService> logger)
                 error = ex.Message;
                 logger.LogError(ex, "Exception setting SteamVR auto launch");
                 return false;
+            }
+            finally
+            {
+                Disconnect();
             }
         }
     }

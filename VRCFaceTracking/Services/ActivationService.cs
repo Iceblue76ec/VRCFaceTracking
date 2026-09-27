@@ -58,6 +58,12 @@ public class ActivationService(
         {
             logger.LogWarning("Failed to initialize OpenVR during ActivationService startup. Skipping.");
         }
+        else
+        {
+            // Manifest registration does not require a permanent OpenVR session.
+            // Keep VRCFT independent of the SteamVR process lifetime.
+            openVrService.Disconnect();
+        }
 
         logger.LogInformation("Checking for updates for installed modules...");
         var localModules = moduleDataService.GetInstalledModules().Where(m => m.ModuleId != Guid.Empty);
