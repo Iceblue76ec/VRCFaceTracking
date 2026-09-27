@@ -470,4 +470,14 @@
   <data name="Settings_Language_Description" xml:space="preserve"><value>アプリの表示言語を選択します。変更はすぐに反映されます。</value></data>
   <data name="Settings_Language_System" xml:space="preserve"><value>システムの言語を使用（非対応の場合は英語）</value></data>
   <data name="Settings_Language_SaveFailed" xml:space="preserve"><value>言語設定を保存できませんでした。もう一度お試しください。</value></data>
+  <data name="Registry_RefreshCatalog" xml:space="preserve"><value>モジュール一覧を更新</value></data>
+  <data name="Registry_CatalogLoading" xml:space="preserve"><value>モジュールレジストリを確認中...</value></data>
+  <data name="Registry_UsingCache" xml:space="preserve"><value>レジストリに接続できません。保存済みの一覧を表示しています。</value></data>
+  <data name="Registry_NoCache" xml:space="preserve"><value>レジストリに接続できず、保存済みの一覧もありません。インストール済みモジュールは表示されます。</value></data>
+  <data name="Registry_EnableModule" xml:space="preserve"><value>モジュールの起動</value></data>
+  <data name="Registry_ModuleEnabled" xml:space="preserve"><value>有効</value></data>
+  <data name="Registry_ModuleDisabled" xml:space="preserve"><value>無効</value></data>
+  <data name="Registry_ActivationFailed" xml:space="preserve"><value>モジュールの状態を適用できませんでした。出力ログを確認して再試行してください。</value></data>
+  <data name="Main_NoModulesLoaded" xml:space="preserve"><value>モジュールが読み込まれていません</value></data>
+  <data name="Main_NoModulesEnabled" xml:space="preserve"><value>インストール済みのモジュールはすべて無効です</value></data>
 </root>

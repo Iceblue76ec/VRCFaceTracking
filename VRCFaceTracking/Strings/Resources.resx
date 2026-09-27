@@ -562,4 +562,14 @@
   <data name="Settings_Language_Description" xml:space="preserve"><value>Choose the app language. Changes take effect immediately.</value></data>
   <data name="Settings_Language_System" xml:space="preserve"><value>Use system language (English fallback)</value></data>
   <data name="Settings_Language_SaveFailed" xml:space="preserve"><value>Could not save the language preference. Please try again.</value></data>
+  <data name="Registry_RefreshCatalog" xml:space="preserve"><value>Refresh module list</value></data>
+  <data name="Registry_CatalogLoading" xml:space="preserve"><value>Checking module registry...</value></data>
+  <data name="Registry_UsingCache" xml:space="preserve"><value>Registry unavailable. Showing the saved module list.</value></data>
+  <data name="Registry_NoCache" xml:space="preserve"><value>Registry unavailable and no saved list exists. Installed modules are still shown.</value></data>
+  <data name="Registry_EnableModule" xml:space="preserve"><value>Module startup</value></data>
+  <data name="Registry_ModuleEnabled" xml:space="preserve"><value>Enabled</value></data>
+  <data name="Registry_ModuleDisabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="Registry_ActivationFailed" xml:space="preserve"><value>Could not apply the module state. Check the output log and try again.</value></data>
+  <data name="Main_NoModulesLoaded" xml:space="preserve"><value>No modules loaded</value></data>
+  <data name="Main_NoModulesEnabled" xml:space="preserve"><value>All installed modules are disabled</value></data>
 </root>

@@ -9,6 +9,7 @@ using VRCFaceTracking.Contracts;
 using VRCFaceTracking.Core.Contracts.Services;
 using VRCFaceTracking.Core.Models;
 using VRCFaceTracking.Core.Services;
+using VRCFaceTracking.Strings;
 using AppStrings = VRCFaceTracking.Strings.Resources;
 using VRCFaceTracking.ViewModels;
 
@@ -19,6 +20,7 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
     private ModuleRegistryViewModel ViewModel => (ModuleRegistryViewModel)DataContext!;
     private readonly ModuleInstaller _moduleInstaller;
     private readonly ILibManager _libManager;
+    private readonly IModuleDataService _moduleDataService;
 
     public ModuleRegistryPage()
     {
@@ -26,17 +28,26 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
         DataContext = Ioc.Default.GetRequiredService<ModuleRegistryViewModel>();
         _moduleInstaller = Ioc.Default.GetRequiredService<ModuleInstaller>();
         _libManager = Ioc.Default.GetRequiredService<ILibManager>();
+        _moduleDataService = Ioc.Default.GetRequiredService<IModuleDataService>();
     }
 
     public async void OnNavigatedTo() => await ViewModel.OnNavigatedTo();
 
-    private async void ModuleSelection_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private async void RefreshCatalog_Click(object? sender, RoutedEventArgs e)
+    {
+        RefreshCatalogButton.IsEnabled = false;
+        try { await ViewModel.OnNavigatedTo(); }
+        finally { RefreshCatalogButton.IsEnabled = true; }
+    }
+
+    private void ModuleSelection_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {   
         if (ViewModel.Selected is not InstallTrackedTrackingModule module) return;
         InstallButton.IsVisible = module.InstallationState != InstallState.Installed;
-        UninstallButton.IsVisible = module.InstallationState == InstallState.Installed;
+        UninstallButton.IsVisible = module.InstalledModule != null;
         InstallButton.Content = AppStrings.Registry_Install;
         InstallButton.IsEnabled = true;
+        ModuleActivationStatus.Text = string.Empty;
         if (module.InstallationState != InstallState.AwaitingRestart)
         {
             UninstallButton.IsEnabled = true;
@@ -89,6 +100,7 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
             InstallProgress.IsIndeterminate = false;
             InstallProgress.Value = 100;
             InstallStatusText.Text = AppStrings.Registry_Installed_Success;
+            await ViewModel.RefreshInstalledAsync();
         }
         catch (OperationCanceledException)
         {
@@ -139,7 +151,48 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
 
         UninstallButton.IsEnabled = false;
         await _moduleInstaller.UninstallModule(module.TrackingModuleMetadata);
-        await ViewModel.OnNavigatedTo();
+        await ViewModel.RefreshInstalledAsync();
+    }
+
+    private async void ModuleEnabledToggle_Click(object? sender, RoutedEventArgs e)
+    {
+        var module = ViewModel.Selected;
+        if (module?.InstalledModule is not { } installed) return;
+        var enabled = ModuleEnabledToggle.IsChecked == true;
+        ModuleEnabledToggle.IsEnabled = false;
+        ModuleList.IsEnabled = false;
+        var previous = !enabled;
+        try
+        {
+            previous = await _moduleDataService.IsModuleEnabledAsync(installed);
+            if (previous == enabled)
+            {
+                module.IsEnabled = previous;
+                return;
+            }
+            await _moduleDataService.SetModuleEnabledAsync(installed, enabled);
+            module.IsEnabled = enabled;
+
+            try
+            {
+                await _libManager.Initialize();
+                ModuleActivationStatus.Text = string.Empty;
+            }
+            catch
+            {
+                ModuleActivationStatus.Text = ModuleRegistryStrings.ActivationFailed;
+            }
+        }
+        catch
+        {
+            module.IsEnabled = previous;
+            ModuleActivationStatus.Text = ModuleRegistryStrings.ActivationFailed;
+        }
+        finally
+        {
+            ModuleEnabledToggle.IsEnabled = true;
+            ModuleList.IsEnabled = true;
+        }
     }
 
     private async void OpenModulePage_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -197,6 +250,7 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
         finally
         {
             await _libManager.Initialize();
+            await ViewModel.RefreshInstalledAsync();
         }
     }
 }

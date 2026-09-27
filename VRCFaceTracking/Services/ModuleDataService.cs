@@ -10,37 +10,41 @@ namespace VRCFaceTracking.Services;
 
 public class ModuleDataService : IModuleDataService
 {
-    private IEnumerable<InstallableTrackingModule>? _remoteModules;
+    private IReadOnlyList<InstallableTrackingModule>? _remoteModules;
     private readonly Dictionary<Guid, int> _ratingCache = new();
 
     private readonly IIdentityService _identityService;
     private readonly ILogger<ModuleDataService> _logger;
+    private readonly ILocalSettingsService _settings;
     private readonly HttpClient _httpClient;
 
     private const string BaseUrl = "https://registry.vrcft.io/";
+    private static readonly string CatalogCachePath = Path.Combine(Core.Utils.PersistentDataDirectory, "ModuleCatalogCache.json");
 
-    public ModuleDataService(IIdentityService identityService, ILogger<ModuleDataService> logger)
+    public ModuleDataService(IIdentityService identityService, ILocalSettingsService settings, ILogger<ModuleDataService> logger)
     {
         _identityService = identityService;
+        _settings = settings;
         _logger = logger;
         _httpClient = HappyEyeballsHttp.CreateHttpClient();
         _httpClient.BaseAddress = new Uri(BaseUrl);
         _httpClient.Timeout = TimeSpan.FromSeconds(8);
     }
 
-    private async Task<IEnumerable<InstallableTrackingModule>?> AllModules()
+    private async Task<(IReadOnlyList<InstallableTrackingModule> Modules, string Json)?> FetchModulesAsync()
     {
         try
         {
-            // This is where we make the actual request to the API at modules and get the list of modules.
-            var response = await _httpClient.GetAsync("modules");
+            using var response = await _httpClient.GetAsync("modules");
             if (!response.IsSuccessStatusCode)
             {
+                _logger.LogWarning("Module registry returned HTTP {statusCode}", response.StatusCode);
                 return null;
             }
             
             var content = await response.Content.ReadAsStringAsync();
-            return await Json.ToObjectAsync<List<InstallableTrackingModule>>(content);
+            var modules = await Json.ToObjectAsync<List<InstallableTrackingModule>>(content);
+            return modules == null ? null : (modules, content);
         }
         catch (Exception e)
         {
@@ -51,11 +55,72 @@ public class ModuleDataService : IModuleDataService
 
     public async Task<IEnumerable<InstallableTrackingModule>> GetRemoteModules()
     {
-        if (_remoteModules == null && await AllModules() is { } modules)
-            _remoteModules = new List<InstallableTrackingModule>(modules);
-
-        return new List<InstallableTrackingModule>(_remoteModules ?? []);
+        return (await RefreshModuleCatalogAsync()).Modules;
     }
+
+    public async Task<ModuleCatalogResult> RefreshModuleCatalogAsync()
+    {
+        if (await FetchModulesAsync() is { } fresh)
+        {
+            _remoteModules = fresh.Modules;
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(CatalogCachePath)!);
+                var tempPath = CatalogCachePath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+                try
+                {
+                    await File.WriteAllTextAsync(tempPath, fresh.Json);
+                    File.Move(tempPath, CatalogCachePath, overwrite: true);
+                }
+                finally
+                {
+                    if (File.Exists(tempPath)) File.Delete(tempPath);
+                }
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                _logger.LogWarning(ex, "Could not cache module registry results");
+            }
+            return new ModuleCatalogResult(fresh.Modules.ToArray(), false);
+        }
+
+        if (_remoteModules == null)
+        {
+            try
+            {
+                if (File.Exists(CatalogCachePath))
+                    _remoteModules = await Json.ToObjectAsync<List<InstallableTrackingModule>>(
+                        await File.ReadAllTextAsync(CatalogCachePath));
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or Newtonsoft.Json.JsonException
+                                           or System.Text.Json.JsonException)
+            {
+                _logger.LogWarning(ex, "Could not read cached module registry results");
+            }
+        }
+
+        return new ModuleCatalogResult((_remoteModules ?? []).ToArray(), true);
+    }
+
+    public async Task<bool> IsModuleEnabledAsync(InstallableTrackingModule module)
+    {
+        try
+        {
+            return await _settings.ReadSettingAsync(ModuleEnabledKey(module), true);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Could not read startup preference for module {moduleId}; keeping it enabled", module.ModuleId);
+            return true;
+        }
+    }
+
+    public Task SetModuleEnabledAsync(InstallableTrackingModule module, bool enabled) =>
+        _settings.SaveSettingAsync(ModuleEnabledKey(module), enabled);
+
+    private static string ModuleEnabledKey(InstallableTrackingModule module) => module.ModuleId != Guid.Empty
+        ? $"ModuleEnabled:{module.ModuleId:D}"
+        : $"ModuleEnabled:legacy:{Path.GetFullPath(module.AssemblyLoadPath)}";
 
     public async Task IncrementDownloadsAsync(TrackingModuleMetadata moduleMetadata)
     {
@@ -184,10 +249,11 @@ public class ModuleDataService : IModuleDataService
                 continue;
             }
 
-            var moduleJson = File.ReadAllText(moduleJsonPath);
             try
             {
+                var moduleJson = File.ReadAllText(moduleJsonPath);
                 var module = JsonConvert.DeserializeObject<InstallableTrackingModule>(moduleJson);
+                if (module == null) continue;
                 module.AssemblyLoadPath = Path.Combine(moduleFolder, module.DllFileName);
                 installedModules.Add(module);
             }

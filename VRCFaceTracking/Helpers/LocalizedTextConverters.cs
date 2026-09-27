@@ -47,6 +47,8 @@ public sealed class PlaceholderTextConverter : IValueConverter
             "Initializing Modules..." => AppStrings.Main_InitializingModules,
             "Loading..." => AppStrings.Main_Loading,
             "Waiting for VRChat" => Strings.MainPageStrings.WaitingForVrchat,
+            "No Modules Loaded" => AppStrings.ResourceManager.GetString("Main_NoModulesLoaded", AppStrings.Culture),
+            "No Modules Enabled" => AppStrings.ResourceManager.GetString("Main_NoModulesEnabled", AppStrings.Culture),
             _ => value
         };
 

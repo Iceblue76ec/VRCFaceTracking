@@ -9,6 +9,7 @@ public class ModuleMetadataInternal : INotifyPropertyChanged
 
     public List<Stream> StaticImages { get; set; }
     public string Name { get; set; }
+    public bool IsPlaceholder { get; set; }
     private bool _active;
 
     public bool Active

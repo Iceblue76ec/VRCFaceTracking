@@ -207,13 +207,14 @@ public partial class UnifiedLibManager
         {
             _logger.LogWarning("No modules loaded.");
             LoadedModulesMetadata.Clear();
-            LoadedModulesMetadata.Add(new ModuleMetadataInternal { Active = false, Name = "No Modules Loaded" });
+            LoadedModulesMetadata.Add(new ModuleMetadataInternal { Active = false, Name = "No Modules Loaded", IsPlaceholder = true });
             return;
         }
 
         if (LoadedModulesMetadata.Count > 0
             && !LoadedModulesMetadata[0].Active
             && (LoadedModulesMetadata[0].Name == "No Modules Loaded"
+                || LoadedModulesMetadata[0].Name == "No Modules Enabled"
                 || LoadedModulesMetadata[0].Name == "Initializing Modules..."))
         {
             LoadedModulesMetadata.RemoveAt(0);

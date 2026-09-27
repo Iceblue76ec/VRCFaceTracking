@@ -63,38 +63,45 @@ public class ActivationService(
         var localModules = moduleDataService.GetInstalledModules().Where(m => m.ModuleId != Guid.Empty);
         try
         {
-            var remoteModules = await moduleDataService.GetRemoteModules();
-            var outdatedModules = remoteModules.Where(rm => localModules.Any(lm =>
+            var catalog = await moduleDataService.RefreshModuleCatalogAsync();
+            if (catalog.FromCache)
             {
-                if (rm.ModuleId != lm.ModuleId || lm.IsLocal)
-                    return false;
-
-                try
-                {
-                    return new Version(rm.Version).CompareTo(new Version(lm.Version)) > 0;
-                }
-                catch
-                {
-                    return string.CompareOrdinal(rm.Version, lm.Version) > 0;
-                }
-            }));
-
-            using var updateBudget = new CancellationTokenSource(TimeSpan.FromSeconds(15));
-            foreach (var outdatedModule in outdatedModules)
+                logger.LogInformation("Module registry is unavailable; skipping update checks and loading installed modules");
+            }
+            else
             {
-                try
+                var outdatedModules = catalog.Modules.Where(rm => localModules.Any(lm =>
                 {
-                    logger.LogInformation("Updating {module} to {version}", outdatedModule.ModuleName, outdatedModule.Version);
-                    await moduleInstaller.InstallRemoteModule(outdatedModule, cancellationToken: updateBudget.Token);
-                }
-                catch (OperationCanceledException) when (updateBudget.IsCancellationRequested)
+                    if (rm.ModuleId != lm.ModuleId || lm.IsLocal)
+                        return false;
+
+                    try
+                    {
+                        return new Version(rm.Version).CompareTo(new Version(lm.Version)) > 0;
+                    }
+                    catch
+                    {
+                        return string.CompareOrdinal(rm.Version, lm.Version) > 0;
+                    }
+                }));
+
+                using var updateBudget = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+                foreach (var outdatedModule in outdatedModules)
                 {
-                    logger.LogWarning("Module update time budget expired; loading installed modules");
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    logger.LogWarning(ex, "Skipping update for {module}; installed version remains available", outdatedModule.ModuleName);
+                    try
+                    {
+                        logger.LogInformation("Updating {module} to {version}", outdatedModule.ModuleName, outdatedModule.Version);
+                        await moduleInstaller.InstallRemoteModule(outdatedModule, cancellationToken: updateBudget.Token);
+                    }
+                    catch (OperationCanceledException) when (updateBudget.IsCancellationRequested)
+                    {
+                        logger.LogWarning("Module update time budget expired; loading installed modules");
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogWarning(ex, "Skipping update for {module}; installed version remains available", outdatedModule.ModuleName);
+                    }
                 }
             }
         }

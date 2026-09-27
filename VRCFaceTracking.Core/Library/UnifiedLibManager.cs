@@ -55,13 +55,15 @@ public partial class UnifiedLibManager : ILibManager
         await _initializeLock.WaitAsync();
         try
         {
+            var hasInstalledModules = false;
             _dispatcherService.Run(() =>
             {
                 LoadedModulesMetadata.Clear();
                 LoadedModulesMetadata.Add(new ModuleMetadataInternal
                 {
                     Active = false,
-                    Name = "Initializing Modules..."
+                    Name = "Initializing Modules...",
+                    IsPlaceholder = true
                 });
             });
 
@@ -80,8 +82,14 @@ public partial class UnifiedLibManager : ILibManager
                     _sandboxServer.OnPacketReceived += OnSandboxPacketReceived;
                 }
 
-                var modules = _moduleDataService.GetInstalledModules().Concat(_moduleDataService.GetLegacyModules());
-                var modulePaths = modules.Select(m => m.AssemblyLoadPath).ToArray();
+                var modules = _moduleDataService.GetInstalledModules().Concat(_moduleDataService.GetLegacyModules()).ToArray();
+                hasInstalledModules = modules.Length > 0;
+                var modulePaths = new List<string>();
+                foreach (var module in modules)
+                {
+                    if (await _moduleDataService.IsModuleEnabledAsync(module))
+                        modulePaths.Add(module.AssemblyLoadPath);
+                }
                 lock (AvailableSandboxModules)
                 {
                     AvailableSandboxModules.Clear();
@@ -105,10 +113,14 @@ public partial class UnifiedLibManager : ILibManager
                 LoadedModulesMetadata.Add(new ModuleMetadataInternal
                 {
                     Active = false,
-                    Name = "No Modules Loaded",
+                    Name = hasInstalledModules ? "No Modules Enabled" : "No Modules Loaded",
+                    IsPlaceholder = true
                 });
             });
-            _logger.LogWarning("No modules loaded.");
+            if (hasInstalledModules)
+                _logger.LogInformation("All installed modules are disabled.");
+            else
+                _logger.LogWarning("No modules loaded.");
         }
         finally
         {

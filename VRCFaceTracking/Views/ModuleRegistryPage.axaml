@@ -10,9 +10,9 @@
 
     <Grid ColumnDefinitions="300,*" Margin="0,12,0,0">
 
-        <Grid Grid.Column="0" RowDefinitions="Auto,*" Margin="0,0,10,0">
+        <Grid Grid.Column="0" RowDefinitions="Auto,Auto,*" Margin="0,0,10,0">
 
-            <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+            <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto" Margin="0,0,0,8">
                 <Border Grid.Column="0" Height="32" CornerRadius="6" BorderThickness="1"
                         BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
                         Background="{DynamicResource ControlFillColorDefaultBrush}"
@@ -31,7 +31,15 @@
                     </Grid>
                 </Border>
 
-                <Button Grid.Column="1"
+                <Button x:Name="RefreshCatalogButton" Grid.Column="1" Click="RefreshCatalog_Click"
+                        ToolTip.Tip="{x:Static s:ModuleRegistryStrings.Refresh}"
+                        Width="32" Height="32" Margin="6,0,0,0" Padding="0" CornerRadius="6"
+                        BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
+                        Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                    <ui:SymbolIcon Symbol="Refresh" FontSize="16" />
+                </Button>
+
+                <Button Grid.Column="2"
                         Click="Button_OnClick"
                         ToolTip.Tip="{x:Static s:Resources.Registry_InstallZip_Tooltip}"
                         Width="32" Height="32"
@@ -45,7 +53,9 @@
                 </Button>
             </Grid>
 
-            <Border Grid.Row="1" CornerRadius="6" BorderThickness="1" Background="{DynamicResource ControlFillColorDefaultBrush}">
+            <TextBlock Grid.Row="1" Text="{Binding CatalogStatus}" FontSize="12" Opacity="0.7"
+                       TextWrapping="Wrap" Margin="0,0,0,6" />
+            <Border Grid.Row="2" CornerRadius="6" BorderThickness="1" Background="{DynamicResource ControlFillColorDefaultBrush}">
                 <ListBox
                     x:Name="ModuleList"
                     ItemsSource="{Binding FilteredModuleInfos, Mode=OneWay}"
@@ -67,11 +77,13 @@
                                                Text="{Binding TrackingModuleMetadata.AuthorName}"
                                                TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
-                                <Border Grid.Column="1" CornerRadius="4" Padding="6,2"
-                                        Margin="8,0,0,0" VerticalAlignment="Center"
-                                        x:Name="StateBadge">
-                                    <TextBlock FontSize="11" Text="{Binding InstallationState, Mode=OneWay, Converter={StaticResource InstallStateTextConverter}}" />
-                                </Border>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                                    <Border CornerRadius="4" Padding="6,2">
+                                        <TextBlock FontSize="11" Text="{Binding InstallationState, Mode=OneWay, Converter={StaticResource InstallStateTextConverter}}" />
+                                    </Border>
+                                    <TextBlock FontSize="11" Opacity="0.7" VerticalAlignment="Center"
+                                               IsVisible="{Binding !IsEnabled}" Text="{x:Static s:ModuleRegistryStrings.Disabled}" />
+                                </StackPanel>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -93,14 +105,24 @@
                 CornerRadius="6"
                 BorderThickness="1">
                 <ScrollViewer Padding="20">
-                    <StackPanel Spacing="14" DataContext="{Binding Selected.TrackingModuleMetadata}">
+                    <StackPanel Spacing="14" DataContext="{Binding Selected}">
 
                         <StackPanel Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
                             <StackPanel Spacing="4">
-                                <TextBlock FontSize="22" FontWeight="Bold" Text="{Binding ModuleName}" />
-                                <TextBlock FontSize="13" Opacity="0.6" Text="{Binding AuthorName}" />
+                                <TextBlock FontSize="22" FontWeight="Bold" Text="{Binding TrackingModuleMetadata.ModuleName}" />
+                                <TextBlock FontSize="13" Opacity="0.6" Text="{Binding TrackingModuleMetadata.AuthorName}" />
                             </StackPanel>
                         </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center"
+                                    IsVisible="{Binding InstalledModule, Converter={x:Static ObjectConverters.IsNotNull}}">
+                            <TextBlock Text="{x:Static s:ModuleRegistryStrings.EnableModule}" VerticalAlignment="Center" />
+                            <ToggleSwitch x:Name="ModuleEnabledToggle" IsChecked="{Binding IsEnabled, Mode=TwoWay}"
+                                          Click="ModuleEnabledToggle_Click"
+                                          OnContent="{x:Static s:ModuleRegistryStrings.Enabled}"
+                                          OffContent="{x:Static s:ModuleRegistryStrings.Disabled}" />
+                        </StackPanel>
+                        <TextBlock x:Name="ModuleActivationStatus" FontSize="12" TextWrapping="Wrap" />
 
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <Button
@@ -123,26 +145,26 @@
                         <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" VerticalAlignment="Top">
 
                             <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="SemiBold" Opacity="0.7" Text="{x:Static s:Resources.Version_Text}" />
-                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Version}" TextWrapping="Wrap" />
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TrackingModuleMetadata.Version}" TextWrapping="Wrap" />
 
                             <TextBlock Grid.Row="1" Grid.Column="0" FontWeight="SemiBold" Opacity="0.7" Text="{x:Static s:Resources.Downloads_Text}" Margin="0,8,0,0" />
-                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Downloads}" Margin="0,8,0,0" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding TrackingModuleMetadata.Downloads}" Margin="0,8,0,0" />
 
                             <TextBlock Grid.Row="2" Grid.Column="0" FontWeight="SemiBold" Opacity="0.7" Text="{x:Static s:Resources.LastUpdated_Text}" Margin="0,8,0,0" />
-                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding LastUpdated, StringFormat='{}{0:d}'}" Margin="0,8,0,0" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding TrackingModuleMetadata.LastUpdated, StringFormat='{}{0:d}'}" Margin="0,8,0,0" />
 
                             <TextBlock Grid.Row="3" Grid.Column="0" FontWeight="SemiBold" Opacity="0.7" Text="{x:Static s:Resources.ModulePage_Text}" Margin="0,8,0,0" />
                             <Button Grid.Row="3" Grid.Column="1" Margin="0,8,0,0"
                                     Padding="0"
                                     Classes="hyperlink"
-                                    Content="{Binding ModulePageUrl}"
+                                    Content="{Binding TrackingModuleMetadata.ModulePageUrl}"
                                     Click="OpenModulePage_Click" />
 
                             <TextBlock Grid.Row="4" Grid.Column="0" FontWeight="SemiBold" Opacity="0.7" Text="{x:Static s:Resources.Description_Text}" Margin="0,16,0,0" />
-                            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ModuleDescription}" TextWrapping="Wrap" Margin="0,16,0,0" />
+                            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding TrackingModuleMetadata.ModuleDescription}" TextWrapping="Wrap" Margin="0,16,0,0" />
 
                             <TextBlock Grid.Row="5" Grid.Column="0" FontWeight="SemiBold" Opacity="0.7" Text="{x:Static s:Resources.UsageInstructions_Text}" Margin="0,8,0,0" VerticalAlignment="Top" />
-                            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding UsageInstructions}" TextWrapping="Wrap" Margin="0,8,0,0" />
+                            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding TrackingModuleMetadata.UsageInstructions}" TextWrapping="Wrap" Margin="0,8,0,0" />
                         </Grid>
 
                     </StackPanel>

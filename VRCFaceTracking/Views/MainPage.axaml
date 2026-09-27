@@ -124,6 +124,7 @@
                                     Classes="home-tracking-button"
                                     Grid.Column="2"
                                     IsChecked="{Binding Active, Mode=TwoWay}"
+                                    IsVisible="{Binding !IsPlaceholder}"
                                     ToolTip.Tip="{x:Static s:Resources.ToggleTracking_Content}"
                                     VerticalAlignment="Center" Margin="20,0,12,0">
                                     <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center" VerticalAlignment="Center">

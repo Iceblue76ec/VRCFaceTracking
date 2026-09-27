@@ -6,6 +6,18 @@ namespace VRCFaceTracking.Core.Models;
 public class InstallTrackedTrackingModule : INotifyPropertyChanged
 {
     public TrackingModuleMetadata  TrackingModuleMetadata { get; set; }
+    public InstallableTrackingModule? InstalledModule { get; set; }
+
+    public bool IsEnabled
+    {
+        get;
+        set
+        {
+            if (value == field) return;
+            field = value;
+            OnPropertyChanged();
+        }
+    } = true;
     
     public InstallState InstallationState
     {
