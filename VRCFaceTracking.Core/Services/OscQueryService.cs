@@ -27,6 +27,14 @@ public partial class OscQueryService(
 {
     [ObservableProperty] private IAvatarInfo _avatarInfo = new NullAvatarDef("Loading...", "Loading...");
     [ObservableProperty] private List<Parameter> _avatarParameters;
+    [ObservableProperty] private IAvatarInfo _displayAvatarInfo = new NullAvatarDef("Waiting for VRChat", "");
+    [ObservableProperty] private int _displayParameterCount;
+    [ObservableProperty] private int _displayLegacyCount;
+    [ObservableProperty] private bool _isAvatarPreview;
+    [ObservableProperty] private bool _showFaceTrackingHint;
+    private int _avatarLoadVersion;
+    private readonly SemaphoreSlim _avatarMappingGate = new(1, 1);
+    private readonly SemaphoreSlim _avatarPersistenceGate = new(1, 1);
 
     public async Task InitializeAsync()
     {
@@ -35,6 +43,8 @@ public partial class OscQueryService(
         recvService.OnMessageReceived = HandleNewMessage;
 
         await settingsService.Load(oscTarget);
+        VRChat.EnsureVRCOSCDirectory();
+        await LoadAvatarPreviewAsync();
 
         (bool listenerSuccess, bool senderSuccess) result = (false, false);
 
@@ -62,8 +72,14 @@ public partial class OscQueryService(
         var recvEndpoint = recvService.UpdateTarget(new IPEndPoint(IPAddress.Parse(oscTarget.DestinationAddress), 0));
         if (recvEndpoint == null)
         {
-            logger.LogError("Very strange. We were unable to bind to a random port.");
-            recvEndpoint = new IPEndPoint(IPAddress.Parse(oscTarget.DestinationAddress), oscTarget.InPort);
+            logger.LogWarning("Could not bind a random OSC receive port; trying the configured port.");
+            recvEndpoint = recvService.UpdateTarget(
+                new IPEndPoint(IPAddress.Parse(oscTarget.DestinationAddress), oscTarget.InPort));
+            if (recvEndpoint == null)
+            {
+                logger.LogError("Could not bind an OSC receive port for OSCQuery.");
+                return;
+            }
         }
 
         var randomServiceSuffix = Utils.GetRandomChars(6);
@@ -78,31 +94,104 @@ public partial class OscQueryService(
         HandleNewAvatar();
     }
 
+    private async Task LoadAvatarPreviewAsync()
+    {
+        var version = Volatile.Read(ref _avatarLoadVersion);
+        try
+        {
+            var lastId = await settingsService.ReadSettingAsync<string>("LastAvatarId");
+            var avatar = await avatarConfigParser.ReadAvatarConfigAsync(lastId)
+                         ?? await avatarConfigParser.ReadMostRecentConfigAsync();
+            if (avatar == null || version != Volatile.Read(ref _avatarLoadVersion))
+                return;
+
+            var summary = AvatarTrackingSummary.Analyze(avatar);
+            dispatcherService.Run(() =>
+            {
+                if (version != Volatile.Read(ref _avatarLoadVersion)) return;
+                DisplayAvatarInfo = avatar;
+                DisplayParameterCount = summary.Count;
+                DisplayLegacyCount = summary.LegacyCount;
+                IsAvatarPreview = true;
+                ShowFaceTrackingHint = false;
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Could not load the last known avatar preview.");
+        }
+    }
+
     private async void HandleNewAvatar(string newId = null)
     {
+        var version = Interlocked.Increment(ref _avatarLoadVersion);
         (IAvatarInfo avatarInfo, List<Parameter> relevantParameters)? newAvatar;
-        if (multicastDnsService.VrchatClientEndpoint != null)
+        await _avatarMappingGate.WaitAsync();
+        try
         {
-            newAvatar = await oscQueryConfigParser.ParseAvatar("");
+            if (version != Volatile.Read(ref _avatarLoadVersion)) return;
+            if (multicastDnsService.VrchatClientEndpoint != null)
+            {
+                newAvatar = await oscQueryConfigParser.ParseAvatar("");
+            }
+            else
+            {
+                newAvatar = await avatarConfigParser.ParseAvatar(newId);
+                // VRChat can announce a new avatar before writing its OSC config.
+                for (var attempt = 0; newAvatar == null && attempt < 3
+                     && version == Volatile.Read(ref _avatarLoadVersion); attempt++)
+                {
+                    await Task.Delay(300);
+                    newAvatar = await avatarConfigParser.ParseAvatar(newId);
+                }
+            }
         }
-        else
+        catch (Exception ex)
         {
-            // handle normal osc
-            newAvatar = await avatarConfigParser.ParseAvatar(newId);
+            logger.LogWarning(ex, "Could not load avatar {avatarId}.", newId);
+            return;
+        }
+        finally
+        {
+            _avatarMappingGate.Release();
         }
 
-        if (!newAvatar.HasValue)
+        if (!newAvatar.HasValue || version != Volatile.Read(ref _avatarLoadVersion))
         {
             return;
         }
 
-        // Parsing success. Deregister callback and update values
+        var summary = AvatarTrackingSummary.Analyze(newAvatar.Value.avatarInfo);
         httpHandler.OnHostInfoQueried -= HandleNewAvatarWrapper;
         dispatcherService.Run(() =>
         {
+            if (version != Volatile.Read(ref _avatarLoadVersion)) return;
             AvatarInfo = newAvatar.Value.avatarInfo;
             AvatarParameters = newAvatar.Value.relevantParameters;
+            DisplayAvatarInfo = newAvatar.Value.avatarInfo;
+            DisplayParameterCount = newAvatar.Value.relevantParameters.Count;
+            DisplayLegacyCount = newAvatar.Value.relevantParameters.Count(p => p.Deprecated);
+            IsAvatarPreview = false;
+            ShowFaceTrackingHint = summary.PossiblyUnsupported;
         });
+
+        if (newAvatar.Value.avatarInfo.Id.StartsWith("avtr_", StringComparison.Ordinal))
+        {
+            await _avatarPersistenceGate.WaitAsync();
+            try
+            {
+                if (version == Volatile.Read(ref _avatarLoadVersion))
+                    await settingsService.SaveSettingAsync("LastAvatarId", newAvatar.Value.avatarInfo.Id);
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Could not remember the last avatar.");
+            }
+            finally
+            {
+                _avatarPersistenceGate.Release();
+            }
+        }
     }
 
     private void HandleNewAvatarWrapper() => HandleNewAvatar(); // Helper func used in callbacks
