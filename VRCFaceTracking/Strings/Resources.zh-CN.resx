@@ -572,8 +572,8 @@
   <data name="Registry_CatalogLoading" xml:space="preserve"><value>正在查询模块列表...</value></data>
   <data name="Registry_UsingCache" xml:space="preserve"><value>无法连接模块库，正在显示上次保存的列表。</value></data>
   <data name="Registry_NoCache" xml:space="preserve"><value>无法连接模块库，且尚无缓存。已安装模块仍会显示。</value></data>
-  <data name="Registry_EnableModule" xml:space="preserve"><value>模块启动</value></data>
-  <data name="Registry_ModuleEnabled" xml:space="preserve"><value>已启用</value></data>
+  <data name="Registry_EnableAction" xml:space="preserve"><value>启用</value></data>
+  <data name="Registry_DisableAction" xml:space="preserve"><value>禁用</value></data>
   <data name="Registry_ModuleDisabled" xml:space="preserve"><value>已禁用</value></data>
   <data name="Registry_ActivationFailed" xml:space="preserve"><value>未能应用模块状态，请查看输出日志后重试。</value></data>
   <data name="Main_NoModulesLoaded" xml:space="preserve"><value>未加载模块</value></data>

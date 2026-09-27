@@ -517,8 +517,8 @@
   <data name="Registry_CatalogLoading" xml:space="preserve"><value>Sprawdzanie rejestru modułów...</value></data>
   <data name="Registry_UsingCache" xml:space="preserve"><value>Rejestr jest niedostępny. Wyświetlana jest zapisana lista.</value></data>
   <data name="Registry_NoCache" xml:space="preserve"><value>Rejestr jest niedostępny i brak zapisanej listy. Zainstalowane moduły nadal są widoczne.</value></data>
-  <data name="Registry_EnableModule" xml:space="preserve"><value>Uruchamianie modułu</value></data>
-  <data name="Registry_ModuleEnabled" xml:space="preserve"><value>Włączony</value></data>
+  <data name="Registry_EnableAction" xml:space="preserve"><value>Włącz</value></data>
+  <data name="Registry_DisableAction" xml:space="preserve"><value>Wyłącz</value></data>
   <data name="Registry_ModuleDisabled" xml:space="preserve"><value>Wyłączony</value></data>
   <data name="Registry_ActivationFailed" xml:space="preserve"><value>Nie udało się zastosować stanu modułu. Sprawdź dziennik i spróbuj ponownie.</value></data>
   <data name="Main_NoModulesLoaded" xml:space="preserve"><value>Nie wczytano modułów</value></data>

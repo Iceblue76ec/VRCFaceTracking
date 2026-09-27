@@ -154,12 +154,12 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
         await ViewModel.RefreshInstalledAsync();
     }
 
-    private async void ModuleEnabledToggle_Click(object? sender, RoutedEventArgs e)
+    private async void ModuleStateButton_Click(object? sender, RoutedEventArgs e)
     {
         var module = ViewModel.Selected;
         if (module?.InstalledModule is not { } installed) return;
-        var enabled = ModuleEnabledToggle.IsChecked == true;
-        ModuleEnabledToggle.IsEnabled = false;
+        var enabled = !module.IsEnabled;
+        ModuleStateButtons.IsEnabled = false;
         ModuleList.IsEnabled = false;
         var previous = !enabled;
         try
@@ -190,7 +190,7 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
         }
         finally
         {
-            ModuleEnabledToggle.IsEnabled = true;
+            ModuleStateButtons.IsEnabled = true;
             ModuleList.IsEnabled = true;
         }
     }

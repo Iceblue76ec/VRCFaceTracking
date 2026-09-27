@@ -448,8 +448,8 @@
   <data name="Registry_CatalogLoading" xml:space="preserve"><value>Consultando el registro de módulos...</value></data>
   <data name="Registry_UsingCache" xml:space="preserve"><value>Registro no disponible. Se muestra la lista guardada.</value></data>
   <data name="Registry_NoCache" xml:space="preserve"><value>Registro no disponible y no hay lista guardada. Se muestran los módulos instalados.</value></data>
-  <data name="Registry_EnableModule" xml:space="preserve"><value>Inicio del módulo</value></data>
-  <data name="Registry_ModuleEnabled" xml:space="preserve"><value>Activado</value></data>
+  <data name="Registry_EnableAction" xml:space="preserve"><value>Activar</value></data>
+  <data name="Registry_DisableAction" xml:space="preserve"><value>Desactivar</value></data>
   <data name="Registry_ModuleDisabled" xml:space="preserve"><value>Desactivado</value></data>
   <data name="Registry_ActivationFailed" xml:space="preserve"><value>No se pudo aplicar el estado del módulo. Revisa el registro de salida e inténtalo de nuevo.</value></data>
   <data name="Main_NoModulesLoaded" xml:space="preserve"><value>No hay módulos cargados</value></data>

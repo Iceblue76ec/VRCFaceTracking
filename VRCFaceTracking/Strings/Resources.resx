@@ -566,8 +566,8 @@
   <data name="Registry_CatalogLoading" xml:space="preserve"><value>Checking module registry...</value></data>
   <data name="Registry_UsingCache" xml:space="preserve"><value>Registry unavailable. Showing the saved module list.</value></data>
   <data name="Registry_NoCache" xml:space="preserve"><value>Registry unavailable and no saved list exists. Installed modules are still shown.</value></data>
-  <data name="Registry_EnableModule" xml:space="preserve"><value>Module startup</value></data>
-  <data name="Registry_ModuleEnabled" xml:space="preserve"><value>Enabled</value></data>
+  <data name="Registry_EnableAction" xml:space="preserve"><value>Enable</value></data>
+  <data name="Registry_DisableAction" xml:space="preserve"><value>Disable</value></data>
   <data name="Registry_ModuleDisabled" xml:space="preserve"><value>Disabled</value></data>
   <data name="Registry_ActivationFailed" xml:space="preserve"><value>Could not apply the module state. Check the output log and try again.</value></data>
   <data name="Main_NoModulesLoaded" xml:space="preserve"><value>No modules loaded</value></data>
