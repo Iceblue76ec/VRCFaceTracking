@@ -553,4 +553,9 @@
   <data name="Registry_HttpError" xml:space="preserve"><value>Download server returned HTTP {0}. Check the module link or try again later.</value></data>
   <data name="Registry_SslError" xml:space="preserve"><value>Secure connection (SSL/TLS) failed. Check your network or system certificate settings. Details: {0}</value></data>
   <data name="Registry_NetworkError" xml:space="preserve"><value>Could not connect to the download server. Check your network and try again. Details: {0}</value></data>
+  <data name="Main_WaitingForVrchat" xml:space="preserve"><value>Waiting for VRChat</value></data>
+  <data name="Main_AvatarPreview" xml:space="preserve"><value>Last known avatar · waiting for VRChat</value></data>
+  <data name="Main_AvatarFaceTrackingHint" xml:space="preserve"><value>Current avatar may not support face tracking</value></data>
+  <data name="Main_Tracking_On" xml:space="preserve"><value>Tracking on</value></data>
+  <data name="Main_Tracking_Paused" xml:space="preserve"><value>Tracking paused</value></data>
 </root>

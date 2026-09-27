@@ -20,6 +20,7 @@
         <helpers:IsLocalTestAvatarConverter   x:Key="IsLocalTestAvatarConverter" />
         <helpers:LegacyParameterCountConverter x:Key="LegacyParameterCountConverter" />
         <helpers:HasLegacyParametersConverter  x:Key="HasLegacyParametersConverter" />
+        <helpers:PositiveNumberConverter x:Key="PositiveNumberConverter" />
 
         <helpers:StreamToBitmapConverter x:Key="StreamToBitmapConverter" />
         <helpers:HasModuleImagesConverter x:Key="HasModuleImagesConverter" />

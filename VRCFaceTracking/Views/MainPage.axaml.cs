@@ -13,6 +13,12 @@ public partial class MainPage : UserControl, INotifyNavigated
     {
         InitializeComponent();
         DataContext = Ioc.Default.GetRequiredService<MainViewModel>();
+        SizeChanged += (_, args) =>
+        {
+            var spacious = args.NewSize.Width >= 920 && args.NewSize.Height >= 620;
+            if (spacious && !Classes.Contains("spacious")) Classes.Add("spacious");
+            if (!spacious && Classes.Contains("spacious")) Classes.Remove("spacious");
+        };
     }
 
     public void OnNavigatedTo() => ViewModel.OnNavigatedTo();

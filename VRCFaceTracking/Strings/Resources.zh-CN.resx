@@ -559,4 +559,9 @@
   <data name="Registry_HttpError" xml:space="preserve"><value>下载服务器返回 HTTP {0}。请检查模块链接或稍后重试。</value></data>
   <data name="Registry_SslError" xml:space="preserve"><value>安全连接（SSL/TLS）建立失败。请检查网络或系统证书设置。详情：{0}</value></data>
   <data name="Registry_NetworkError" xml:space="preserve"><value>无法连接下载服务器。请检查网络后重试。详情：{0}</value></data>
+  <data name="Main_WaitingForVrchat" xml:space="preserve"><value>等待 VRChat</value></data>
+  <data name="Main_AvatarPreview" xml:space="preserve"><value>上次模型 · 等待 VRChat</value></data>
+  <data name="Main_AvatarFaceTrackingHint" xml:space="preserve"><value>当前模型可能不支持面捕功能</value></data>
+  <data name="Main_Tracking_On" xml:space="preserve"><value>追踪已开启</value></data>
+  <data name="Main_Tracking_Paused" xml:space="preserve"><value>追踪已暂停</value></data>
 </root>

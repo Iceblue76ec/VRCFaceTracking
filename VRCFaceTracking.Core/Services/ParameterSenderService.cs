@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using VRCFaceTracking.Core.Contracts;
 using VRCFaceTracking.Core.Models.ParameterDefinition;
 using VRCFaceTracking.Core.OSC;
@@ -9,7 +10,7 @@ public class ParameterSenderService
 {
     // We probably don't need a queue since we use osc message bundles, but for now, we're keeping it as
     // we might want to allow a way for the user to specify bundle or single message sends in the future
-    private static readonly Queue<OscMessage> SendQueue = new();
+    private static readonly ConcurrentQueue<OscMessage> SendQueue = new();
 
     private readonly OscSendService _sendService;
     private readonly UnifiedTrackingMutator _mutator; // We don't use this but we do want DI to run its constructor
@@ -46,14 +47,16 @@ public class ParameterSenderService
 
     public async Task FlushAsync(CancellationToken cancellationToken)
     {
-        if (SendQueue.Count == 0) return;
+        if (SendQueue.IsEmpty) return;
 
         await _flushLock.WaitAsync(cancellationToken);
         try
         {
-            if (SendQueue.Count == 0) return;
-            var messages = SendQueue.ToArray();
-            SendQueue.Clear();
+            var messages = new List<OscMessage>();
+            var pending = SendQueue.Count;
+            for (var i = 0; i < pending && SendQueue.TryDequeue(out var message); i++)
+                messages.Add(message);
+            if (messages.Count == 0) return;
             await _sendService.Send(messages, cancellationToken);
         }
         catch (Exception e)

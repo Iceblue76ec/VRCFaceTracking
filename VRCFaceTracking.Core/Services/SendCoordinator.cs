@@ -28,6 +28,8 @@ public sealed class SendCoordinator(ParameterSenderService sender, ILogger<SendC
         }
     }
 
+    public void NotifyStatusChanged() => NotifyReply(int.MinValue);
+
     public void NotifyReply(int port)
     {
         var now = Environment.TickCount64;

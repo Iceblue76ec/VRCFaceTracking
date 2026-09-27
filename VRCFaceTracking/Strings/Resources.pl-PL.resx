@@ -504,4 +504,9 @@
   <data name="Registry_HttpError" xml:space="preserve"><value>Serwer pobierania zwrócił HTTP {0}. Sprawdź link do modułu lub spróbuj ponownie później.</value></data>
   <data name="Registry_SslError" xml:space="preserve"><value>Nie udało się nawiązać bezpiecznego połączenia (SSL/TLS). Sprawdź sieć lub certyfikaty systemowe. Szczegóły: {0}</value></data>
   <data name="Registry_NetworkError" xml:space="preserve"><value>Nie można połączyć się z serwerem pobierania. Sprawdź sieć i spróbuj ponownie. Szczegóły: {0}</value></data>
+  <data name="Main_WaitingForVrchat" xml:space="preserve"><value>Oczekiwanie na VRChat</value></data>
+  <data name="Main_AvatarPreview" xml:space="preserve"><value>Ostatnio znany awatar · oczekiwanie na VRChat</value></data>
+  <data name="Main_AvatarFaceTrackingHint" xml:space="preserve"><value>Bieżący awatar może nie obsługiwać śledzenia twarzy</value></data>
+  <data name="Main_Tracking_On" xml:space="preserve"><value>Śledzenie włączone</value></data>
+  <data name="Main_Tracking_Paused" xml:space="preserve"><value>Śledzenie wstrzymane</value></data>
 </root>

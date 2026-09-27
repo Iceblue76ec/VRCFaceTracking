@@ -151,6 +151,14 @@ public partial class UnifiedLibManager
             }
 
             module.Status = module.ModuleInformation.Active ? ModuleState.Active : ModuleState.Idle;
+            EyeStatus = AvailableSandboxModules.Any(m => m.ModuleInformation.Active && m.ModuleInformation.UsingEye)
+                ? ModuleState.Active : ModuleState.Idle;
+            ExpressionStatus = AvailableSandboxModules.Any(m => m.ModuleInformation.Active && m.ModuleInformation.UsingExpression)
+                ? ModuleState.Active : ModuleState.Idle;
+            if (module.ModuleInformation.Active)
+                _sendCoordinator.RegisterModule(port);
+            else
+                _sendCoordinator.UnregisterModule(port);
             _sandboxServer.SendData(
                 new EventStatusUpdatePacket
                 {
@@ -159,6 +167,7 @@ public partial class UnifiedLibManager
                     UsingExpression = module.ModuleInformation.UsingExpression,
                 },
                 port);
+            _sendCoordinator.NotifyStatusChanged();
         };
 
         module.ModuleInformation.Active          = true;

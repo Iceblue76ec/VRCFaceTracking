@@ -46,6 +46,7 @@ public sealed class PlaceholderTextConverter : IValueConverter
         {
             "Initializing Modules..." => AppStrings.Main_InitializingModules,
             "Loading..." => AppStrings.Main_Loading,
+            "Waiting for VRChat" => Strings.MainPageStrings.WaitingForVrchat,
             _ => value
         };
 

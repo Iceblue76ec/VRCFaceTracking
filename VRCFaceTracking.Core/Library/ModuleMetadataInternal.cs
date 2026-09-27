@@ -16,6 +16,7 @@ public class ModuleMetadataInternal : INotifyPropertyChanged
         get => _active;
         set
         {
+            if (_active == value) return;
             _active = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Active)));
         }

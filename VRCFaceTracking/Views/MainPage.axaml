@@ -8,6 +8,33 @@
     x:DataType="vm:MainViewModel"
     x:Class="VRCFaceTracking.Views.MainPage">
 
+    <UserControl.Styles>
+        <Style Selector="Border.home-module-card"><Setter Property="MinHeight" Value="104" /></Style>
+        <Style Selector=":is(UserControl).spacious Border.home-module-card"><Setter Property="MinHeight" Value="180" /></Style>
+        <Style Selector="Image.home-module-image"><Setter Property="Height" Value="72" /></Style>
+        <Style Selector=":is(UserControl).spacious Image.home-module-image"><Setter Property="Height" Value="140" /></Style>
+        <Style Selector="TextBlock.home-module-name"><Setter Property="FontSize" Value="16" /></Style>
+        <Style Selector=":is(UserControl).spacious TextBlock.home-module-name"><Setter Property="FontSize" Value="27" /></Style>
+        <Style Selector="TextBlock.home-module-detail"><Setter Property="FontSize" Value="12" /></Style>
+        <Style Selector=":is(UserControl).spacious TextBlock.home-module-detail"><Setter Property="FontSize" Value="15" /></Style>
+        <Style Selector="TextBlock.home-section-header"><Setter Property="FontSize" Value="13" /></Style>
+        <Style Selector=":is(UserControl).spacious TextBlock.home-section-header"><Setter Property="FontSize" Value="17" /></Style>
+        <Style Selector="TextBlock.home-node-label"><Setter Property="FontSize" Value="12" /></Style>
+        <Style Selector=":is(UserControl).spacious TextBlock.home-node-label"><Setter Property="FontSize" Value="15" /></Style>
+        <Style Selector="TextBlock.home-endpoint"><Setter Property="FontSize" Value="11" /></Style>
+        <Style Selector=":is(UserControl).spacious TextBlock.home-endpoint"><Setter Property="FontSize" Value="14" /></Style>
+        <Style Selector="TextBlock.home-flow-arrow"><Setter Property="FontSize" Value="15" /></Style>
+        <Style Selector=":is(UserControl).spacious TextBlock.home-flow-arrow"><Setter Property="FontSize" Value="18" /></Style>
+        <Style Selector="Border.home-status-card"><Setter Property="MinHeight" Value="94" /></Style>
+        <Style Selector=":is(UserControl).spacious Border.home-status-card"><Setter Property="MinHeight" Value="125" /></Style>
+        <Style Selector="Border.home-avatar-card"><Setter Property="MinHeight" Value="80" /></Style>
+        <Style Selector=":is(UserControl).spacious Border.home-avatar-card"><Setter Property="MinHeight" Value="125" /></Style>
+        <Style Selector="TextBlock.home-avatar-name"><Setter Property="FontSize" Value="14" /></Style>
+        <Style Selector=":is(UserControl).spacious TextBlock.home-avatar-name"><Setter Property="FontSize" Value="20" /></Style>
+        <Style Selector="TextBlock.home-avatar-detail"><Setter Property="FontSize" Value="12" /></Style>
+        <Style Selector=":is(UserControl).spacious TextBlock.home-avatar-detail"><Setter Property="FontSize" Value="14" /></Style>
+    </UserControl.Styles>
+
     <ScrollViewer>
         <StackPanel Margin="0,10,0,20" Spacing="12">
             <Border
@@ -31,12 +58,12 @@
                 </StackPanel>
             </Border>
 
-            <TextBlock FontSize="13" FontWeight="SemiBold" Opacity="0.6" Text="{x:Static s:Resources.Main_Modules_Header}" />
+            <TextBlock Classes="home-section-header" FontWeight="SemiBold" Opacity="0.6" Text="{x:Static s:Resources.Main_Modules_Header}" />
 
             <ItemsControl ItemsSource="{Binding LibManager.LoadedModulesMetadata}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="model:ModuleMetadataInternal">
-                        <Border CornerRadius="6" BorderThickness="1" Margin="0,0,0,4" Background="{DynamicResource ControlFillColorDefaultBrush}">
+                        <Border Classes="home-module-card" CornerRadius="6" BorderThickness="1" Margin="0,0,0,4" Background="{DynamicResource ControlFillColorDefaultBrush}">
                             <Grid Margin="16,14" ColumnDefinitions="Auto,*,Auto">
 
                                 <ItemsControl Grid.Column="0" Margin="0,0,12,0"
@@ -51,8 +78,7 @@
                                         <DataTemplate>
                                             <Border CornerRadius="6" ClipToBounds="True"
                                                     Background="{DynamicResource ControlFillColorSecondaryBrush}">
-                                                <Image Source="{Binding Converter={StaticResource StreamToBitmapConverter}}"
-                                                       Height="72"
+                                                <Image Classes="home-module-image" Source="{Binding Converter={StaticResource StreamToBitmapConverter}}"
                                                        Stretch="Uniform" />
                                             </Border>
                                         </DataTemplate>
@@ -60,11 +86,17 @@
                                 </ItemsControl>
 
                                 <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" Spacing="4">
-                                    <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding Name, Mode=OneWay, Converter={StaticResource PlaceholderTextConverter}}" />
-                                    <StackPanel Orientation="Horizontal" Spacing="12">
-                                        <TextBlock Text="{x:Static s:Resources.EyeTrackingActive_Text}" FontSize="12" Opacity="0.7"
+                                    <TextBlock Classes="home-module-name" FontWeight="SemiBold" Text="{Binding Name, Mode=OneWay, Converter={StaticResource PlaceholderTextConverter}}" />
+                                    <StackPanel Orientation="Horizontal" Spacing="12" IsVisible="{Binding Active}">
+                                        <TextBlock Classes="home-module-detail" Text="{x:Static s:Resources.EyeTrackingActive_Text}" Opacity="0.7"
                                                    IsVisible="{Binding UsingEye, Mode=OneWay}" />
-                                        <TextBlock Text="{x:Static s:Resources.FaceTrackingActive_Text}" FontSize="12" Opacity="0.7"
+                                        <TextBlock Classes="home-module-detail" Text="{x:Static s:Resources.FaceTrackingActive_Text}" Opacity="0.7"
+                                                   IsVisible="{Binding UsingExpression, Mode=OneWay}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="12" IsVisible="{Binding !Active}">
+                                        <TextBlock Classes="home-module-detail" Text="{x:Static s:Resources.EyeTrackingInactive_Text}" Opacity="0.7"
+                                                   IsVisible="{Binding UsingEye, Mode=OneWay}" />
+                                        <TextBlock Classes="home-module-detail" Text="{x:Static s:Resources.FaceTrackingInactive_Text}" Opacity="0.7"
                                                    IsVisible="{Binding UsingExpression, Mode=OneWay}" />
                                     </StackPanel>
                                 </StackPanel>
@@ -72,8 +104,9 @@
                                 <ToggleSwitch
                                     Grid.Column="2"
                                     IsChecked="{Binding Active, Mode=TwoWay}"
-                                    OffContent=""
-                                    OnContent=""
+                                    OffContent="{x:Static s:MainPageStrings.TrackingPaused}"
+                                    OnContent="{x:Static s:MainPageStrings.TrackingOn}"
+                                    ToolTip.Tip="{x:Static s:Resources.ToggleTracking_Content}"
                                     VerticalAlignment="Center" />
                             </Grid>
                         </Border>
@@ -81,16 +114,16 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <TextBlock FontSize="13" FontWeight="SemiBold" Opacity="0.6"
+            <TextBlock Classes="home-section-header" FontWeight="SemiBold" Opacity="0.6"
                        Text="{x:Static s:Resources.Main_Status_Header}" Margin="0,8,0,0" />
-            <Border CornerRadius="6" BorderThickness="1" Padding="20,16"
+            <Border Classes="home-status-card" CornerRadius="6" BorderThickness="1" Padding="20,16"
                     Background="{DynamicResource ControlFillColorDefaultBrush}">
                 <Grid ColumnDefinitions="Auto,*,Auto,2*,Auto" ColumnSpacing="12" VerticalAlignment="Center">
                     <StackPanel Grid.Column="0" Width="96" HorizontalAlignment="Center"
                                 VerticalAlignment="Center" Spacing="4">
                         <ui:SymbolIcon Symbol="Camera" FontSize="22" HorizontalAlignment="Center"
                                        ToolTip.Tip="{x:Static s:Resources.Main_TrackingModule_Tooltip}" />
-                        <TextBlock FontWeight="SemiBold" FontSize="12"
+                        <TextBlock Classes="home-node-label" FontWeight="SemiBold"
                                    Text="{x:Static s:Resources.Main_TrackingModule_Label}"
                                    TextAlignment="Center" TextWrapping="Wrap" />
                     </StackPanel>
@@ -103,7 +136,7 @@
                         <ui:FontIcon Glyph="&#xEC05;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
                                      FontSize="22" HorizontalAlignment="Center"
                                      ToolTip.Tip="{x:Static s:Resources.Main_Relay_Tooltip}" />
-                        <TextBlock FontWeight="SemiBold" FontSize="12" Text="VRCFaceTracking"
+                        <TextBlock Classes="home-node-label" FontWeight="SemiBold" Text="VRCFaceTracking"
                                    TextAlignment="Center" />
                     </StackPanel>
 
@@ -112,39 +145,39 @@
                             VerticalAlignment="Center">
                         <Grid ColumnDefinitions="Auto,Auto,*,Auto" RowDefinitions="Auto,Auto"
                               ColumnSpacing="6" RowSpacing="6" VerticalAlignment="Center">
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="←" FontSize="15"
+                            <TextBlock Grid.Row="0" Grid.Column="0" Classes="home-flow-arrow" Text="←"
                                        VerticalAlignment="Center" />
-                            <TextBlock Grid.Row="0" Grid.Column="1" FontSize="11"
+                            <TextBlock Grid.Row="0" Grid.Column="1" Classes="home-endpoint"
                                        Text="{x:Static s:Resources.Main_Receive_Label}"
                                        VerticalAlignment="Center"
                                        ToolTip.Tip="{x:Static s:Resources.Main_Receive_Tooltip}" />
                             <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" Spacing="0"
                                         VerticalAlignment="Center">
-                                <TextBlock Text="127.0.0.1" FontSize="11" VerticalAlignment="Center" />
+                                <TextBlock Classes="home-endpoint" Text="127.0.0.1" VerticalAlignment="Center" />
                                 <TextBlock Text="{Binding OscTarget.EffectiveInPort, Mode=OneWay, StringFormat=':{0}'}"
-                                           FontSize="11" VerticalAlignment="Center" />
-                                <TextBlock Text="{x:Static s:Resources.Main_Receive_Disconnected}" FontSize="11"
-                                           VerticalAlignment="Center" Opacity="0.6"
+                                           Classes="home-endpoint" VerticalAlignment="Center" />
+                                <TextBlock Classes="home-endpoint" Text="{x:Static s:Resources.Main_Receive_Disconnected}"
+                                           VerticalAlignment="Center" Opacity="0.6" Margin="6,0,0,0"
                                            IsVisible="{Binding !OscTarget.IsReceiving}" />
                             </StackPanel>
-                            <TextBlock Grid.Row="0" Grid.Column="3" FontSize="11"
+                            <TextBlock Grid.Row="0" Grid.Column="3" Classes="home-endpoint"
                                        Text="{Binding MessagesInPerSec, Mode=OneWay, StringFormat='{}{0}/s'}" />
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="→" FontSize="15"
+                            <TextBlock Grid.Row="1" Grid.Column="0" Classes="home-flow-arrow" Text="→"
                                        VerticalAlignment="Center" />
-                            <TextBlock Grid.Row="1" Grid.Column="1" FontSize="11"
+                            <TextBlock Grid.Row="1" Grid.Column="1" Classes="home-endpoint"
                                        Text="{x:Static s:Resources.Main_Send_Label}"
                                        VerticalAlignment="Center" />
                             <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" Spacing="0"
                                         VerticalAlignment="Center"
                                         ToolTip.Tip="{Binding OscTarget.DestinationAddress, Mode=OneWay}">
                                 <TextBlock Text="{Binding OscTarget.DestinationAddress, Mode=OneWay}"
-                                           FontSize="11" VerticalAlignment="Center" MaxWidth="95"
+                                           Classes="home-endpoint" VerticalAlignment="Center" MaxWidth="95"
                                            TextTrimming="CharacterEllipsis" />
                                 <TextBlock Text="{Binding OscTarget.OutPort, Mode=OneWay, StringFormat=':{0}'}"
-                                           FontSize="11" VerticalAlignment="Center" />
+                                           Classes="home-endpoint" VerticalAlignment="Center" />
                             </StackPanel>
-                            <TextBlock Grid.Row="1" Grid.Column="3" FontSize="11"
+                            <TextBlock Grid.Row="1" Grid.Column="3" Classes="home-endpoint"
                                        Text="{Binding MessagesOutPerSec, Mode=OneWay, StringFormat='{}{0}/s'}" />
                         </Grid>
                     </Border>
@@ -153,12 +186,12 @@
                                 VerticalAlignment="Center" Spacing="4">
                         <ui:SymbolIcon Symbol="Contact" FontSize="22" HorizontalAlignment="Center"
                                        ToolTip.Tip="{x:Static s:Resources.Main_VRChat_Tooltip}" />
-                        <TextBlock FontWeight="SemiBold" FontSize="12" Text="VRChat"
+                        <TextBlock Classes="home-node-label" FontWeight="SemiBold" Text="VRChat"
                                    TextAlignment="Center" />
                     </StackPanel>
                 </Grid>
             </Border>
-            <Border CornerRadius="6" BorderThickness="1" Padding="16,14" Background="{DynamicResource ControlFillColorDefaultBrush}">
+            <Border Classes="home-avatar-card" CornerRadius="6" BorderThickness="1" Padding="16,14" Background="{DynamicResource ControlFillColorDefaultBrush}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -169,10 +202,15 @@
                     <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="14" VerticalAlignment="Center">
                         <ui:SymbolIcon Symbol="Contact" FontSize="24" VerticalAlignment="Center" />
                         <StackPanel Spacing="3" VerticalAlignment="Center">
-                            <TextBlock FontWeight="SemiBold" FontSize="14" Text="{Binding ParameterOutputService.AvatarInfo.Name, Mode=OneWay, Converter={StaticResource PlaceholderTextConverter}}" />
-                            <TextBlock FontSize="12" Opacity="0.7" Text="{Binding ParameterOutputService.AvatarInfo.Id, Mode=OneWay, Converter={StaticResource PlaceholderTextConverter}}" />
+                            <TextBlock Classes="home-avatar-detail" FontWeight="SemiBold" Text="{x:Static s:Resources.AvatarStatus_Text}" />
+                            <TextBlock Classes="home-avatar-name" FontWeight="SemiBold" Text="{Binding ParameterOutputService.DisplayAvatarInfo.Name, Mode=OneWay, Converter={StaticResource PlaceholderTextConverter}}" />
+                            <TextBlock Classes="home-avatar-detail" Opacity="0.7" Text="{Binding ParameterOutputService.DisplayAvatarInfo.Id, Mode=OneWay}" />
+                            <TextBlock Classes="home-avatar-detail" Opacity="0.7" IsVisible="{Binding ParameterOutputService.IsAvatarPreview}"
+                                       Text="{x:Static s:MainPageStrings.AvatarPreview}" TextWrapping="Wrap" MaxWidth="420" />
+                            <TextBlock Classes="home-avatar-detail" Foreground="#D99032" IsVisible="{Binding ParameterOutputService.ShowFaceTrackingHint}"
+                                       Text="{x:Static s:MainPageStrings.AvatarFaceTrackingHint}" TextWrapping="Wrap" MaxWidth="420" />
                             <StackPanel Orientation="Horizontal" Spacing="6"
-                                        IsVisible="{Binding ParameterOutputService.AvatarInfo.Id, Mode=OneWay, Converter={StaticResource IsLocalTestAvatarConverter}}">
+                                    IsVisible="{Binding ParameterOutputService.DisplayAvatarInfo.Id, Mode=OneWay, Converter={StaticResource IsLocalTestAvatarConverter}}">
                                 <Ellipse Width="8" Height="8" Fill="Red" VerticalAlignment="Center" />
                                 <TextBlock FontSize="12" Opacity="0.7" VerticalAlignment="Center"
                                            Text="{x:Static s:Resources.LocalTestAvatar_Text}"
@@ -183,13 +221,13 @@
 
                     <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Right" Spacing="4">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="6">
-                            <TextBlock FontSize="12" Text="{Binding ParameterOutputService.AvatarParameters.Count, Mode=OneWay}" />
+                            <TextBlock FontSize="12" Text="{Binding ParameterOutputService.DisplayParameterCount, Mode=OneWay}" />
                             <TextBlock FontSize="12" Opacity="0.6" Text="{x:Static s:Resources.Parameters_Text}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="6"
-                                    IsVisible="{Binding ParameterOutputService.AvatarParameters, Mode=OneWay, Converter={StaticResource HasLegacyParametersConverter}}">
+                                    IsVisible="{Binding ParameterOutputService.DisplayLegacyCount, Mode=OneWay, Converter={StaticResource PositiveNumberConverter}}">
                             <Ellipse Width="8" Height="8" Fill="Orange" VerticalAlignment="Center" />
-                            <TextBlock FontSize="12" Text="{Binding ParameterOutputService.AvatarParameters, Mode=OneWay, Converter={StaticResource LegacyParameterCountConverter}}" />
+                            <TextBlock FontSize="12" Text="{Binding ParameterOutputService.DisplayLegacyCount, Mode=OneWay}" />
                             <TextBlock FontSize="12" Opacity="0.6" Text="{x:Static s:Resources.LegacyParameters_Text}" />
                         </StackPanel>
                     </StackPanel>

@@ -435,4 +435,9 @@
   <data name="Registry_HttpError" xml:space="preserve"><value>El servidor de descargas devolvió HTTP {0}. Comprueba el enlace del módulo o inténtalo más tarde.</value></data>
   <data name="Registry_SslError" xml:space="preserve"><value>No se pudo establecer la conexión segura (SSL/TLS). Comprueba la red o los certificados del sistema. Detalles: {0}</value></data>
   <data name="Registry_NetworkError" xml:space="preserve"><value>No se pudo conectar con el servidor de descargas. Comprueba la red e inténtalo de nuevo. Detalles: {0}</value></data>
+  <data name="Main_WaitingForVrchat" xml:space="preserve"><value>Esperando a VRChat</value></data>
+  <data name="Main_AvatarPreview" xml:space="preserve"><value>Último avatar conocido · esperando a VRChat</value></data>
+  <data name="Main_AvatarFaceTrackingHint" xml:space="preserve"><value>Es posible que el avatar actual no admita el seguimiento facial</value></data>
+  <data name="Main_Tracking_On" xml:space="preserve"><value>Seguimiento activado</value></data>
+  <data name="Main_Tracking_Paused" xml:space="preserve"><value>Seguimiento en pausa</value></data>
 </root>
