@@ -38,7 +38,6 @@ public class OscQueryConfigParser(
                 JsonConvert.DeserializeObject<OscQueryNode>(await response.Content.ReadAsStringAsync());
             
             ParameterSenderService.Clear();
-            parserLogger.LogDebug(avatarConfig.ToString());
             var avatarInfo = new OscQueryAvatarInfo(avatarConfig);
 
             // Reset all parameters
@@ -49,14 +48,25 @@ public class OscQueryConfigParser(
                 paramList.AddRange(parameter.ResetParam(avatarInfo.Parameters, avatarInfo));
             }
 
+            var mappedFaceParameters = paramList
+                .SelectMany(parameter => parameter.GetParamNames())
+                .Select(parameter => parameter.paramName)
+                .Distinct(StringComparer.Ordinal)
+                .OrderBy(parameter => parameter, StringComparer.Ordinal)
+                .ToArray();
+            parserLogger.LogDebug(
+                "Resolved {ParameterCount} VRCFT face-tracking OSC parameter mappings: {Parameters}",
+                mappedFaceParameters.Length,
+                string.Join(", ", mappedFaceParameters));
+
             // God help me why is this something I need to do to get the avatar name
             // this impl is really disappointing vrc
             var configFileInfo = await configParser.ParseAvatar(avatarInfo.Id, true);
-            parserLogger.LogInformation($"Attempting to resolve avatar config file for {avatarInfo.Id}");
+            parserLogger.LogInformation("Attempting to resolve the avatar config file.");
             if (!string.IsNullOrEmpty(configFileInfo?.avatarInfo.Name))
             {
                 avatarInfo.Name = configFileInfo.Value.avatarInfo.Name;
-                parserLogger.LogInformation($"Successfully found config containing avatar name {avatarInfo.Name}");
+                parserLogger.LogInformation("Successfully found the avatar config file.");
             }
             else
             {
