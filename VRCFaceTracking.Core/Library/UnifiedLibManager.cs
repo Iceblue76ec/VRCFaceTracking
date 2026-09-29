@@ -55,77 +55,113 @@ public partial class UnifiedLibManager : ILibManager
         await _initializeLock.WaitAsync();
         try
         {
-            var hasInstalledModules = false;
-            _dispatcherService.Run(() =>
-            {
-                LoadedModulesMetadata.Clear();
-                LoadedModulesMetadata.Add(new ModuleMetadataInternal
-                {
-                    Active = false,
-                    Name = "Initializing Modules...",
-                    IsPlaceholder = true
-                });
-            });
-
-            _logger.LogInformation("Starting initialization tracking");
-
-            // Process teardown, module discovery and Process.Start must not block the UI thread.
             await Task.Run(async () =>
             {
                 await TeardownAllModulesCore();
-
-                if (_sandboxServer == null)
-                {
-                    // @TODO: Ask the GUI for ports assigned to the OSC target.
-                    var reservedPorts = new[] { 9000, 9001 };
-                    _sandboxServer = new VrcftSandboxServer(_loggerFactory, reservedPorts);
-                    _sandboxServer.OnPacketReceived += OnSandboxPacketReceived;
-                }
-
-                var modules = _moduleDataService.GetInstalledModules().Concat(_moduleDataService.GetLegacyModules()).ToArray();
-                hasInstalledModules = modules.Length > 0;
-                var modulePaths = new List<string>();
-                foreach (var module in modules)
-                {
-                    if (await _moduleDataService.IsModuleEnabledAsync(module))
-                        modulePaths.Add(module.AssemblyLoadPath);
-                }
-                lock (AvailableSandboxModules)
-                {
-                    AvailableSandboxModules.Clear();
-                    _acceptingHandshakes = true;
-                }
-                InitialiseSandboxesBaseOnPaths(modulePaths);
+                await InitializeCore();
             });
-
-            lock (AvailableSandboxModules)
-            {
-                if (AvailableSandboxModules.Count > 0)
-                {
-                    _logger.LogDebug("Initializing requested runtimes...");
-                    return;
-                }
-            }
-
-            _dispatcherService.Run(() =>
-            {
-                LoadedModulesMetadata.Clear();
-                LoadedModulesMetadata.Add(new ModuleMetadataInternal
-                {
-                    Active = false,
-                    Name = hasInstalledModules ? "No Modules Enabled" : "No Modules Loaded",
-                    IsPlaceholder = true
-                });
-            });
-            if (hasInstalledModules)
-                _logger.LogInformation("All installed modules are disabled.");
-            else
-                _logger.LogWarning("No modules loaded.");
         }
         finally
         {
             _initializeLock.Release();
         }
+    }
+
+    public async Task ChangeModules(Action change, Action? rollback = null,
+        CancellationToken cancellationToken = default)
+    {
+        await _initializeLock.WaitAsync(cancellationToken);
+        try
+        {
+            await Task.Run(async () =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await TeardownAllModulesCore();
+                try
+                {
+                    change();
+                    await InitializeCore();
+                }
+                catch (Exception changeError)
+                {
+                    await TeardownAllModulesCore();
+                    try
+                    {
+                        rollback?.Invoke();
+                        await InitializeCore();
+                    }
+                    catch (Exception recoveryError)
+                    {
+                        throw new AggregateException("Module change and recovery failed.", changeError, recoveryError);
+                    }
+                    throw;
+                }
+            });
+        }
+        finally
+        {
+            _initializeLock.Release();
+        }
+    }
+
+    private async Task InitializeCore()
+    {
+        _dispatcherService.Run(() =>
+        {
+            LoadedModulesMetadata.Clear();
+            LoadedModulesMetadata.Add(new ModuleMetadataInternal
+            {
+                Active = false,
+                Name = "Initializing Modules...",
+                IsPlaceholder = true
+            });
+        });
+        _logger.LogInformation("Starting initialization tracking");
+
+        if (_sandboxServer == null)
+        {
+            var reservedPorts = new[] { 9000, 9001 };
+            _sandboxServer = new VrcftSandboxServer(_loggerFactory, reservedPorts);
+            _sandboxServer.OnPacketReceived += OnSandboxPacketReceived;
+        }
+
+        var modules = _moduleDataService.GetInstalledModules().Concat(_moduleDataService.GetLegacyModules()).ToArray();
+        var modulePaths = new List<string>();
+        foreach (var module in modules)
+        {
+            if (await _moduleDataService.IsModuleEnabledAsync(module))
+                modulePaths.Add(module.AssemblyLoadPath);
+        }
+        lock (AvailableSandboxModules)
+        {
+            _acceptingHandshakes = true;
+        }
+        InitialiseSandboxesBaseOnPaths(modulePaths);
+        lock (AvailableSandboxModules)
+        {
+            if (AvailableSandboxModules.Count > 0)
+            {
+                _logger.LogDebug("Initializing requested runtimes...");
+                return;
+            }
+        }
+
+        // Installed but enabled modules may also fail to start; do not label them disabled.
+        var allDisabled = modules.Length > 0 && modulePaths.Count == 0;
+        _dispatcherService.Run(() =>
+        {
+            LoadedModulesMetadata.Clear();
+            LoadedModulesMetadata.Add(new ModuleMetadataInternal
+            {
+                Active = false,
+                Name = allDisabled ? "No Modules Enabled" : "No Modules Loaded",
+                IsPlaceholder = true
+            });
+        });
+        if (allDisabled)
+            _logger.LogInformation("All installed modules are disabled.");
+        else
+            _logger.LogWarning("No modules loaded.");
     }
 
     // Signal all active modules to gracefully shut down their respective runtimes.
@@ -181,6 +217,8 @@ public partial class UnifiedLibManager : ILibManager
         var success = false;
         try
         {
+            if (module.SandboxProcessPort > 0)
+                _sendCoordinator.UnregisterModule(module.SandboxProcessPort);
             module.UpdateCancellationToken?.Cancel();
             if (module.Process?.HasExited ?? true)
             {

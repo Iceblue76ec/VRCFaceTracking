@@ -81,14 +81,7 @@ public class ActivationService(
                     if (rm.ModuleId != lm.ModuleId || lm.IsLocal)
                         return false;
 
-                    try
-                    {
-                        return new Version(rm.Version).CompareTo(new Version(lm.Version)) > 0;
-                    }
-                    catch
-                    {
-                        return string.CompareOrdinal(rm.Version, lm.Version) > 0;
-                    }
+                    return ModuleVersion.IsNewer(rm.Version, lm.Version);
                 }));
 
                 using var updateBudget = new CancellationTokenSource(TimeSpan.FromSeconds(15));

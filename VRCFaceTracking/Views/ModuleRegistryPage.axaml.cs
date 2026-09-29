@@ -41,7 +41,7 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
     }
 
     private void ModuleSelection_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-    {   
+    {
         if (ViewModel.Selected is not InstallTrackedTrackingModule module) return;
         InstallButton.IsVisible = module.InstallationState != InstallState.Installed;
         UninstallButton.IsVisible = module.InstalledModule != null;
@@ -56,9 +56,8 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
     }
     private async void InstallButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        if (ViewModel.Selected is not InstallTrackedTrackingModule module) return;
-        InstallButton.IsEnabled = false;
-        ModuleList.IsEnabled = false;
+        if (ViewModel.IsBusy || ViewModel.Selected is not InstallTrackedTrackingModule module) return;
+        ViewModel.IsBusy = true;
         InstallButton.Content = AppStrings.Registry_Installing;
         InstallProgress.IsVisible = true;
         InstallProgress.IsIndeterminate = true;
@@ -128,8 +127,7 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
         finally
         {
             acceptProgress = false;
-            ModuleList.IsEnabled = true;
-            InstallButton.IsEnabled = true;
+            ViewModel.IsBusy = false;
         }
     }
 
@@ -147,20 +145,30 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
 
     private async void UninstallButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        if (ViewModel.Selected is not InstallTrackedTrackingModule module) return;
-
-        UninstallButton.IsEnabled = false;
-        await _moduleInstaller.UninstallModule(module.TrackingModuleMetadata);
-        await ViewModel.RefreshInstalledAsync();
+        if (ViewModel.IsBusy || ViewModel.Selected is not InstallTrackedTrackingModule module) return;
+        ViewModel.IsBusy = true;
+        try
+        {
+            await _moduleInstaller.UninstallModule(module.InstalledModule ?? module.TrackingModuleMetadata);
+            await ViewModel.RefreshInstalledAsync();
+        }
+        catch (Exception ex)
+        {
+            InstallStatusText.IsVisible = true;
+            InstallStatusText.Text = string.Format(AppStrings.Registry_Failure, ex.Message);
+        }
+        finally
+        {
+            ViewModel.IsBusy = false;
+        }
     }
 
     private async void ModuleStateButton_Click(object? sender, RoutedEventArgs e)
     {
         var module = ViewModel.Selected;
-        if (module?.InstalledModule is not { } installed) return;
+        if (ViewModel.IsBusy || module?.InstalledModule is not { } installed) return;
         var enabled = !module.IsEnabled;
-        ModuleStateButtons.IsEnabled = false;
-        ModuleList.IsEnabled = false;
+        ViewModel.IsBusy = true;
         var previous = !enabled;
         try
         {
@@ -190,15 +198,14 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
         }
         finally
         {
-            ModuleStateButtons.IsEnabled = true;
-            ModuleList.IsEnabled = true;
+            ViewModel.IsBusy = false;
         }
     }
 
     private async void OpenModulePage_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (ViewModel.Selected?.TrackingModuleMetadata.ModulePageUrl is not { Length: > 0 } url) return;
-        
+
         try
         {
             var launcher = TopLevel.GetTopLevel(this)?.Launcher;
@@ -210,47 +217,54 @@ public partial class ModuleRegistryPage : UserControl, INotifyNavigated
 
     private async void Button_OnClick(object? sender, RoutedEventArgs e)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
-        {
-            Title = AppStrings.Registry_InstallZip_Tooltip,
-            AllowMultiple = false,
-            FileTypeFilter = [
-                new FilePickerFileType(AppStrings.Registry_ZipFiles_Type)
-                {
-                    Patterns = (IReadOnlyList<string>)
-                    [
-                        "*.zip"
-                    ],
-                    AppleUniformTypeIdentifiers = (IReadOnlyList<string>)
-                    [
-                        "public.zip"
-                    ],
-                    MimeTypes = (IReadOnlyList<string>)
-                        [
-                            "application/zip",
-                            "application/x-zip",
-                            "application/x-zip-compressed",
-                            "application/zip-compressed",
-                            "multipart/x-zip"
-                        ]
-                    
-                }
-            ]
-        });
-
+        if (ViewModel.IsBusy) return;
+        ViewModel.IsBusy = true;
         try
         {
+            var topLevel = TopLevel.GetTopLevel(this);
+
+            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                Title = AppStrings.Registry_InstallZip_Tooltip,
+                AllowMultiple = false,
+                FileTypeFilter = [
+                    new FilePickerFileType(AppStrings.Registry_ZipFiles_Type)
+                    {
+                        Patterns = (IReadOnlyList<string>)
+                        [
+                            "*.zip"
+                        ],
+                        AppleUniformTypeIdentifiers = (IReadOnlyList<string>)
+                        [
+                            "public.zip"
+                        ],
+                        MimeTypes = (IReadOnlyList<string>)
+                            [
+                                "application/zip",
+                                "application/x-zip",
+                                "application/x-zip-compressed",
+                                "application/zip-compressed",
+                                "multipart/x-zip"
+                            ]
+
+                    }
+                ]
+            });
             foreach (var file in files)
             {
-                await _moduleInstaller.InstallLocalModule(file.Path.LocalPath);
+                if (await _moduleInstaller.InstallLocalModule(file.Path.LocalPath) == null)
+                    throw new InvalidDataException(AppStrings.Registry_Package_Invalid);
             }
+            await ViewModel.RefreshInstalledAsync();
+        }
+        catch (Exception ex)
+        {
+            InstallStatusText.IsVisible = true;
+            InstallStatusText.Text = string.Format(AppStrings.Registry_Failure, ex.Message);
         }
         finally
         {
-            await _libManager.Initialize();
-            await ViewModel.RefreshInstalledAsync();
+            ViewModel.IsBusy = false;
         }
     }
 }

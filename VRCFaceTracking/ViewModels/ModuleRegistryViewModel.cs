@@ -14,6 +14,7 @@ public partial class ModuleRegistryViewModel : ObservableRecipient
     [ObservableProperty] private InstallTrackedTrackingModule? _selected;
     [ObservableProperty] private string _searchQuery = string.Empty;
     [ObservableProperty] private string _catalogStatus = string.Empty;
+    [ObservableProperty] private bool _isBusy;
     private IReadOnlyList<InstallableTrackingModule> _catalog = [];
     private int _refreshVersion;
 
@@ -47,17 +48,18 @@ public partial class ModuleRegistryViewModel : ObservableRecipient
         var result = await _moduleDataService.RefreshModuleCatalogAsync();
         if (version != Volatile.Read(ref _refreshVersion)) return;
 
-        _catalog = result.Modules;
-        CatalogStatus = result.FromCache
+        await RefreshInstalledAsync(version, result.Modules, result.FromCache
             ? result.Modules.Count > 0 ? ModuleRegistryStrings.UsingCache : ModuleRegistryStrings.NoCache
-            : string.Empty;
-        await RefreshInstalledAsync();
+            : string.Empty);
     }
 
-    public async Task RefreshInstalledAsync()
+    public Task RefreshInstalledAsync() => RefreshInstalledAsync(
+        Interlocked.Increment(ref _refreshVersion), _catalog, CatalogStatus);
+
+    private async Task RefreshInstalledAsync(int version, IReadOnlyList<InstallableTrackingModule> catalog, string status)
     {
         var previous = Selected;
-        var rows = _catalog.OrderByDescending(x => x.AuthorName == "VRCFT Team")
+        var rows = catalog.OrderByDescending(x => x.AuthorName == "VRCFT Team")
             .ThenBy(x => x.ModuleName)
             .Select(x => new InstallTrackedTrackingModule
             {
@@ -83,7 +85,7 @@ public partial class ModuleRegistryViewModel : ObservableRecipient
             }
             else
             {
-                remoteModule.InstallationState = IsRemoteNewer(remoteModule.TrackingModuleMetadata.Version, installedModule.Version)
+                remoteModule.InstallationState = ModuleVersion.IsNewer(remoteModule.TrackingModuleMetadata.Version, installedModule.Version)
                     ? InstallState.Outdated
                     : InstallState.Installed;
                 remoteModule.InstalledModule = installedModule;
@@ -93,6 +95,9 @@ public partial class ModuleRegistryViewModel : ObservableRecipient
             }
         }
 
+        if (version != Volatile.Read(ref _refreshVersion)) return;
+        _catalog = catalog;
+        CatalogStatus = status;
         ModuleInfos.Clear();
         ModuleInfos.AddRange(rows);
         ApplyFilter();
@@ -102,11 +107,4 @@ public partial class ModuleRegistryViewModel : ObservableRecipient
                 : row.InstalledModule?.AssemblyLoadPath == previous.InstalledModule?.AssemblyLoadPath);
     }
 
-    private static bool IsRemoteNewer(string remote, string installed)
-    {
-        if (Version.TryParse(remote, out var remoteVersion) && Version.TryParse(installed, out var installedVersion))
-            return remoteVersion.CompareTo(installedVersion) > 0;
-
-        return string.CompareOrdinal(remote, installed) > 0;
-    }
 }
