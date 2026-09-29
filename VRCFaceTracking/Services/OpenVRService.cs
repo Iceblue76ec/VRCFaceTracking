@@ -109,17 +109,40 @@ public class OpenVRService(ILogger<OpenVRService> logger)
         }
     }
 
+    public bool TryGetAutoStart(out bool value)
+    {
+        value = false;
+        lock (_sync)
+        {
+            // Background initialization does not start SteamVR; unavailable sessions use the local cache.
+            if (!Initialize()) return false;
+            try
+            {
+                value = OpenVR.Applications.GetApplicationAutoLaunch(ApplicationKey);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Could not read SteamVR auto launch");
+                return false;
+            }
+            finally
+            {
+                Disconnect();
+            }
+        }
+    }
+
     public bool TrySetAutoStart(bool value, out string error)
     {
         error = string.Empty;
-        if (!Initialize(allowStartingSteamVr: true))
-        {
-            error = "OpenVR initialization failed";
-            return false;
-        }
-
         lock (_sync)
         {
+            if (!Initialize(allowStartingSteamVr: true))
+            {
+                error = "OpenVR initialization failed";
+                return false;
+            }
             try
             {
                 var result = OpenVR.Applications.SetApplicationAutoLaunch(ApplicationKey, value);

@@ -66,9 +66,10 @@ public partial class SettingsViewModel : ObservableRecipient
         {
             // A missing or corrupt local preference must not block the settings page.
         }
+        var actual = await Task.Run(() => _openVRService.TryGetAutoStart(out var value) ? (bool?)value : null);
         if (_userChangedAutoStart) return;
         _loadingAutoStart = true;
-        AutoStart = _openVRService.IsInitialized ? _openVRService.AutoStart : saved;
+        AutoStart = actual ?? saved;
         _loadingAutoStart = false;
     }
 
