@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using VRCFaceTracking.Core.Library;
@@ -112,9 +113,11 @@ public partial class ModuleProcessMain
                 {
                     try
                     {
+                        var started = Stopwatch.GetTimestamp();
                         DefModuleAssembly.TrackingModule.Update();
-                        // A module that returns without waiting must not spin at full speed.
-                        Thread.Sleep(1);
+                        // Blocking modules already pace themselves; only throttle immediately returning updates.
+                        if (Stopwatch.GetElapsedTime(started) < TimeSpan.FromMilliseconds(1))
+                            Thread.Sleep(1);
                     }
                     catch (Exception ex)
                     {
