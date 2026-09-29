@@ -13,7 +13,7 @@ public partial class OscTarget : ObservableValidator, IOscTarget
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(EffectiveInPort))]
-    [Range(1, 25535)]
+    [Range(1, 65535)]
     [property: SavedSetting("OSCInPort", 9001)]
     private int _inPort;
 
@@ -24,7 +24,7 @@ public partial class OscTarget : ObservableValidator, IOscTarget
     public int EffectiveInPort => BoundInPort ?? InPort;
 
     [ObservableProperty]
-    [Range(1, 25535)]
+    [Range(1, 65535)]
     [property: SavedSetting("OSCOutPort", 9000)]
     private int _outPort;
 

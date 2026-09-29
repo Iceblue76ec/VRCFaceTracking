@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -15,7 +14,10 @@ public class OscRecvService : BackgroundService
     private readonly IOscTarget _oscTarget;
     private readonly ILocalSettingsService _settingsService;
 
-    private Socket _recvSocket;
+    private readonly object _bindingLock = new();
+    private Socket? _recvSocket;
+    private bool _usesOscQueryPort;
+    private bool _disposed;
     private readonly byte[] _recvBuffer = new byte[4096];
 
     private CancellationTokenSource _cts, _linkedToken;
@@ -37,24 +39,13 @@ public class OscRecvService : BackgroundService
 
         _oscTarget.PropertyChanged += (_, args) =>
         {
-            if (args.PropertyName is not (nameof(IOscTarget.InPort) or nameof(IOscTarget.DestinationAddress)))
-                return;
-            
-            var validationResults = new List<ValidationResult>();
-            var context = new ValidationContext(_oscTarget);
-    
-            if (!Validator.TryValidateObject(_oscTarget, context, validationResults, validateAllProperties: true))
+            if (args.PropertyName != nameof(IOscTarget.InPort)) return;
+            lock (_bindingLock)
             {
-                var errorMessages = string.Join(Environment.NewLine, validationResults.Select(v => v.ErrorMessage));
-                //_logger.LogWarning($"{errorMessages} Reverting to default.");
-                if (_oscTarget.DestinationAddress != "127.0.0.1")
-                {
-                    _oscTarget.DestinationAddress = "127.0.0.1";
-                }
-                return;
+                // Legacy preferences must not replace the port already advertised by OSCQuery.
+                if (_usesOscQueryPort || _oscTarget.InPort is < 1 or > 65535) return;
+                UpdateTarget(new IPEndPoint(IPAddress.Loopback, _oscTarget.InPort));
             }
-
-            UpdateTarget(new IPEndPoint(IPAddress.Parse(_oscTarget.DestinationAddress), _oscTarget.InPort));
         };
     }
 
@@ -65,41 +56,44 @@ public class OscRecvService : BackgroundService
         await base.StartAsync(cancellationToken);
     }
 
-    public IPEndPoint UpdateTarget(IPEndPoint endpoint)
+    public IPEndPoint? UpdateTarget(IPEndPoint endpoint, bool negotiated = false)
     {
         if (!Equals(endpoint.Address, IPAddress.Loopback))
         {
             _logger.LogError("Cannot bind to non-loopback IP");
             return null;
         }
-        
-        _logger.LogInformation($"Updating osc recv target to {endpoint}");
-        _cts.Cancel();
-        _recvSocket?.Close();
-        _oscTarget.BoundInPort = null;
-        _oscTarget.IsReceiving = false;
 
-        _recvSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-
-        try
+        lock (_bindingLock)
         {
-            _recvSocket.Bind(endpoint);
-            _oscTarget.BoundInPort = ((IPEndPoint)_recvSocket.LocalEndPoint).Port;
-            _oscTarget.IsReceiving = true;
-            _logger.LogInformation($"Successfully connected to remote endpoint at {_recvSocket.LocalEndPoint}");
-            return (IPEndPoint)_recvSocket.LocalEndPoint;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning($"Could not bind to recv endpoint: {endpoint}. {ex.Message}");
-        }
-        finally
-        {
+            if (_disposed) return null;
+            _cts.Cancel();
+            _recvSocket?.Dispose();
+            _linkedToken?.Dispose();
+            _cts.Dispose();
             _cts = new CancellationTokenSource();
             _linkedToken = CancellationTokenSource.CreateLinkedTokenSource(_stoppingToken, _cts.Token);
+            _oscTarget.BoundInPort = null;
+            _oscTarget.IsReceiving = false;
+            _recvSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            try
+            {
+                _recvSocket.Bind(endpoint);
+                var bound = (IPEndPoint)_recvSocket.LocalEndPoint!;
+                _usesOscQueryPort = negotiated;
+                _oscTarget.BoundInPort = bound.Port;
+                _oscTarget.IsReceiving = true;
+                _logger.LogInformation("OSC receiver bound to {Endpoint}", bound);
+                return bound;
+            }
+            catch (Exception ex)
+            {
+                _recvSocket.Dispose();
+                _recvSocket = null;
+                _logger.LogWarning(ex, "Could not bind OSC receiver to {Endpoint}", endpoint);
+                return null;
+            }
         }
-
-        return null;
     }
 
     protected async override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -107,11 +101,26 @@ public class OscRecvService : BackgroundService
         _stoppingToken = stoppingToken;
         var nextErrorReport = DateTime.MinValue;
 
-        _linkedToken = CancellationTokenSource.CreateLinkedTokenSource(_stoppingToken, _cts.Token);
+        lock (_bindingLock)
+        {
+            if (_disposed) return;
+            _linkedToken?.Dispose();
+            _linkedToken = CancellationTokenSource.CreateLinkedTokenSource(_stoppingToken, _cts.Token);
+        }
 
         while (!_stoppingToken.IsCancellationRequested)
         {
-            if (_linkedToken.IsCancellationRequested || _recvSocket is not { IsBound: true })
+            Socket? socket;
+            CancellationToken receiveToken;
+            bool bound;
+            lock (_bindingLock)
+            {
+                if (_disposed) return;
+                socket = _recvSocket;
+                receiveToken = _linkedToken.Token;
+                bound = socket is { IsBound: true };
+            }
+            if (receiveToken.IsCancellationRequested || !bound)
             {
                 await Task.Delay(10, _stoppingToken);
                 continue;
@@ -120,7 +129,7 @@ public class OscRecvService : BackgroundService
             try
             {
                 var bytesReceived =
-                    await _recvSocket.ReceiveAsync(_recvBuffer, SocketFlags.None, _linkedToken.Token);
+                    await socket!.ReceiveAsync(_recvBuffer, SocketFlags.None, receiveToken);
                 var offset = 0;
                 var newMsg = OscMessage.TryParseOsc(_recvBuffer, bytesReceived, ref offset);
                 if (newMsg == null)
@@ -130,7 +139,7 @@ public class OscRecvService : BackgroundService
 
                 OnMessageReceived(newMsg);
             }
-            catch (OperationCanceledException) when (_linkedToken.IsCancellationRequested || _stoppingToken.IsCancellationRequested)
+            catch (Exception) when (receiveToken.IsCancellationRequested || _stoppingToken.IsCancellationRequested)
             {
                 continue;
             }
@@ -153,5 +162,19 @@ public class OscRecvService : BackgroundService
                 }
             }
         }
+    }
+
+    public override void Dispose()
+    {
+        lock (_bindingLock)
+        {
+            if (_disposed) return;
+            _disposed = true;
+            _cts.Cancel();
+            _recvSocket?.Dispose();
+            _linkedToken?.Dispose();
+            _cts.Dispose();
+        }
+        base.Dispose();
     }
 }

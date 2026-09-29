@@ -69,12 +69,12 @@ public partial class OscQueryService(
 
         httpHandler.OnHostInfoQueried += HandleNewAvatarWrapper;
 
-        var recvEndpoint = recvService.UpdateTarget(new IPEndPoint(IPAddress.Parse(oscTarget.DestinationAddress), 0));
+        var recvEndpoint = recvService.UpdateTarget(new IPEndPoint(IPAddress.Loopback, 0), negotiated: true);
         if (recvEndpoint == null)
         {
             logger.LogWarning("Could not bind a random OSC receive port; trying the configured port.");
             recvEndpoint = recvService.UpdateTarget(
-                new IPEndPoint(IPAddress.Parse(oscTarget.DestinationAddress), oscTarget.InPort));
+                new IPEndPoint(IPAddress.Loopback, oscTarget.InPort), negotiated: true);
             if (recvEndpoint == null)
             {
                 logger.LogError("Could not bind an OSC receive port for OSCQuery.");
