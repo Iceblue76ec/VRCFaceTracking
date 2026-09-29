@@ -381,6 +381,7 @@
   <data name="Output_SaveLog_Title" xml:space="preserve"><value>ログを保存</value></data>
   <data name="Output_TextFile_Type" xml:space="preserve"><value>テキストファイル</value></data>
   <data name="Output_Saved" xml:space="preserve"><value>ログを保存しました。</value></data>
+  <data name="Output_SaveFailed" xml:space="preserve"><value>ログを保存できませんでした: {0}</value></data>
   <data name="Registry_Search_Watermark" xml:space="preserve"><value>モジュールを検索</value></data>
   <data name="Registry_InstallZip_Tooltip" xml:space="preserve"><value>.zip ファイルからインストール</value></data>
   <data name="Registry_ZipFiles_Type" xml:space="preserve"><value>ZIP ファイル</value></data>

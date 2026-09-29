@@ -62,20 +62,26 @@ public partial class OutputPage : UserControl
         var topLevel = TopLevel.GetTopLevel(this);
         if (topLevel == null) return;
 
-        var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        try
         {
-            Title = AppStrings.Output_SaveLog_Title,
-            SuggestedFileName = $"vrcft-log-{DateTime.Now:yyyyMMdd-HHmmss}.txt",
-            FileTypeChoices = [new FilePickerFileType(AppStrings.Output_TextFile_Type) { Patterns = ["*.txt"] }]
-        });
+            var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+            {
+                Title = AppStrings.Output_SaveLog_Title,
+                SuggestedFileName = $"vrcft-log-{DateTime.Now:yyyyMMdd-HHmmss}.txt",
+                FileTypeChoices = [new FilePickerFileType(AppStrings.Output_TextFile_Type) { Patterns = ["*.txt"] }]
+            });
 
-        if (file != null)
-        {
+            if (file == null) return;
+
             await using var stream = await file.OpenWriteAsync();
             await using var writer = new StreamWriter(stream);
             var text = Ioc.Default.GetRequiredService<LogBufferProvider>().Snapshot();
             await writer.WriteAsync(text);
             StatusText.Text = AppStrings.Output_Saved;
+        }
+        catch (Exception ex)
+        {
+            StatusText.Text = string.Format(AppStrings.Output_SaveFailed, ex.Message);
         }
     }
 }

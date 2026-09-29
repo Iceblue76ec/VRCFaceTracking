@@ -1203,6 +1203,15 @@ namespace VRCFaceTracking.Strings {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Could not save log: {0}.
+        /// </summary>
+        public static string Output_SaveFailed {
+            get {
+                return ResourceManager.GetString("Output_SaveFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Save Log.
         /// </summary>
         public static string Output_SaveLog_Title {

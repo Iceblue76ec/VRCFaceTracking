@@ -473,6 +473,7 @@
   <data name="Output_SaveLog_Title" xml:space="preserve"><value>Save Log</value></data>
   <data name="Output_TextFile_Type" xml:space="preserve"><value>Text files</value></data>
   <data name="Output_Saved" xml:space="preserve"><value>Log saved.</value></data>
+  <data name="Output_SaveFailed" xml:space="preserve"><value>Could not save log: {0}</value></data>
   <data name="Registry_Search_Watermark" xml:space="preserve"><value>Search modules</value></data>
   <data name="Registry_InstallZip_Tooltip" xml:space="preserve"><value>Install from .zip</value></data>
   <data name="Registry_ZipFiles_Type" xml:space="preserve"><value>ZIP files</value></data>

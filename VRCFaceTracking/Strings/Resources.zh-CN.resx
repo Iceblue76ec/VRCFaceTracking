@@ -479,6 +479,7 @@
   <data name="Output_SaveLog_Title" xml:space="preserve"><value>保存日志</value></data>
   <data name="Output_TextFile_Type" xml:space="preserve"><value>文本文件</value></data>
   <data name="Output_Saved" xml:space="preserve"><value>日志已保存。</value></data>
+  <data name="Output_SaveFailed" xml:space="preserve"><value>无法保存日志：{0}</value></data>
   <data name="Registry_Search_Watermark" xml:space="preserve"><value>搜索模块</value></data>
   <data name="Registry_InstallZip_Tooltip" xml:space="preserve"><value>从 .zip 文件安装</value></data>
   <data name="Registry_ZipFiles_Type" xml:space="preserve"><value>ZIP 文件</value></data>
