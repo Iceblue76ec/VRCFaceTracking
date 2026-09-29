@@ -25,7 +25,7 @@ public static class ServiceCollectionExtensions
             logging.AddConsole();
             logging.AddDebug();
             logging.AddProvider(new OutputPageLogProvider());
-            logging.AddProvider(new LogFileProvider());
+            logging.Services.AddSingleton<ILoggerProvider, LogFileProvider>();
             logging.AddProvider(logBuffer);
 
             logging.AddFilter<OutputPageLogProvider>(null, LogLevel.Information);

@@ -10,14 +10,15 @@ public class LogFileProvider : ILoggerProvider
 {
     private readonly LogFileWriter? _writer;
     
-    public LogFileProvider()
+    public LogFileProvider() : this(null) { }
+
+    public LogFileProvider(string? logPath)
     {
         try
         {
-            if (!Directory.Exists(Core.Utils.UserAccessibleDataDirectory)) // Eat my ass windows
-                Directory.CreateDirectory(Core.Utils.UserAccessibleDataDirectory);
-
-            var logPath = Path.Combine(Core.Utils.UserAccessibleDataDirectory, "latest.log");
+            logPath ??= Path.Combine(Core.Utils.UserAccessibleDataDirectory, "latest.log");
+            var directory = Path.GetDirectoryName(Path.GetFullPath(logPath))!;
+            Directory.CreateDirectory(directory);
 
             var file = new FileStream(logPath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite, 4096);
             _writer = new LogFileWriter(new StreamWriter(file));
@@ -40,6 +41,8 @@ public class LogFileProvider : ILoggerProvider
 
         return NullLogger.Instance;
     }
+
+    public void Flush() => _writer?.Flush();
 
     public void Dispose()
     {

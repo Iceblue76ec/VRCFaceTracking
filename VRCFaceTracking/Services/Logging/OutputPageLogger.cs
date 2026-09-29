@@ -1,3 +1,4 @@
+using VRCFaceTracking.Core.Services;
 using System.Collections.Concurrent;
 using System.Collections.Specialized;
 using System.Collections.ObjectModel;
@@ -31,10 +32,7 @@ public class OutputPageLogger(string categoryName) : ILogger
         Exception? exception,
         Func<TState, Exception?, string> formatter)
     {
-        var line = categoryName == "\0VRCFT\0"
-            // Log events from sub-processes have the unique category name "\0VRCFT\0", so skip category name
-            ? new LogLine($"{formatter(state, exception)}", logLevel)
-            : new LogLine($"[{categoryName}] {logLevel}: {formatter(state, exception)}", logLevel);
+        var line = new LogLine(LogMessageFormatter.Format(categoryName, logLevel, state, exception, formatter), logLevel);
 
         Interlocked.Increment(ref _pendingCount);
         _pending.Enqueue(line);

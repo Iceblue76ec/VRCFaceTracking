@@ -42,7 +42,7 @@ public sealed class LogFileWriter : IDisposable
         }
     }
 
-    private void Flush()
+    public void Flush()
     {
         lock (_sync)
         {
@@ -88,10 +88,7 @@ public sealed class LogFileLogger(string categoryName, LogFileWriter writer) : I
     {
         try
         {
-            var message = formatter(state, exception);
-            writer.Write(categoryName == "\0VRCFT\0"
-                ? message
-                : $"[{categoryName}] {logLevel}: {message}");
+            writer.Write(LogMessageFormatter.Format(categoryName, logLevel, state, exception, formatter));
         }
         catch (Exception)
         {

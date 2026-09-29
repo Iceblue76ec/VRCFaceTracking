@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+using VRCFaceTracking.Core.Services;
+using System.Collections.ObjectModel;
 using Microsoft.Extensions.Logging;
 
 namespace VRCFaceTracking.ModuleProcess;
@@ -29,7 +30,7 @@ public class ProxyLogger : ILogger
     {
         if ( OnLog != null )
         {
-            OnLog(logLevel, $"[{_categoryName}] {logLevel}: {formatter(state, exception)}");
+            OnLog(logLevel, LogMessageFormatter.Format(_categoryName, logLevel, state, exception, formatter));
         }
     }
 }

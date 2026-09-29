@@ -25,7 +25,7 @@
     </UserControl.Resources>
 
     <UserControl.Styles>
-        <Style Selector="TextBlock.warning">
+        <Style Selector="SelectableTextBlock.warning">
             <Setter Property="Foreground" Value="{DynamicResource LogWarningBrush}" />
         </Style>
     </UserControl.Styles>

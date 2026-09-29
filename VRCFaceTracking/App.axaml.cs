@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+using VRCFaceTracking.Services.Logging;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -19,6 +21,7 @@ namespace VRCFaceTracking
 
         public static MainWindow? MainWindow { get; private set; }
         private IHost? _host;
+        private LogFileProvider? _logFileProvider;
         private bool _shutdownStarted;
         private bool _shutdownComplete;
 
@@ -57,6 +60,8 @@ namespace VRCFaceTracking
                 .ConfigureServices((_, services) =>services.AddCommonServices())
                 .Build();
             Ioc.Default.ConfigureServices(_host.Services);
+            _logger = _host.Services.GetRequiredService<ILogger<App>>();
+            _logFileProvider = _host.Services.GetServices<ILoggerProvider>().OfType<LogFileProvider>().Single();
 
             HandleResetFile();
             var languageService = Ioc.Default.GetRequiredService<LanguageService>();
@@ -106,7 +111,10 @@ namespace VRCFaceTracking
                     finally
                     {
                         if (_host != null)
-                            await _host.StopAsync();
+                        {
+                            try { await _host.StopAsync(); }
+                            finally { _host.Dispose(); }
+                        }
                     }
                 }).WaitAsync(TimeSpan.FromSeconds(15));
             }
@@ -116,6 +124,8 @@ namespace VRCFaceTracking
             }
             finally
             {
+                // A timeout leaves cleanup running; flush the known writer without disposing its container.
+                _logFileProvider?.Flush();
                 _shutdownComplete = true;
                 desktop.Shutdown();
             }
